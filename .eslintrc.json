@@ -1,0 +1,56 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "jest"
+  ],
+  "rules": {
+    "semi": ["error", "never"],
+    "no-unused-vars": "warn",
+    "global-require": "off",
+    "import/no-unresolved": "off",
+    "no-use-before-define": "off",
+    "object-curly-newline": "off",
+    "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+    "react/jsx-filename-extension": "off",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/label-has-for": "warn",
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+        "test/**",
+        "tests/**",
+        "spec/**",
+        "**/__tests__/**",
+        "**/__mocks__/**",
+        "test.{js,jsx}",
+        "test-*.{js,jsx}",
+        "**/test.js",
+        "**/*{.,_}{test,spec}.{js,jsx}",
+        "**/jest.config.js",
+        "**/webpack.config.js",
+        "**/webpack.config.*.js",
+        "**/rollup.config.js",
+        "**/rollup.config.*.js",
+        "**/gulpfile.js",
+        "**/gulpfile.*.js",
+        "**/Gruntfile{,.js}",
+        "**/protractor.conf.js",
+        "**/protractor.conf.*.js",
+        "**/webpack.*.js",
+        "**/server.js"
+      ],
+      "optionalDependencies": false
+    }]
+  }
+}

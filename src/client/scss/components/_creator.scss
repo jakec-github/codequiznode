@@ -1,0 +1,16 @@
+.creator {
+
+  &__console {
+    margin: 0 auto;
+
+    @include respond(tab-port) {
+      max-width: 25rem;
+    }
+  }
+
+  &__nav-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+  }
+}

@@ -1,0 +1,53 @@
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/animations";
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
+
+@import "components/app";
+@import "components/button";
+@import "components/creator";
+@import "components/create-quiz";
+@import "components/create-question";
+@import "components/error";
+@import "components/header";
+@import "components/home";
+@import "components/question";
+@import "components/result";
+@import "components/start";
+@import "components/user";
+
+// @media screen and (min-width: 500px) {
+//
+//   #quiz {
+//     max-width: 70%;
+//   }
+//
+//   .nav {
+//     font-size: 20px;
+//     padding: 10px 30px;
+//     color: white;
+//     min-width: 10%;
+//     max-width: 10%;
+//     margin: auto;
+//   }
+//
+//   .panel {
+//     grid-template-columns: 1fr 1fr;
+//     grid-column-gap: 5px;
+//   }
+//
+//   #explanation-panel {
+//     grid-template-columns: 1fr;
+//   }
+//
+//   #learn {
+//     grid-column: 1/2;
+//   }
+//
+//   #code {
+//     min-width: 50%;
+//   }
+// }
