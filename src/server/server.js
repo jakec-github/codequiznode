@@ -22,32 +22,6 @@ const db = mongoose.connection
 
 db.once('open', () => {
   console.log('Connected to db')
-
-  const newQuestion = new Question({
-    text: 'This is the question text 2',
-    answer: 'Answer',
-    explanation: 'Explanation',
-    correctReplies: 0,
-    incorrectReplies: 0,
-  })
-
-  const newQuiz = new Quiz({
-    name: 'Hi there',
-    description: 'quiz 3',
-    timeLimit: 120,
-    featured: false,
-    questions: [
-      newQuestion._id,
-    ],
-  })
-
-  newQuestion.save(() => {
-    console.log('Saved question')
-  })
-
-  newQuiz.save(() => {
-    console.log('Saved a quiz')
-  })
 })
 
 db.on('error', (error) => {
@@ -68,6 +42,25 @@ app.use(webpackHotMiddleware(compiler, {
 
 // This line may prove necessary yet
 // app.use(express.static('dist'))
+
+app.get('/public/quiz/all', (req, res) => {
+  const allQuizzes = []
+
+  Quiz.find()
+    .then((records) => {
+      console.log(records)
+      records.forEach((record) => {
+        const { name, description } = record
+        allQuizzes.push({
+          id: record._id,
+          name,
+          description,
+        })
+      })
+      res.setHeader('Content-Type', 'application/json')
+      res.send(JSON.stringify(allQuizzes))
+    })
+})
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')))
 
