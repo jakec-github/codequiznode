@@ -2,14 +2,34 @@ import 'babel-polyfill'
 
 import { put, takeEvery, all } from 'redux-saga/effects'
 
-import { LOAD_QUIZZES, ADD_QUIZZES } from './reducers/main'
+import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ } from './reducers/main'
+import { LOGIN } from './reducers/user'
+import { SET_QUESTIONS } from './reducers/question'
 
-// Requires error handling
+// Requires proper error handling
 function* getAllQuizzes() {
-  const allQuizzes = yield fetch('/public/quiz/all')
-    .then(data => data.json())
+  try {
+    const allQuizzes = yield fetch('/public/quiz/all')
+      .then(data => data.json())
 
-  yield put({ type: ADD_QUIZZES, allQuizzes })
+    yield put({ type: ADD_QUIZZES, allQuizzes })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* getQuiz(action) {
+  try {
+    const responseBody = yield fetch(`/public/quiz/${action.quizId}`)
+      .then(data => data.json())
+
+    console.log(responseBody)
+    // Try extracting these before sending actions
+    yield put({ type: ADD_QUIZ, quizData: responseBody.quizData })
+    yield put({ type: SET_QUESTIONS, questionSet: responseBody.questionSet })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function* login() {
@@ -18,37 +38,11 @@ function* login() {
   // yield put({ type: '' })
 }
 
-// fetch('/allquizzes')
-//   .then(data => data.json())
-//   .then((data) => {
-//     console.log(data)
-//     this.setState({ allQuizzes: data })
-//
-//     if (this.props.loggedIn) {
-//       const query = {
-//         user_id: parseInt(this.props.userId, 10),
-//       }
-//       return fetch('/userscores', {
-//         method: 'post',
-//         headers: {
-//           'Content-type': 'application/json',
-//         },
-//         credentials: 'include',
-//         body: JSON.stringify(query),
-//       })
-//     }
-//     return false
-//   })
-//   .then(data => (data ? data.json() : false))
-//   .then((data) => {
-//     console.log('All scores for user')
-//     console.log(data)
-//     this.setState({ allScores: data || [] })
-//   })
 
 function* watchLogin() {
-  yield takeEvery('LOGIN', login) // Should import from ./reducers.user.js
-  yield takeEvery('LOAD_QUIZZES', getAllQuizzes)
+  yield takeEvery(LOGIN, login) // Should import from ./reducers.user.js
+  yield takeEvery(LOAD_QUIZZES, getAllQuizzes)
+  yield takeEvery(LOAD_QUIZ, getQuiz)
 }
 
 function* checkSaga() {

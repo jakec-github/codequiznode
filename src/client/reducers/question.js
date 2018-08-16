@@ -2,7 +2,7 @@ const ITERATE_QUESTION = 'ITERATE_QUESTION'
 const RESET_QUIZ = 'RESET_QUESTION'
 const ITERATE_SCORE = 'ITERATE_SCORE'
 const SELECT_QUIZ = 'SELECT_QUIZ'
-const SET_QUESTIONS = 'SET_QUESTIONS'
+export const SET_QUESTIONS = 'SET_QUESTIONS'
 
 export const questionActionCreators = {
   iterateQuestion: () => ({ type: ITERATE_QUESTION }),

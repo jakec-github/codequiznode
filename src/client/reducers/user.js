@@ -1,4 +1,4 @@
-const LOGIN = 'LOGIN'
+export const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
 
 // Action creators

@@ -41,7 +41,7 @@ app.use(webpackHotMiddleware(compiler, {
 }))
 
 // This line may prove necessary yet
-// app.use(express.static('dist'))
+app.use(express.static('dist'))
 
 app.get('/public/quiz/all', (req, res) => {
   const allQuizzes = []
@@ -62,7 +62,46 @@ app.get('/public/quiz/all', (req, res) => {
     })
 })
 
+// Want to use names rather than id. That's for sure
+// But would mean a quiz could not be called "all"
+app.get('/public/quiz/:id', (req, res) => {
+  const { id } = req.params
+
+  console.log(id)
+  Quiz.findOne({
+    _id: id,
+  })
+    .then((record) => {
+      const questionRequests = []
+      const questionSet = []
+
+      console.log(record.questions)
+      record.questions.forEach((questionId) => {
+        questionRequests.push(Question.findOne({
+          _id: questionId,
+        })
+          .then((question) => {
+            console.log(question)
+            questionSet.push(question)
+          }))
+      })
+
+      Promise.all(questionRequests)
+        .then(() => {
+          const responseBody = {
+            quizData: record,
+            questionSet,
+          }
+          console.log(responseBody)
+          res.setHeader('Content-Type', 'application/json')
+          res.send(JSON.stringify(responseBody))
+        })
+    })
+})
+
+// app.get('*/*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')))
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')))
+
 
 app.listen(3000, () => {
   console.log('Lazy loader listening on port 3000')

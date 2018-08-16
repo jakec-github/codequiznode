@@ -4,12 +4,15 @@ import PropTypes from 'prop-types'
 export default class extends React.Component {
   static propTypes = {
     selectQuiz: PropTypes.func.isRequired,
-    changeLocation: PropTypes.func.isRequired,
+    changeLocation: PropTypes.func.isRequired, // Will remove
     loadQuizzes: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     allQuizzes: PropTypes.arrayOf(PropTypes.object).isRequired,
     loadingAllQuizzes: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
   }
 
   constructor(props) {
@@ -87,8 +90,11 @@ export default class extends React.Component {
 
   handleQuizClick = (event) => {
     const quizId = event.target.dataset.id
-    this.props.selectQuiz(quizId)
-    this.props.changeLocation('start')
+    this.props.history.push({
+      pathname: `/startquiz/${quizId}`,
+    })
+    // this.props.selectQuiz(quizId)
+    // this.props.changeLocation('start')
   }
 
   handleCreateClick = () => {
@@ -97,6 +103,8 @@ export default class extends React.Component {
 
   render() {
     const quizzes = []
+    console.log('-----')
+    console.log(this.props.history)
 
     this.props.allQuizzes.forEach((quiz, i) => {
       console.log('Looping through')

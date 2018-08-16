@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import Main from './main'
 
@@ -7,4 +8,4 @@ const mapStateToProps = state => ({
   questionNumber: state.question.questionNumber,
 })
 
-export default connect(mapStateToProps, null)(Main)
+export default withRouter(connect(mapStateToProps, null)(Main))
