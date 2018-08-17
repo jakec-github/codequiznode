@@ -2,6 +2,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
+const bodyParser = require('body-parser')
 // Will this cause issue in prod if packages aren't available?
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
@@ -15,6 +16,9 @@ const { Quiz, Question } = Model
 const compiler = webpack(config)
 
 const app = express()
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 mongoose.connect('mongodb://localhost/codequiz-v1')
 
@@ -40,8 +44,33 @@ app.use(webpackHotMiddleware(compiler, {
   publicPath: config.output.publicPath,
 }))
 
-// This line may prove necessary yet
+// This line may not be necessary
 app.use(express.static('dist'))
+
+// This route needs to be protected with some state stored in session
+app.post('/public/difficulty', (req, res) => {
+  const { _id, correct } = req.body
+
+  if (correct === 'correct') {
+    Question.findOneAndUpdate({ _id }, { $inc: { correctReplies: 1 } })
+      .then(() => {
+        res.send('Successful')
+      })
+      .catch((error) => {
+        console.log(error)
+        res.status(500).send('Oops, unable to save')
+      })
+  } else {
+    Question.findOneAndUpdate({ _id }, { $inc: { incorrectReplies: 1 } })
+      .then(() => {
+        res.send('Successful')
+      })
+      .catch((error) => {
+        console.log(error)
+        res.status(500).send('Oops, unable to save')
+      })
+  }
+})
 
 app.get('/public/quiz/all', (req, res) => {
   const allQuizzes = []
@@ -75,7 +104,6 @@ app.get('/public/quiz/:id', (req, res) => {
       const questionRequests = []
       const questionSet = []
 
-      console.log(record.questions)
       record.questions.forEach((questionId) => {
         questionRequests.push(Question.findOne({
           _id: questionId,
@@ -92,7 +120,6 @@ app.get('/public/quiz/:id', (req, res) => {
             quizData: record,
             questionSet,
           }
-          console.log(responseBody)
           res.setHeader('Content-Type', 'application/json')
           res.send(JSON.stringify(responseBody))
         })

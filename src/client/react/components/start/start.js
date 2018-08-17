@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 
 export default class extends React.Component {
   static propTypes = {
-    changeLocation: PropTypes.func.isRequired,
-    setQuestions: PropTypes.func.isRequired,
+    // changeLocation: PropTypes.func.isRequired,
+    // setQuestions: PropTypes.func.isRequired,
     resetQuiz: PropTypes.func.isRequired,
     loadQuiz: PropTypes.func.isRequired,
+    updateQuizProgress: PropTypes.func.isRequired,
     // quizId: PropTypes.number.isRequired,
     quizData: PropTypes.shape({
       name: PropTypes.string,
@@ -41,16 +42,11 @@ export default class extends React.Component {
 
   handleStartClick = (event) => {
     this.props.resetQuiz()
-    this.props.changeLocation('quiz')
+    this.props.updateQuizProgress('question')
   }
 
   render() {
-    console.log('rendering')
-    // return (
-    //   <div className="start">
-    //     Start
-    //   </div>
-    // )
+    console.log('rendering start')
     return (
       <div className="start">
         <h1 className="start__title">{this.props.quizData.name}</h1>

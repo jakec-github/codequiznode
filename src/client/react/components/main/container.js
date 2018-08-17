@@ -5,6 +5,7 @@ import Main from './main'
 
 const mapStateToProps = state => ({
   location: state.main.location,
+  quizProgress: state.main.quizProgress,
   questionNumber: state.question.questionNumber,
 })
 

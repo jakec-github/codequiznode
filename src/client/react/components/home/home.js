@@ -91,7 +91,7 @@ export default class extends React.Component {
   handleQuizClick = (event) => {
     const quizId = event.target.dataset.id
     this.props.history.push({
-      pathname: `/startquiz/${quizId}`,
+      pathname: `/quiz/${quizId}`,
     })
     // this.props.selectQuiz(quizId)
     // this.props.changeLocation('start')

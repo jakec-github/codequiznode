@@ -1,23 +1,27 @@
 const CHANGE_LOCATION = 'CHANGE_LOCATION'
-const CHANGE_QUESTION_STATUS = 'CHANGE_QUESTION_STATUS'
+const UPDATE_QUESTION_PROGRESS = 'UPDATE_QUESTION_PROGRESS'
 export const LOAD_QUIZZES = 'LOAD_QUIZZES'
 export const ADD_QUIZZES = 'ADD_QUIZZES'
 export const LOAD_QUIZ = 'LOAD_QUIZ'
 export const ADD_QUIZ = 'ADD_QUIZ'
+export const UPDATE_QUIZ_PROGRESS = 'UPDATE_QUIZ_PROGRESS'
 
 export const mainActionCreators = {
   changeLocation: location => ({ type: CHANGE_LOCATION, location }),
-  changeQuestionStatus: questionStatus => ({ type: CHANGE_QUESTION_STATUS, questionStatus }),
   loadQuizzes: () => ({ type: LOAD_QUIZZES }),
   addQuizzes: allQuizzes => ({ type: ADD_QUIZZES, allQuizzes }),
   loadQuiz: quizId => ({ type: LOAD_QUIZ, quizId }),
   addQuiz: quizData => ({ type: ADD_QUIZ, quizData }),
+  updateQuizProgress: quizProgress => ({ type: UPDATE_QUIZ_PROGRESS, quizProgress }),
+  updateQuestionProgress: questionProgress =>
+    ({ type: UPDATE_QUESTION_PROGRESS, questionProgress }),
 }
 
 const initialState = {
   location: 'home',
-  // Probably want to come up with better values for this one
-  questionStatus: 'answers',
+  // Should move to question reducer
+  questionProgress: 'question',
+  quizProgress: 'start',
   allQuizzes: [],
   loadingAllQuizzes: false,
   quizData: {
@@ -38,10 +42,10 @@ export const main = (state = initialState, action) => {
         ...state,
         location: action.location,
       }
-    case CHANGE_QUESTION_STATUS:
+    case UPDATE_QUESTION_PROGRESS:
       return {
         ...state,
-        questionStatus: action.questionStatus,
+        questionProgress: action.questionProgress,
       }
     case LOAD_QUIZZES:
       return {
@@ -64,6 +68,11 @@ export const main = (state = initialState, action) => {
         ...state,
         quizData: action.quizData,
         loadQuiz: false,
+      }
+    case UPDATE_QUIZ_PROGRESS:
+      return {
+        ...state,
+        quizProgress: action.quizProgress,
       }
     default:
       return state

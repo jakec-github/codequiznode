@@ -4,24 +4,41 @@ import { Route, Switch } from 'react-router-dom'
 
 import Home from '../home/container'
 import Start from '../start/container'
-// import Question from '../containers/main/question'
-// import Result from '../containers/main/result'
+import Question from '../question/container'
+import Result from '../result/container'
 // import Creator from '../containers/main/creator'
 // import Created from '../containers/main/created'
 
 Main.propTypes = {
-  location: PropTypes.string.isRequired, // Will remove
+  // location: PropTypes.string.isRequired, // Will remove
+  quizProgress: PropTypes.string.isRequired,
 }
 
 export default function Main(props) {
-  console.log(props.location)
+  let quizProgress
+  switch (props.quizProgress) {
+    case 'start':
+      quizProgress = Start
+      break
+    case 'question':
+      quizProgress = Question
+      break
+    case 'result':
+      quizProgress = Result
+      break
+    default:
+      quizProgress = Start
+      break
+  }
 
+  // Start quiz should become quiz
+  // No routes required for question and result
   return (
     <Switch>
       <Route
-        path="/startquiz/:id"
+        path="/quiz/:id"
         exact
-        component={Start}
+        component={quizProgress}
       />
       <Route
         path="/"
