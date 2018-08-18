@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 
 const { Schema } = mongoose
 
@@ -24,13 +26,20 @@ const ScoreSchema = new Schema({
 
 // May want to add a table of all quizzes
 
+// This user schema should be moved into its own file
+// Need to generate secret sensibly
 const UserSchema = new Schema({
-  username: Number,
-  passwordHash: String,
+  username: String,
+  hash: String,
   salt: String,
   quizzes: [{ type: Schema.Types.ObjectId, ref: 'Quiz' }],
   scores: [ScoreSchema],
 })
+
+UserSchema.methods.setPassword = setPassword
+UserSchema.methods.validatePassword = validatePassword
+UserSchema.methods.generateJWT = generateJWT
+UserSchema.methods.toAuthJSON = toAuthJSON
 
 const DudSchema = new Schema({
   text: String,
@@ -58,6 +67,41 @@ const Quiz = mongoose.model('Quiz', QuizSchema)
 const Featured = mongoose.model('Featured', FeaturedSchema)
 const User = mongoose.model('User', UserSchema)
 const Question = mongoose.model('Question', QuestionSchema)
+
+function setPassword(password) {
+  console.log('Setting password')
+  console.log(typeof crypto.randomBytes(16).toString('hex'))
+  this.salt = crypto.randomBytes(16).toString('hex')
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
+}
+
+function validatePassword(password) {
+  const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
+  return this.hash === hash
+}
+
+function generateJWT() {
+  console.log('Generating JWT')
+  const today = new Date()
+  const expirationDate = new Date(today)
+  // May want to configure expiry
+  expirationDate.setDate(today.getDate() + 60)
+
+  return jwt.sign({
+    username: this.username,
+    id: this._id,
+    exp: parseInt(expirationDate.getTime() / 1000, 10),
+  }, 'secret')
+}
+
+function toAuthJSON() {
+  console.log('toAuthJSON')
+  return {
+    _id: this._id,
+    username: this.username,
+    token: this.generateJWT(),
+  }
+}
 
 
 // Would like to condense this code

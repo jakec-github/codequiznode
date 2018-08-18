@@ -14,4 +14,8 @@ db.once('open', () => {
   db.collections.questions.drop(() => {
     console.log('Dropped questions')
   })
+
+  db.collections.users.drop(() => {
+    console.log('Dropped users')
+  })
 })
