@@ -19,3 +19,13 @@
   min-width: 25rem !important;
   margin: 0 auto;
 }
+
+.u-cover { z-index: 10 }
+
+.u-full-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}

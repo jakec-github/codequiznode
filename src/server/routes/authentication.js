@@ -13,7 +13,6 @@ const router = express.Router()
 router.post('/register', auth.optional, (req, res) => {
   console.log('Register reached')
   const { body: { user } } = req
-  // A lot more validation required here
   if (!user.username) {
     return res.status(422).json({
       errors: {
@@ -29,25 +28,43 @@ router.post('/register', auth.optional, (req, res) => {
       },
     })
   }
-  console.log('Passed validation')
-  console.log(user)
-  const finalUser = new User(user)
 
-  console.log(finalUser)
+  if (
+    !/^[\da-z]{6,32}$/.test(user.username)
+    || !/.*[a-z].*[a-z].*/.test(user.username)
+    || !/[A-Za-z\d@$!%*#?&-]{6,32}/.test(user.password)
+  ) {
+    return res.sendStatus(400)
+  }
 
-  finalUser.setPassword(user.password)
-  console.log('About to save user')
-  return finalUser.save()
-    .then(() => {
-      console.log('Saved user')
-      res.json({ user: finalUser.toAuthJSON() })
+  User.count({ username: user.username })
+    .then((count) => {
+      console.log(count)
+      if (count > 0) {
+        console.log('User already exists')
+        return res.sendStatus(400)
+      }
+
+      console.log('Passed validation')
+      console.log(user)
+      const finalUser = new User(user)
+
+      console.log(finalUser)
+
+      finalUser.setPassword(user.password)
+      console.log('About to save user')
+      return finalUser.save()
+        .then(() => {
+          console.log('Saved user')
+          res.json({ user: finalUser.toAuthJSON() })
+        })
     })
 })
 
 // POST login route (optional, everyone has access)
 router.post('/login', auth.optional, (req, res, next) => {
   const { body: { user } } = req
-
+  console.log(req.body)
   if (!user.username) {
     return res.status(422).json({
       errors: {
@@ -82,9 +99,9 @@ router.post('/login', auth.optional, (req, res, next) => {
 
 // GET current route (required, only authenticated users have access)
 // This is a test route
-router.get('/current', auth.required, (req, res, next) => {
+router.get('/validate', auth.required, (req, res, next) => {
   const { payload: { id } } = req
-
+  console.log(req.payload)
   return User.findById(id)
     .then((user) => {
       if (!user) {

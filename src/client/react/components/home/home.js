@@ -103,11 +103,7 @@ export default class extends React.Component {
 
   render() {
     const quizzes = []
-    console.log('-----')
-    console.log(this.props.history)
-
     this.props.allQuizzes.forEach((quiz, i) => {
-      console.log('Looping through')
       // let hasScore = false
       // this.state.allScores.forEach((score) => {
       //   if (score.quiz_id === quiz.id) {

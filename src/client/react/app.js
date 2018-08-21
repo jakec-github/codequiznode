@@ -3,15 +3,15 @@ import 'babel-polyfill'
 import React from 'react'
 
 import Main from './components/main/container'
-// import User from './containers/user'
-// import Icon from './containers/icon'
+import User from './components/user/container'
+import Logo from './components/logo/logo'
 
 export default function App() {
   return (
     <div id="react-wrapper">
-      {/* <User /> */}
+      <User />
       <header className="header">
-        {/* <Icon /> */}
+        <Logo />
       </header>
       <main>
         <div className="app" id="quiz">
