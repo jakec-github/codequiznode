@@ -27,11 +27,13 @@ const initialState = {
 export const creator = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_CREATOR_POSITION:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         creatorPosition: action.creatorPosition,
-      })
+      }
     case ADD_QUESTION:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questions: [...state.questions, {
           question: '',
           codes: [],
@@ -40,28 +42,32 @@ export const creator = (state = initialState, action) => {
           duds: [],
           explanation: '',
         }],
-      })
+      }
     case UPDATE_QUESTION:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questions: [
           ...state.questions.slice(0, action.index),
           action.question,
           ...state.questions.slice(action.index + 1),
         ],
-      })
+      }
     case DELETE_QUESTION:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questions: [
           ...state.questions.slice(0, action.index),
           ...state.questions.slice(action.index + 1),
         ],
-      })
+      }
     case UPDATE_QUIZ:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         quiz: action.quiz,
-      })
+      }
     case DELETE_QUIZ:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         creatorPosition: 0,
         questions: [],
         quiz: {
@@ -69,7 +75,7 @@ export const creator = (state = initialState, action) => {
           description: '',
           timer: 0,
         },
-      })
+      }
     default:
       return state
   }

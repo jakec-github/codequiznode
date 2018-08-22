@@ -21,28 +21,32 @@ const initialState = {
 export const question = (state = initialState, action) => {
   switch (action.type) {
     case ITERATE_QUESTION:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questionNumber: state.questionNumber + 1,
-      })
+      }
     case RESET_QUIZ:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questionNumber: 0,
         score: 0,
-      })
+      }
     case ITERATE_SCORE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         score: state.score + 1,
-      })
+      }
     // I believe this action is no longer used
     // case SELECT_QUIZ:
     //   return Object.assign({}, state, {
     //     quizId: action.quizId,
     //   })
     case SET_QUESTIONS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questionSet: action.questionSet,
         quizId: action.quizId,
-      })
+      }
     default:
       return state
   }

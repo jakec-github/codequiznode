@@ -11,6 +11,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(Object.assign({}, questionActionCreators, mainActionCreators), dispatch)
+  bindActionCreators({ ...questionActionCreators, ...mainActionCreators }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Panel)
