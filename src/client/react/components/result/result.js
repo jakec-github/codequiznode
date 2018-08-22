@@ -4,9 +4,12 @@ import PropTypes from 'prop-types'
 
 export default class extends React.Component {
   static propTypes = {
+    addScore: PropTypes.func.isRequired,
     score: PropTypes.number.isRequired,
-    quizId: PropTypes.number.isRequired,
-    userId: PropTypes.string.isRequired,
+    scores: PropTypes.arrayOf(PropTypes.object).isRequired,
+    quizData: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+    }).isRequired,
     loggedIn: PropTypes.bool.isRequired,
     questionSet: PropTypes.arrayOf(PropTypes.object).isRequired,
     history: PropTypes.shape({
@@ -15,21 +18,23 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
-    const data = {
-      score: this.props.score,
-      quiz_id: this.props.quizId,
-      user_id: parseInt(this.props.userId, 10),
-    }
-
-    if (this.props.loggedIn) {
-      fetch('/score', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        credentials: 'include',
-        body: JSON.stringify(data),
-      })
+    const { loggedIn, quizData, scores, score, addScore } = this.props
+    if (loggedIn) {
+      const highScore = scores.filter(oldScore => oldScore.quiz === quizData._id)
+      const newScore = {
+        quiz: quizData._id,
+        score,
+      }
+      if (!highScore.length) {
+        const newScores = [...scores, newScore]
+        addScore(newScores, newScore)
+      } else if (highScore[0].score < score) {
+        const newScores = [
+          ...scores.filter(oldScore => oldScore.quiz !== quizData._id),
+          newScore,
+        ]
+        addScore(newScores, newScore)
+      }
     }
   }
 

@@ -6,6 +6,7 @@ export default class extends React.Component {
     selectQuiz: PropTypes.func.isRequired,
     changeLocation: PropTypes.func.isRequired, // Will remove
     loadQuizzes: PropTypes.func.isRequired,
+    updateQuizProgress: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     allQuizzes: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -26,6 +27,7 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
+    this.props.updateQuizProgress('start')
     this.props.loadQuizzes()
     // fetch('/allquizzes')
     //   .then(data => data.json())

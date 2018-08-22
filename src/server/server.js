@@ -13,6 +13,7 @@ require('./config/passport')
 
 const authRoutes = require('./routes/authentication')
 const publicRoutes = require('./routes/public')
+const privateRoutes = require('./routes/private')
 
 const app = express()
 
@@ -38,6 +39,7 @@ app.use(bodyParser.json())
 
 app.use('/auth', authRoutes)
 app.use('/public', publicRoutes)
+app.use('/private', privateRoutes)
 
 if (!isProduction) {
   app.use(errorHandler())

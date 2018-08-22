@@ -52,8 +52,6 @@ router.get('/quiz/all', (req, res) => {
 // But would mean a quiz could not be called "all"
 router.get('/quiz/:id', (req, res) => {
   const { id } = req.params
-
-  console.log(id)
   Quiz.findOne({
     _id: id,
   })
@@ -66,7 +64,6 @@ router.get('/quiz/:id', (req, res) => {
           _id: questionId,
         })
           .then((question) => {
-            console.log(question)
             questionSet.push(question)
           }))
       })

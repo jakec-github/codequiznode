@@ -21,7 +21,6 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <form>
         <div className="user__form-group">

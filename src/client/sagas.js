@@ -3,7 +3,7 @@ import 'babel-polyfill'
 import { put, takeEvery, all, select } from 'redux-saga/effects'
 
 import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ } from './reducers/main'
-import { INITIATE_LOGIN, COMPLETE_LOGIN, LOGOUT, INITIATE_SIGN_UP, COMPLETE_SIGN_UP, INITIATE_VALIDATION } from './reducers/user'
+import { INITIATE_LOGIN, COMPLETE_LOGIN, LOGOUT, INITIATE_SIGN_UP, COMPLETE_SIGN_UP, INITIATE_VALIDATION, ADD_SCORE } from './reducers/user'
 import { SET_QUESTIONS } from './reducers/question'
 
 // Requires proper error handling
@@ -45,7 +45,7 @@ function* login() {
   }
 
   try {
-    const loginToken = yield fetch('/auth/login', {
+    const user = yield fetch('/auth/login', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -54,10 +54,13 @@ function* login() {
     })
       .then(response => response.json())
 
-    console.log(loginToken)
-    const { token } = loginToken.user
+    console.log(user)
+    const { token } = user.user
+    const { scores } = user
+    console.log('-----------')
+    console.log(scores)
     localStorage.setItem('jwt', token)
-    yield put({ type: COMPLETE_LOGIN, username })
+    yield put({ type: COMPLETE_LOGIN, username, scores })
   } catch (error) {
     console.log(error)
     // yield put({ type: COMPLETE_LOGIN })
@@ -79,7 +82,8 @@ function* validate() {
 
       console.log(result)
       const { username } = result.user
-      yield put({ type: COMPLETE_LOGIN, username })
+      const { scores } = result
+      yield put({ type: COMPLETE_LOGIN, username, scores })
     } catch (error) {
       console.log(error)
     }
@@ -89,8 +93,6 @@ function* validate() {
 function* signUp() {
   const username = yield select(state => state.user.usernameInput)
   const password = yield select(state => state.user.passwordInput)
-  console.log('++++++++')
-  console.log(username, password)
   const data = {
     user: {
       username,
@@ -108,7 +110,6 @@ function* signUp() {
     })
       .then(response => response.json())
 
-    console.log(loginToken)
     const { token } = loginToken.user
     localStorage.setItem('jwt', token)
     yield put({ type: COMPLETE_SIGN_UP, username })
@@ -122,6 +123,32 @@ function* logout() {
   yield localStorage.removeItem('jwt')
 }
 
+function* addScore({ score }) {
+  const jwt = yield localStorage.getItem('jwt')
+  // const data = {
+  //   quizId: score.quizId,
+  //   score: score.score,
+  // }
+  console.log('Saga')
+  console.log(score)
+
+  try {
+    const request = yield fetch('/private/score', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Token ${jwt}`,
+      },
+      body: JSON.stringify(score),
+    })
+    // .then(response => response.json())
+
+    console.log(request)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 function* watch() {
   yield takeEvery(LOAD_QUIZZES, getAllQuizzes)
   yield takeEvery(LOAD_QUIZ, getQuiz)
@@ -129,6 +156,7 @@ function* watch() {
   yield takeEvery(LOGOUT, logout)
   yield takeEvery(INITIATE_VALIDATION, validate)
   yield takeEvery(INITIATE_SIGN_UP, signUp)
+  yield takeEvery(ADD_SCORE, addScore)
 }
 
 function* checkSaga() {

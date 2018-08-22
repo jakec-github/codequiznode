@@ -10,6 +10,7 @@ const router = express.Router()
 // router.use('/users', require('./users'))
 
 // POST new user route (optional, everyone has access)
+// Can probably remove returns to solve eslint error
 router.post('/register', auth.optional, (req, res) => {
   console.log('Register reached')
   const { body: { user } } = req
@@ -90,7 +91,10 @@ router.post('/login', auth.optional, (req, res, next) => {
       const newUser = passportUser
       newUser.token = passportUser.generateJWT()
 
-      return res.json({ user: newUser.toAuthJSON() })
+      return res.json({
+        user: newUser.toAuthJSON(),
+        scores: newUser.scores,
+      })
     }
     // May need to remove res
     return res.status(400).info
@@ -100,15 +104,17 @@ router.post('/login', auth.optional, (req, res, next) => {
 // GET current route (required, only authenticated users have access)
 // This is a test route
 router.get('/validate', auth.required, (req, res, next) => {
-  const { payload: { id } } = req
-  console.log(req.payload)
+  const { payload: { id, username } } = req
   return User.findById(id)
     .then((user) => {
       if (!user) {
         return res.sendStatus(400)
       }
 
-      return res.json({ user: user.toAuthJSON() })
+      return res.json({
+        user: user.toAuthJSON(),
+        scores: user.scores,
+      })
     })
 })
 

@@ -7,6 +7,7 @@ export const INITIATE_SIGN_UP = 'INITIATE_SIGN_UP'
 export const COMPLETE_SIGN_UP = 'COMPLETE_SIGN_UP'
 export const INITIATE_VALIDATION = 'INITIATE_VALIDATION'
 const RESET_INPUTS = 'RESET_INPUTS'
+export const ADD_SCORE = 'ADD_SCORE'
 
 export const userActionCreators = {
   updateInput: (field, text) => ({ type: UPDATE_INPUT, field, text }),
@@ -15,6 +16,7 @@ export const userActionCreators = {
   initiateLogin: () => ({ type: INITIATE_LOGIN }),
   initiateValidation: () => ({ type: INITIATE_VALIDATION }),
   resetInputs: () => ({ type: RESET_INPUTS }),
+  addScore: (scores, score) => ({ type: ADD_SCORE, scores, score }),
 }
 
 const initialState = {
@@ -24,13 +26,12 @@ const initialState = {
   usernameInput: '',
   passwordInput: '',
   confirmPasswordInput: '',
+  scores: [],
 }
 
 export const user = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_INPUT:
-      console.log(action.field)
-      console.log(action.text)
       return {
         ...state,
         [action.field]: action.text,
@@ -43,7 +44,7 @@ export const user = (state = initialState, action) => {
         usernameInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
-
+        scores: action.scores,
       }
     case COMPLETE_SIGN_UP:
       return {
@@ -59,6 +60,7 @@ export const user = (state = initialState, action) => {
         ...state,
         loggedIn: false,
         username: '',
+        scores: [],
       }
     case RESET_INPUTS:
       return {
@@ -66,6 +68,12 @@ export const user = (state = initialState, action) => {
         usernameInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
+      }
+    case ADD_SCORE:
+      // This won't work. Prior scores need to be removed. Better to get response from server
+      return {
+        ...state,
+        scores: action.scores,
       }
     default:
       return state
