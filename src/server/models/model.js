@@ -69,8 +69,6 @@ const User = mongoose.model('User', UserSchema)
 const Question = mongoose.model('Question', QuestionSchema)
 
 function setPassword(password) {
-  console.log('Setting password')
-  console.log(typeof crypto.randomBytes(16).toString('hex'))
   this.salt = crypto.randomBytes(16).toString('hex')
   this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
 }
@@ -81,7 +79,6 @@ function validatePassword(password) {
 }
 
 function generateJWT() {
-  console.log('Generating JWT')
   const today = new Date()
   const expirationDate = new Date(today)
   // May want to configure expiry
@@ -95,14 +92,12 @@ function generateJWT() {
 }
 
 function toAuthJSON() {
-  console.log('toAuthJSON')
   return {
     _id: this._id,
     username: this.username,
     token: this.generateJWT(),
   }
 }
-
 
 // Would like to condense this code
 module.exports.Quiz = Quiz
