@@ -10,8 +10,6 @@ export default class extends React.Component {
     questions: PropTypes.arrayOf(PropTypes.object).isRequired,
     changeCreatorPosition: PropTypes.func.isRequired,
     addQuestion: PropTypes.func.isRequired,
-    // updateQuestion: PropTypes.func.isRequired,
-    updateQuiz: PropTypes.func.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
     deleteQuiz: PropTypes.func.isRequired,
   }
@@ -21,48 +19,10 @@ export default class extends React.Component {
     this.state = {
       submitConfirm: false,
       deleteConfirm: false,
-      question: '',
-      codes: [],
-      code: 0,
-      answer: '',
-      duds: [],
-      explanation: '',
-    }
-  }
-  componentWillReceiveProps = (props) => {
-    if (props.creatorPosition > 0) {
-      const {
-        question,
-        codes,
-        code,
-        answer,
-        duds,
-        explanation,
-      } = props.questions[props.creatorPosition - 1]
-      this.setState({
-        question,
-        codes,
-        code,
-        answer,
-        duds,
-        explanation,
-      })
     }
   }
 
   handleNavClick = ({ target }) => {
-    if (this.props.creatorPosition > 0) {
-      // this.storeQuestion()
-      // this.setState({
-      //   question: '',
-      //   codes: [],
-      //   code: 0,
-      //   answer: '',
-      //   duds: [],
-      //   explanation: '',
-      // })
-    }
-    console.log(target.id)
     if (target.id === 'back' && this.props.creatorPosition > 0) {
       this.props.changeCreatorPosition(this.props.creatorPosition - 1)
     } else if (target.id === 'forward' && this.props.creatorPosition < 30) {
@@ -115,18 +75,7 @@ export default class extends React.Component {
     })
   }
 
-  // storeQuestion = () => {
-  //   const question = {
-  //     question: this.state.question,
-  //     codes: this.state.codes.filter(code => code.contents !== ''),
-  //     code: this.state.code,
-  //     answer: this.state.answer,
-  //     duds: this.state.duds.filter(dud => dud !== ''),
-  //     explanation: this.state.explanation,
-  //   }
-  //   // this.props.updateQuestion(question, this.props.creatorPosition - 1)
-  // }
-
+  // POSSIBLY WILL remove as only called in one place
   submitQuiz = () => {
     // this.storeQuestion()
     // this.props.updateQuiz({
@@ -139,11 +88,6 @@ export default class extends React.Component {
   }
 
   deleteQuiz = () => {
-    this.setState({
-      title: '',
-      description: '',
-      timer: 0,
-    })
     this.props.deleteQuiz()
   }
 
@@ -154,12 +98,6 @@ export default class extends React.Component {
     }
   }
 
-  changeCode = (newCode) => {
-    this.setState({
-      code: newCode,
-    })
-  }
-
   render() {
     return (
       <div className="creator">
@@ -167,39 +105,49 @@ export default class extends React.Component {
           <CreateQuiz />
         }
         { this.props.creatorPosition > 0 &&
-          <CreateQuestion
-            // question={this.state.question}
-            codes={this.state.codes}
-            code={this.state.code}
-            // answer={this.state.answer}
-            // duds={this.state.duds}
-            // explanation={this.state.explanation}
-            updateState={this.updateState}
-            changeCode={this.changeCode}
-          />
+          <CreateQuestion />
         }
         <div className="creator__console">
           { (this.state.submitConfirm || this.state.deleteConfirm) &&
             <div className="creator__nav-box u-margin-top-tiny u-margin-bottom-tiny">
-              <div className="creator__nav creator__nav--no button button--nav u-no-margin" id="no" onClick={this.handleConfirmClick}>
+              <div
+                className="creator__nav creator__nav--no button button--nav u-no-margin"
+                id="no"
+                onClick={this.handleConfirmClick}
+              >
                 No
               </div>
-              <div className="creator__nav creator__nav--yes button button--nav" id="yes" onClick={this.handleConfirmClick}>
+              <div
+                className="creator__nav creator__nav--yes button button--nav"
+                id="yes"
+                onClick={this.handleConfirmClick}
+              >
                 Yes
               </div>
             </div>
           }
           { !(this.state.submitConfirm || this.state.deleteConfirm) &&
             <div className="creator__nav-box u-margin-top-tiny">
-              <div className="creator__nav creator__nav--back button button--nav-blue u-no-margin" id="back" onClick={this.handleNavClick}>
+              <div
+                className="creator__nav creator__nav--back button button--nav-blue u-no-margin"
+                id="back"
+                onClick={this.handleNavClick}
+              >
                 Back
               </div>
-              <div className="creator__nav creator__nav--forward button button--nav-blue" id="forward" onClick={this.handleNavClick}>
+              <div
+                className="creator__nav creator__nav--forward button button--nav-blue"
+                id="forward"
+                onClick={this.handleNavClick}
+              >
                 Forward
               </div>
             </div>
           }
-          <div className="creator__delete button button--nav-blue" onClick={this.handleDeleteClick}>
+          <div
+            className="creator__delete button button--nav-blue"
+            onClick={this.handleDeleteClick}
+          >
             { this.state.deleteConfirm &&
               <p>Are you sure?</p>
             }
@@ -210,7 +158,10 @@ export default class extends React.Component {
               <p>Delete Question</p>
             }
           </div>
-          <div className="creator__submit-quiz button button--nav-blue" onClick={this.handleSubmitClick}>
+          <div
+            className="creator__submit-quiz button button--nav-blue"
+            onClick={this.handleSubmitClick}
+          >
             { this.state.submitConfirm &&
               <p>Are you sure?</p>
             }
