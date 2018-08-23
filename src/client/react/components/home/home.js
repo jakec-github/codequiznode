@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 export default class extends React.Component {
   static propTypes = {
-    changeLocation: PropTypes.func.isRequired, // Will remove
     loadQuizzes: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -28,7 +27,9 @@ export default class extends React.Component {
   }
 
   handleCreateClick = () => {
-    this.props.changeLocation('creator')
+    this.props.history.push({
+      pathname: `/quizEditor`,
+    })
   }
 
   render() {
@@ -52,24 +53,10 @@ export default class extends React.Component {
     return (
       <div className="home">
         {quizzes}
-        {/* { this.props.loggedIn &&
+        { this.props.loggedIn &&
           <article className="button button--nav" onClick={this.handleCreateClick}>Make a quiz</article>
-        } */}
+        }
       </div>
     )
   }
 }
-// let hasScore = false
-// this.state.allScores.forEach((score) => {
-//   if (score.quiz_id === quiz.id) {
-//     hasScore = Math.floor((score.score / quiz.length) * 100)
-//     // TODO: change to for loop in order to add break
-//   }
-// })
-// TODO: See if this can be condensed by injecting <p> with ternary
-// if (hasScore) {
-//   quizzes.push(<article className="button button--quiz" data-id={quiz.id} onClick={this.handleQuizClick} key={i.toString()}>{quiz.name}<div className="button__insert">{hasScore}%</div></article>)
-// } else {
-//   quizzes.push(<article className="button button--quiz" data-id={quiz.id} onClick={this.handleQuizClick} key={i.toString()}>{quiz.name}</article>)
-// }
-// No scores at the moment so pushed directly

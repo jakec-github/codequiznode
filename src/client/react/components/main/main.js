@@ -6,11 +6,10 @@ import Home from '../home/container'
 import Start from '../start/container'
 import Question from '../question/container'
 import Result from '../result/container'
-// import Creator from '../containers/main/creator'
+import Creator from '../creator/container'
 // import Created from '../containers/main/created'
 
 Main.propTypes = {
-  // location: PropTypes.string.isRequired, // Will remove
   quizProgress: PropTypes.string.isRequired,
 }
 
@@ -31,8 +30,6 @@ export default function Main(props) {
       break
   }
 
-  // Start quiz should become quiz
-  // No routes required for question and result
   return (
     <Switch>
       <Route
@@ -44,6 +41,11 @@ export default function Main(props) {
         path="/"
         exact
         component={Home}
+      />
+      <Route
+        path="/quizEditor"
+        exact
+        component={Creator}
       />
     </Switch>
   )
