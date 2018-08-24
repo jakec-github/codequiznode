@@ -46,12 +46,12 @@ const DudSchema = new Schema({
 })
 
 const CodeSchema = new Schema({
-  type: String,
-  sample: String,
+  language: String,
+  contents: String,
 })
 
 const QuestionSchema = new Schema({
-  text: String,
+  question: String,
   answer: String,
   explanation: String,
   correctReplies: Number,

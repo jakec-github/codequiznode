@@ -66,8 +66,6 @@ export default class extends React.Component {
     const tabs = []
     const codeContents = []
     const dudElements = []
-    console.log(question)
-    console.log(code)
     codes.forEach((codeObj, i) => {
       tabs.push((
         <article

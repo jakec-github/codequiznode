@@ -22,6 +22,12 @@
     color: $colour-primary-lightest;
   }
 
+  &--nav-grey {
+    background-color: #999999;
+    color: white;
+    cursor: default;
+  }
+
   &--quiz {
     background-color: $colour-highlight;
     text-align: left;

@@ -3,58 +3,92 @@ const express = require('express')
 const Model = require('../models/model')
 const auth = require('../auth')
 
-const { User } = Model
+const { User, Quiz, Question } = Model
 
 const router = express.Router()
 
-// This route will need data validation
+// This route will need further data validation
 router.post('/score', auth.required, (req, res) => {
   const score = req.body
   const { username } = req.payload
 
   User.findOne({ username })
     .then((record) => {
-      console.log('Found user and updating scores')
-      console.log(record.scores)
-      console.log(score)
-      const index = record.scores.findIndex((oldScore) => {
-        console.log('In the loop')
-        console.log(typeof oldScore.quiz)
-        console.log(typeof score.quiz)
-        return oldScore.quiz.toString() === score.quiz
-      })
-      console.log(index)
+      const index = record.scores.findIndex(oldScore => oldScore.quiz.toString() === score.quiz)
       if (index > -1) {
         record.scores[index].remove()
-        console.log('removed old scores')
       }
-      console.log(record.scores)
       record.scores.push(score)
-      console.log('Pushed new score')
-      console.log(record.scores)
       record.save()
         .then(() => {
-          console.log('saved')
           res.sendStatus(200)
+        })
+        .catch((error) => {
+        })
+    })
+})
+
+// Further validation required
+// Also need to make sure script injection isn't possible by exploiting this route
+router.post('/quiz/new', auth.required, (req, res) => {
+  const { title, description, timer, questions } = req.body
+  const { username } = req.payload
+  console.log('-----+')
+  console.log(title)
+  console.log(description)
+  console.log(questions)
+  if (
+    // Should create max length for these strings
+    title.length === 0
+    || description.length === 0
+    || timer > 30
+    || timer < 0
+    || timer % 1
+    || questions.length > 30
+    || questions.length < 1 // This should be 3
+  ) {
+    return res.sendStatus(400) // Must return here to prevent db save
+  }
+  console.log('Passed validation')
+  const newQuestions = []
+
+  questions.forEach(({ question, codes, answer, duds, explanation }) => {
+    // Need to add validation for each question in this loop
+    const newQuestion = {
+      question,
+      answer,
+      codes,
+      duds: duds.map(dud => ({ text: dud })),
+      explanation,
+      correctReplies: 0,
+      incorrectReplies: 0,
+    }
+    return newQuestions.push(newQuestion)
+  })
+
+  Question.insertMany(newQuestions)
+    .then((savedQuestions) => {
+      const newQuiz = new Quiz({
+        name: title,
+        description,
+        timeLimit: timer,
+        featured: false,
+        questions: savedQuestions.map(question => question._id),
+      })
+
+      newQuiz.save()
+        .then((record) => {
+          console.log('Completed')
+          return res.send(JSON.stringify({
+            quiz: record._id,
+          }))
         })
         .catch((error) => {
           console.log(error)
         })
-
-      // if ((highScore.length && score <= highScore[0].score)) {
-      //   console.log('Didn\'t actually do anything')
-      //   res.sendStatus(200)
-      // } else {
-      //   record.scores.push({
-      //     quiz: quizId,
-      //     score,
-      //   })
-      //   record.save()
-      //     .then(() => {
-      //       console.log('Saved')
-      //       res.sendStatus(200)
-      //     })
-      // }
+    })
+    .catch((error) => {
+      console.log(error)
     })
 })
 

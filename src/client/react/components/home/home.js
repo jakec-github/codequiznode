@@ -37,7 +37,7 @@ export default class extends React.Component {
     const { scores } = this.props
     this.props.allQuizzes.forEach((quiz, i) => {
       let score = false
-      for (let j = 0; i < scores.length; j += 1) {
+      for (let j = 0; j < scores.length; j += 1) {
         if (scores[j].quiz === quiz.id) {
           const percent = Math.floor((scores[j].score / quiz.length) * 100)
           quizzes.push(<article className="button button--quiz" data-id={quiz.id} onClick={this.handleQuizClick} key={i.toString()}>{quiz.name}<div className="button__insert">{percent}%</div></article>)

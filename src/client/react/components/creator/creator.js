@@ -6,12 +6,26 @@ import CreateQuestion from '../create_question/container'
 
 export default class extends React.Component {
   static propTypes = {
-    creatorPosition: PropTypes.number.isRequired,
-    questions: PropTypes.arrayOf(PropTypes.object).isRequired,
     changeCreatorPosition: PropTypes.func.isRequired,
     addQuestion: PropTypes.func.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
     deleteQuiz: PropTypes.func.isRequired,
+    initiateSubmit: PropTypes.func.isRequired,
+    refreshSubmitted: PropTypes.func.isRequired,
+    cleanQuestions: PropTypes.func.isRequired,
+    creatorPosition: PropTypes.number.isRequired,
+    questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    quiz: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      timer: PropTypes.number.isRequired,
+      questions: PropTypes.array.isRequired,
+    }).isRequired,
+    submitted: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
+    newQuiz: PropTypes.string.isRequired,
   }
   constructor(props) {
     super(props)
@@ -22,7 +36,17 @@ export default class extends React.Component {
     }
   }
 
+  componentDidUpdate = () => {
+    if (this.props.submitted) {
+      this.props.history.push({
+        pathname: `/quiz/${this.props.newQuiz}`,
+      })
+      this.props.refreshSubmitted()
+    }
+  }
+
   handleNavClick = ({ target }) => {
+    this.props.cleanQuestions()
     if (target.id === 'back' && this.props.creatorPosition > 0) {
       this.props.changeCreatorPosition(this.props.creatorPosition - 1)
     } else if (target.id === 'forward' && this.props.creatorPosition < 30) {
@@ -49,17 +73,11 @@ export default class extends React.Component {
     }
   }
 
-  updateState = (key, value) => {
-    this.setState({
-      [key]: value,
-    })
-  }
-
   handleConfirmClick = ({ target }) => {
     if (target.id === 'yes') {
       if (this.state.submitConfirm) {
         console.log('Confirm')
-        this.submitQuiz()
+        this.props.initiateSubmit()
       } else {
         console.log('Delete confirmed')
         if (this.props.creatorPosition === 0) {
@@ -75,18 +93,6 @@ export default class extends React.Component {
     })
   }
 
-  // POSSIBLY WILL remove as only called in one place
-  submitQuiz = () => {
-    // this.storeQuestion()
-    // this.props.updateQuiz({
-    //   title: this.state.title,
-    //   description: this.state.description,
-    //   timer: this.state.timer,
-    // })
-    console.log('Submitting')
-    // this.props.changeLocation('created')
-  }
-
   deleteQuiz = () => {
     this.props.deleteQuiz()
   }
@@ -98,7 +104,45 @@ export default class extends React.Component {
     }
   }
 
+  checkQuiz = () => {
+    const { title, description } = this.props.quiz
+    const { questions } = this.props
+    if (
+      !title.length
+      || !description.length
+      || questions.length < 1 // 3
+    ) {
+      return false
+    }
+    for (let i = 0; i < questions.length; i += 1) {
+      const { question, codes, answer, duds, explanation } = questions[i]
+      if (
+        !question.length
+        || !answer.length
+        || !duds.length
+        || !explanation.length
+      ) {
+        return false
+      }
+      for (let j = 0; j < codes.length; j += 1) {
+        if (!codes[j].contents.length) {
+          return false
+        }
+      }
+      for (let j = 0; j < duds.length; j += 1) {
+        if (!duds[j].length) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   render() {
+    const isValid = this.checkQuiz()
+    console.log(isValid)
+    // Use isValid
+
     return (
       <div className="creator">
         { this.props.creatorPosition < 1 &&
@@ -158,17 +202,31 @@ export default class extends React.Component {
               <p>Delete Question</p>
             }
           </div>
-          <div
-            className="creator__submit-quiz button button--nav-blue"
-            onClick={this.handleSubmitClick}
-          >
-            { this.state.submitConfirm &&
-              <p>Are you sure?</p>
-            }
-            { !this.state.submitConfirm &&
-              <p>Submit</p>
-            }
-          </div>
+          { isValid &&
+            <div
+              className="creator__submit-quiz button button--nav-blue"
+              onClick={this.handleSubmitClick}
+            >
+              { this.state.submitConfirm &&
+                <p>Are you sure?</p>
+              }
+              { !this.state.submitConfirm &&
+                <p>Submit</p>
+              }
+            </div>
+          }
+          { !isValid &&
+            <div
+              className="creator__submit-quiz button button--nav-grey"
+            >
+              { this.state.submitConfirm &&
+                <p>Are you sure?</p>
+              }
+              { !this.state.submitConfirm &&
+                <p>Submit</p>
+              }
+            </div>
+          }
         </div>
       </div>
     )

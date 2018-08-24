@@ -29,8 +29,9 @@ export default class extends React.Component {
     const thisQuestion = this.props.questionSet[this.props.questionNumber]
     const codes = []
     const tabs = []
+    console.log(thisQuestion)
     for (let i = 0; i < thisQuestion.codes.length; i += 1) {
-      console.log(thisQuestion.codes[i].type)
+      console.log(thisQuestion.codes[i].language)
       console.log(`i now = ${i}`)
       console.log(`this.state.code = ${this.state.code}`)
       tabs.push((
@@ -40,7 +41,7 @@ export default class extends React.Component {
           data-value={i.toString()}
           key={i.toString()}
         >
-          {thisQuestion.codes[i].type}
+          {thisQuestion.codes[i].language}
         </article>
       ))
       codes.push((
@@ -49,7 +50,7 @@ export default class extends React.Component {
           className="question__code-block"
           key={i.toString()}
         >
-          {thisQuestion.codes[i].sample}
+          {thisQuestion.codes[i].contents}
         </article>
       ))
     }

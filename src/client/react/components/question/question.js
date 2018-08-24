@@ -18,7 +18,7 @@ export default function Question(props) {
     <div className="question">
       <Progress />
       <p className="question__text" id="question-text">
-        {props.questionSet[props.questionNumber].text}
+        {props.questionSet[props.questionNumber].question}
       </p>
       { thisQuestion.codes.length === 0 ? (undefined) : (
         <Code />

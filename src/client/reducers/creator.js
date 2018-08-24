@@ -10,6 +10,10 @@ const UPDATE_QUIZ = 'UPDATE_QUIZ'
 const DELETE_QUIZ = 'DELETE_QUIZ'
 const UPDATE_QUIZ_FIELD = 'UPDATE_QUIZ_FIELD'
 const UPDATE_CODE_TAB = 'UPDATE_CODE_TAB'
+export const INITIATE_SUBMIT = 'INITIATE_SUBMIT'
+export const COMPLETE_SUBMIT = 'COMPLETE_SUBMIT'
+const REFRESH_SUBMITTED = 'REFRESH_SUBMITTED'
+const CLEAN_QUESTIONS = 'CLEAN_QUESTIONS'
 
 export const creatorActionCreators = {
   changeCreatorPosition: creatorPosition => ({ type: CHANGE_CREATOR_POSITION, creatorPosition }),
@@ -27,6 +31,9 @@ export const creatorActionCreators = {
     ({ type: UPDATE_CODE, questionIndex, codeIndex, contents }),
   addCode: (index, language) => ({ type: ADD_CODE, index, language }),
   updateCodeTab: (questionIndex, tabIndex) => ({ type: UPDATE_CODE_TAB, questionIndex, tabIndex }),
+  initiateSubmit: () => ({ type: INITIATE_SUBMIT }),
+  refreshSubmitted: () => ({ type: REFRESH_SUBMITTED }),
+  cleanQuestions: () => ({ type: CLEAN_QUESTIONS }),
 }
 
 const initialState = {
@@ -37,6 +44,8 @@ const initialState = {
     description: '',
     timer: 0,
   },
+  submitted: false,
+  newQuiz: '',
 }
 
 export const creator = (state = initialState, action) => {
@@ -125,7 +134,6 @@ export const creator = (state = initialState, action) => {
           ...state.questions.slice(action.questionIndex + 1),
         ],
       }
-    // This needs to reflect the fact that codes are objects
     case ADD_CODE:
       return {
         ...state,
@@ -161,6 +169,15 @@ export const creator = (state = initialState, action) => {
           ...state.questions.slice(action.index + 1),
         ],
       }
+    case CLEAN_QUESTIONS:
+      return {
+        ...state,
+        questions: state.questions.map(question => ({
+          ...question,
+          duds: question.duds.filter(dud => dud.length),
+          codes: question.codes.filter(code => code.contents.length),
+        })),
+      }
     case UPDATE_QUIZ:
       return {
         ...state,
@@ -176,6 +193,25 @@ export const creator = (state = initialState, action) => {
           description: '',
           timer: 0,
         },
+      }
+    case COMPLETE_SUBMIT:
+      return {
+        ...state,
+        creatorPosition: 0,
+        questions: [],
+        quiz: {
+          title: '',
+          description: '',
+          timer: 0,
+        },
+        submitted: true,
+        newQuiz: action.newQuiz,
+      }
+    case REFRESH_SUBMITTED:
+      return {
+        ...state,
+        submitted: false,
+        newQuiz: '',
       }
     default:
       return state

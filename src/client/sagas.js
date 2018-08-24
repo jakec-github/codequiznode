@@ -4,6 +4,7 @@ import { put, takeEvery, all, select } from 'redux-saga/effects'
 
 import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ } from './reducers/main'
 import { INITIATE_LOGIN, COMPLETE_LOGIN, LOGOUT, INITIATE_SIGN_UP, COMPLETE_SIGN_UP, INITIATE_VALIDATION, ADD_SCORE } from './reducers/user'
+import { INITIATE_SUBMIT, COMPLETE_SUBMIT } from './reducers/creator'
 import { SET_QUESTIONS } from './reducers/question'
 
 // Requires proper error handling
@@ -149,6 +150,28 @@ function* addScore({ score }) {
   }
 }
 
+function* submit() {
+  const jwt = yield localStorage.getItem('jwt')
+  const quiz = yield select(state => state.creator.quiz)
+  const questions = yield select(state => state.creator.questions)
+  quiz.questions = questions
+  try {
+    const response = yield fetch('/private/quiz/new', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Token ${jwt}`,
+      },
+      body: JSON.stringify(quiz),
+    })
+      .then(data => data.json())
+
+    yield put({ type: COMPLETE_SUBMIT, newQuiz: response.quiz })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 function* watch() {
   yield takeEvery(LOAD_QUIZZES, getAllQuizzes)
   yield takeEvery(LOAD_QUIZ, getQuiz)
@@ -157,6 +180,7 @@ function* watch() {
   yield takeEvery(INITIATE_VALIDATION, validate)
   yield takeEvery(INITIATE_SIGN_UP, signUp)
   yield takeEvery(ADD_SCORE, addScore)
+  yield takeEvery(INITIATE_SUBMIT, submit)
 }
 
 function* checkSaga() {
