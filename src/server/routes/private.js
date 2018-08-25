@@ -45,7 +45,7 @@ router.post('/quiz/new', auth.required, (req, res) => {
     || timer < 0
     || timer % 1
     || questions.length > 30
-    || questions.length < 1 // This should be 3
+    || questions.length < 3
   ) {
     return res.sendStatus(400) // Must return here to prevent db save
   }
@@ -71,7 +71,7 @@ router.post('/quiz/new', auth.required, (req, res) => {
       const newQuiz = new Quiz({
         name: title,
         description,
-        timeLimit: timer,
+        timeLimit: timer * 60,
         featured: false,
         questions: savedQuestions.map(question => question._id),
       })

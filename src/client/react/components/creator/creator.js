@@ -110,7 +110,7 @@ export default class extends React.Component {
     if (
       !title.length
       || !description.length
-      || questions.length < 1 // 3
+      || questions.length < 3
     ) {
       return false
     }
