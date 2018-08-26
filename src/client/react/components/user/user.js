@@ -51,14 +51,21 @@ export default class extends React.Component {
   }
 
   render() {
-    const icon = this.props.loggedIn ? 'static/img/118-user-check.svg' : 'static/img/114-user.svg'
+    // const icon = this.props.loggedIn ? 'static/img/118-user-check.svg' : 'static/img/114-user.svg'
     return (
       <React.Fragment>
         { this.state.authOpen &&
           <div className="u-full-screen u-cover" onClick={this.handleEscapeClick} />
         }
         <div className="user" id="react-wrapper">
-          <img className="user__image" alt="User authentication" src={icon} onClick={this.handleUserIconClick} />
+          <svg className="user" onClick={this.handleUserIconClick}>
+            <use xlinkHref="/sprite.svg#icon-person" />
+          </svg>
+          { this.props.loggedIn &&
+            <svg className="user user--check" onClick={this.handleUserIconClick}>
+              <use xlinkHref="/sprite.svg#icon-check" />
+            </svg>
+          }
           {this.state.authOpen &&
             <article className="user__auth" id="user-auth">
               <p className="user__escape" id="auth-escape" onClick={this.handleEscapeClick}>X</p>

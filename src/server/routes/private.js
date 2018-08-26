@@ -74,6 +74,7 @@ router.post('/quiz/new', auth.required, (req, res) => {
         timeLimit: timer * 60,
         featured: false,
         questions: savedQuestions.map(question => question._id),
+        creator: username,
       })
 
       newQuiz.save()

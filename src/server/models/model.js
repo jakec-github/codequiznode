@@ -12,7 +12,7 @@ const QuizSchema = new Schema({
   questions: [
     { type: Schema.Types.ObjectId, ref: 'Question' },
   ],
-  // Will need to store creator info here
+  creator: String,
 })
 
 const FeaturedSchema = new Schema({

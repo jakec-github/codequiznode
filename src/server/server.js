@@ -47,9 +47,8 @@ if (!isProduction) {
 
 mongoose.connect('mongodb://localhost/codequiz-v1')
 
-// This line may be necessary when serving static content later
-// app.use(express.static('dist'))
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')))
+app.use(express.static('../../dist'))
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/../../dist/index.html')))
 
 // Currently not working. Res is next.
 // Should be able to error handle

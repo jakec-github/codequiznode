@@ -5,23 +5,17 @@
   right: 5rem;
   transform: translate(50%, -50%);
   text-align: center;
+  fill: white;
+  height: 5.5rem;
+  cursor: pointer;
+  width: 5.5rem;
 
-  &__image{
-
-    height: 3rem;
-    filter: invert(100%);
-    position: relative;
-    cursor: pointer;
+  &--check {
+    fill: $colour-neutral;
+    height: 1.5rem;
+    top: 4.2rem;
+    width: 1.5rem;
   }
-
-  // &__auth-wrapper {
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   height: 100%;
-  //   width: 100%;
-  //   background-color: red;
-  // }
 
   &__auth {
     position: absolute;
@@ -31,8 +25,8 @@
     background-image: -o-linear-gradient(top left, $colour-primary-light, $colour-primary-dark);
     background-image: linear-gradient(to bottom right, $colour-primary-light, $colour-primary-dark);
     border-radius: $card-radius;
-    top: 4rem;
-    right: -.6rem;
+    top: 7rem;
+    right: 3rem;
     box-shadow: $card-shadow;
 
     @include respond(tab-port) {
