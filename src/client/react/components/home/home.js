@@ -5,7 +5,7 @@ export default class extends React.Component {
   static propTypes = {
     loadQuizzes: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
+    authenticated: PropTypes.bool.isRequired,
     allQuizzes: PropTypes.arrayOf(PropTypes.object).isRequired,
     loadingAllQuizzes: PropTypes.bool.isRequired,
     scores: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -18,11 +18,11 @@ export default class extends React.Component {
     this.props.loadQuizzes()
   }
 
-  handleQuizClick = (event) => {
+  handleQuizClick = ({ target: { dataset: { name, creator } } }) => {
     this.props.updateQuizProgress('start')
-    const quizId = event.target.dataset.id
+    const encodedQuiz = encodeURIComponent(name.replace(/ /g, '_'))
     this.props.history.push({
-      pathname: `/quiz/${quizId}`,
+      pathname: `/${creator}/${encodedQuiz}`,
     })
   }
 
@@ -40,20 +40,41 @@ export default class extends React.Component {
       for (let j = 0; j < scores.length; j += 1) {
         if (scores[j].quiz === quiz.id) {
           const percent = Math.floor((scores[j].score / quiz.length) * 100)
-          quizzes.push(<article className="button button--quiz" data-id={quiz.id} onClick={this.handleQuizClick} key={i.toString()}>{quiz.name}<div className="button__insert">{percent}%</div></article>)
+          quizzes.push((
+            <article
+              className="button button--quiz"
+              data-name={quiz.name}
+              data-creator={quiz.creator}
+              onClick={this.handleQuizClick}
+              key={i.toString()}
+            >
+              {quiz.name}
+              <div className="button__insert">{percent}%</div>
+            </article>
+          ))
           score = true
           break
         }
       }
       if (!score) {
-        quizzes.push(<article className="button button--quiz" data-id={quiz.id} onClick={this.handleQuizClick} key={i.toString()}>{quiz.name}</article>)
+        quizzes.push((
+          <article
+            className="button button--quiz"
+            data-name={quiz.name}
+            data-creator={quiz.creator}
+            onClick={this.handleQuizClick}
+            key={i.toString()}
+          >
+            {quiz.name}
+          </article>
+        ))
       }
     })
 
     return (
       <div className="home">
         {quizzes}
-        { this.props.loggedIn &&
+        { this.props.authenticated &&
           <article className="button button--nav" onClick={this.handleCreateClick}>Make a quiz</article>
         }
       </div>

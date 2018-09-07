@@ -10,7 +10,7 @@ export default class extends React.Component {
     quizData: PropTypes.shape({
       _id: PropTypes.string.isRequired,
     }).isRequired,
-    loggedIn: PropTypes.bool.isRequired,
+    authenticated: PropTypes.bool.isRequired,
     questionSet: PropTypes.arrayOf(PropTypes.object).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
@@ -18,8 +18,8 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
-    const { loggedIn, quizData, scores, score, addScore } = this.props
-    if (loggedIn) {
+    const { authenticated, quizData, scores, score, addScore } = this.props
+    if (authenticated) {
       const highScore = scores.filter(oldScore => oldScore.quiz === quizData._id)
       const newScore = {
         quiz: quizData._id,

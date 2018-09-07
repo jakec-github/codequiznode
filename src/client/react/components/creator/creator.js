@@ -76,25 +76,17 @@ export default class extends React.Component {
   handleConfirmClick = ({ target }) => {
     if (target.id === 'yes') {
       if (this.state.submitConfirm) {
-        console.log('Confirm')
         this.props.initiateSubmit()
+      } else if (this.props.creatorPosition === 0) {
+        this.props.deleteQuiz()
       } else {
-        console.log('Delete confirmed')
-        if (this.props.creatorPosition === 0) {
-          this.deleteQuiz()
-        } else {
-          this.deleteQuestion()
-        }
+        this.deleteQuestion()
       }
     }
     this.setState({
       deleteConfirm: false,
       submitConfirm: false,
     })
-  }
-
-  deleteQuiz = () => {
-    this.props.deleteQuiz()
   }
 
   deleteQuestion = () => {
@@ -140,9 +132,9 @@ export default class extends React.Component {
 
   render() {
     const isValid = this.checkQuiz()
-    console.log(isValid)
-    // Use isValid
-
+    if (this.props.creatorPosition < 1) {
+      console.log('Should work')
+    }
     return (
       <div className="creator">
         { this.props.creatorPosition < 1 &&

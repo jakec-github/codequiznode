@@ -5,7 +5,7 @@ import { userActionCreators } from '../../../reducers/user'
 import User from './user'
 
 const mapStateToProps = state => ({
-  loggedIn: state.user.loggedIn,
+  authenticated: state.user.authenticated,
   username: state.user.username,
 })
 

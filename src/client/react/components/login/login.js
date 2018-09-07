@@ -24,23 +24,45 @@ export default class extends React.Component {
     return (
       <form>
         <div className="user__form-group">
-          <input className="user__input" name="username" id="usernameInput" placeholder="Username" onChange={this.handleInputChange} value={this.props.usernameInput} />
-          <label htmlFor="usernameInput" className="user__label">Username</label>
+          <input
+            className="user__input"
+            name="username"
+            id="usernameInput"
+            placeholder="Username"
+            onChange={this.handleInputChange}
+            value={this.props.usernameInput}
+          />
+          <label
+            htmlFor="usernameInput"
+            className="user__label"
+          >
+            Username
+          </label>
         </div>
         <div className="user__form-group">
-          <input className="user__input" id="passwordInput" name="password" type="password" placeholder="Password" onChange={this.handleInputChange} value={this.props.passwordInput} />
-          <label htmlFor="passwordInput" className="user__label">Password</label>
+          <input
+            className="user__input"
+            id="passwordInput"
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={this.handleInputChange}
+            value={this.props.passwordInput}
+          />
+          <label
+            htmlFor="passwordInput"
+            className="user__label"
+          >
+            Password
+          </label>
         </div>
-        <input className="user__submit button button--nav" name="login" onClick={this.handleSubmitClick} type="submit" />
+        <input
+          className="user__submit button button--nav  u-margin-bottom-medium"
+          name="login"
+          onClick={this.handleSubmitClick}
+          type="submit"
+        />
       </form>
     )
   }
 }
-
-// <AuthError
-//   usernameLength={false}
-//   usernameLetters={false}
-//   passwordLength={false}
-//   passwordMatch={false}
-//   incorrectDetails={loginError}
-// />

@@ -10,7 +10,7 @@ export const mainActionCreators = {
   changeLocation: location => ({ type: CHANGE_LOCATION, location }),
   loadQuizzes: () => ({ type: LOAD_QUIZZES }),
   addQuizzes: allQuizzes => ({ type: ADD_QUIZZES, allQuizzes }),
-  loadQuiz: quizId => ({ type: LOAD_QUIZ, quizId }),
+  loadQuiz: (username, quizName) => ({ type: LOAD_QUIZ, username, quizName }),
   addQuiz: quizData => ({ type: ADD_QUIZ, quizData }),
   updateQuizProgress: quizProgress => ({ type: UPDATE_QUIZ_PROGRESS, quizProgress }),
   updateQuestionProgress: questionProgress =>
@@ -63,6 +63,7 @@ export const main = (state = initialState, action) => {
         ...state,
         loadQuiz: true,
       }
+    // I don't think this action is well named
     case ADD_QUIZ:
       return {
         ...state,

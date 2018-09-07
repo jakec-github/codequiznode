@@ -16,6 +16,12 @@
     },
     "setupFiles": [
       "<rootDir>/jestSetup.js"
+    ],
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "src/client/**/*.js",
+      "!**/container.js",
+      "!src/client/(store|index).js"
     ]
   },
   "keywords": [],
@@ -39,8 +45,10 @@
     "eslint-plugin-jest": "^21.18.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
+    "fetch-mock": "^7.0.0-alpha.6",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.4.2",
+    "node-fetch": "^2.2.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
@@ -55,6 +63,7 @@
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
+    "css-modules": "^0.3.0",
     "errorhandler": "^1.5.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",

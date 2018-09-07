@@ -9,7 +9,7 @@ export default class extends React.Component {
     initiateValidation: PropTypes.func.isRequired,
     handleLogOut: PropTypes.func.isRequired,
     resetInputs: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
+    authenticated: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
   }
 
@@ -51,7 +51,6 @@ export default class extends React.Component {
   }
 
   render() {
-    // const icon = this.props.loggedIn ? 'static/img/118-user-check.svg' : 'static/img/114-user.svg'
     return (
       <React.Fragment>
         { this.state.authOpen &&
@@ -61,7 +60,7 @@ export default class extends React.Component {
           <svg className="user" onClick={this.handleUserIconClick}>
             <use xlinkHref="/sprite.svg#icon-person" />
           </svg>
-          { this.props.loggedIn &&
+          { this.props.authenticated &&
             <svg className="user user--check" onClick={this.handleUserIconClick}>
               <use xlinkHref="/sprite.svg#icon-check" />
             </svg>
@@ -69,7 +68,7 @@ export default class extends React.Component {
           {this.state.authOpen &&
             <article className="user__auth" id="user-auth">
               <p className="user__escape" id="auth-escape" onClick={this.handleEscapeClick}>X</p>
-              {!this.props.loggedIn &&
+              {!this.props.authenticated &&
                 <div className="user__auth-box" id="auth-wrapper">
                   <article className="user__auth-type u-margin-top-small" id="type-selector">
                     <div id="sign-up" className={this.state.authType === 'sign up' ? 'user__type-button user__type-button--active' : 'user__type-button'} data-type="sign up" onClick={this.handleTypeClick}>Sign Up</div>
@@ -83,7 +82,7 @@ export default class extends React.Component {
                   }
                 </div>
               }
-              {this.props.loggedIn &&
+              {this.props.authenticated &&
                 <div id="username-wrapper">
                   <p className="user__text u-margin-top-medium" >You are logged in as {this.props.username}</p>
                   <button className="button button--nav u-margin-bottom-medium" onClick={this.handleLogOut}>Log Out</button>

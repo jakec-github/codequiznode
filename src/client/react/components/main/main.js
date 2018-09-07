@@ -33,7 +33,7 @@ export default function Main(props) {
   return (
     <Switch>
       <Route
-        path="/quiz/:id"
+        path="/:username/:quiz"
         exact
         component={quizProgress}
       />

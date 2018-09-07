@@ -1,27 +1,53 @@
 import 'babel-polyfill'
 
-import { put, takeEvery, all, select } from 'redux-saga/effects'
+import { put, takeEvery, all, select, call } from 'redux-saga/effects'
 
 import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ } from './reducers/main'
-import { INITIATE_LOGIN, COMPLETE_LOGIN, LOGOUT, INITIATE_SIGN_UP, COMPLETE_SIGN_UP, INITIATE_VALIDATION, ADD_SCORE } from './reducers/user'
+import {
+  INITIATE_LOGIN,
+  COMPLETE_LOGIN,
+  LOGOUT,
+  INITIATE_SIGN_UP,
+  COMPLETE_SIGN_UP,
+  INITIATE_VALIDATION,
+  ADD_SCORE,
+} from './reducers/user'
 import { INITIATE_SUBMIT, COMPLETE_SUBMIT } from './reducers/creator'
 import { SET_QUESTIONS } from './reducers/question'
 
 // Requires proper error handling
-function* getAllQuizzes() {
+export function* getAllQuizzes() {
   try {
-    const allQuizzes = yield fetch('/public/quiz/all')
-      .then(response => response.json())
-
+    const result = yield call(fetch, '/public/quiz/all')
+    const allQuizzes = yield call([result, 'json'])
+    console.log('------')
+    console.log(allQuizzes)
     yield put({ type: ADD_QUIZZES, allQuizzes })
+    return result.status
   } catch (error) {
-    console.log(error)
+    console.log('error', error)
+    return -1
   }
 }
 
+// Old version of AllQuizzes
+// function* getAllQuizzes() {
+//   try {
+//     const allQuizzes = yield fetch('/public/quiz/all')
+//       .then(response => response.json())
+//
+//     yield put({ type: ADD_QUIZZES, allQuizzes })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 function* getQuiz(action) {
+  console.log('getting')
+  console.log(action.username)
+  console.log(action.quizName)
   try {
-    const responseBody = yield fetch(`/public/quiz/${action.quizId}`)
+    const responseBody = yield fetch(`/public/${action.username}/${action.quizName}`)
       .then(response => response.json())
 
     console.log(responseBody)

@@ -37,12 +37,13 @@ router.get('/quiz/all', (req, res) => {
   Quiz.find()
     .then((records) => {
       records.forEach((record) => {
-        const { name, description, questions } = record
+        const { name, description, questions, creator } = record
         allQuizzes.push({
           id: record._id,
           name,
           description,
           length: questions.length,
+          creator,
         })
       })
       res.json(allQuizzes)
@@ -58,19 +59,31 @@ router.get('/quiz/:id', (req, res) => {
   })
     .then((record) => {
       const questionRequests = []
-      const questionSet = []
+      const unorderedQuestionSet = []
 
       record.questions.forEach((questionId) => {
         questionRequests.push(Question.findOne({
           _id: questionId,
         })
           .then((question) => {
-            questionSet.push(question)
+            unorderedQuestionSet.push(question)
           }))
       })
 
       Promise.all(questionRequests)
         .then(() => {
+          const questionSet = unorderedQuestionSet.sort((a, b) => {
+            const difficultyA = getDifficulty(a.correctReplies, a.incorrectReplies)
+            const difficultyB = getDifficulty(b.correctReplies, b.incorrectReplies)
+            if (difficultyB === Infinity) {
+              return -1
+            }
+            if (difficultyA === Infinity) {
+              return 1
+            }
+            return difficultyA - difficultyB
+          })
+
           res.json({
             quizData: record,
             questionSet,
@@ -78,5 +91,56 @@ router.get('/quiz/:id', (req, res) => {
         })
     })
 })
+
+router.get('/:username/:quiz', (req, res) => {
+  const { quiz, username } = req.params
+  const name = decodeURIComponent(quiz).replace(/_/g, ' ')
+  Quiz.findOne({
+    name,
+    creator: username,
+  })
+    .then((record) => {
+      const questionRequests = []
+      const unorderedQuestionSet = []
+
+      record.questions.forEach((questionId) => {
+        questionRequests.push(Question.findOne({
+          _id: questionId,
+        })
+          .then((question) => {
+            unorderedQuestionSet.push(question)
+          }))
+      })
+
+      Promise.all(questionRequests)
+        .then(() => {
+          const questionSet = unorderedQuestionSet.sort((a, b) => {
+            const difficultyA = getDifficulty(a.correctReplies, a.incorrectReplies)
+            const difficultyB = getDifficulty(b.correctReplies, b.incorrectReplies)
+            if (difficultyB === Infinity) {
+              return -1
+            }
+            if (difficultyA === Infinity) {
+              return 1
+            }
+            return difficultyA - difficultyB
+          })
+
+          res.json({
+            quizData: record,
+            questionSet,
+          })
+        })
+    })
+})
+
+function getDifficulty(correct, incorrect) {
+  if (!correct && !incorrect) {
+    return 0
+  } else if (!correct) {
+    return Infinity
+  }
+  return incorrect / correct
+}
 
 module.exports = router

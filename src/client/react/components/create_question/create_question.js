@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 export default class extends React.Component {
   static propTypes = {
-    updateState: PropTypes.func.isRequired,
     updateQuestionField: PropTypes.func.isRequired,
     updateDud: PropTypes.func.isRequired,
     addDud: PropTypes.func.isRequired,
@@ -11,14 +10,15 @@ export default class extends React.Component {
     updateCodeTab: PropTypes.func.isRequired,
     addCode: PropTypes.func.isRequired,
     creatorPosition: PropTypes.number.isRequired,
-    codes: PropTypes.arrayOf(PropTypes.object).isRequired,
-    code: PropTypes.number.isRequired,
-    duds: PropTypes.arrayOf(PropTypes.string).isRequired,
     questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   handleInputChange = ({ target }) => {
-    this.props.updateQuestionField(this.props.creatorPosition - 1, target.name, target.value)
+    this.props.updateQuestionField(
+      this.props.creatorPosition - 1,
+      target.name,
+      target.value,
+    )
   }
 
   handleAddCodeChange = ({ target }) => {
@@ -46,7 +46,11 @@ export default class extends React.Component {
 
   handleCodeKey = (event) => {
     const { updateCode, creatorPosition } = this.props
-    const { key, target, target: { value, selectionStart, selectionEnd } } = event
+    const {
+      key,
+      target,
+      target: { value, selectionStart, selectionEnd },
+    } = event
     if (key === 'Tab') {
       event.preventDefault()
       const newValue = `${value.substring(0, selectionStart)}\t${value.substring(selectionEnd)}`
@@ -104,7 +108,9 @@ export default class extends React.Component {
         />))
     })
     const tabsStyle = {
-      gridTemplateColumns: `repeat(${tabs.length < 3 ? tabs.length + 1 : tabs.length}, 1fr)`,
+      gridTemplateColumns: `repeat(${tabs.length < 3
+        ? tabs.length + 1
+        : tabs.length}, 1fr)`,
     }
 
     const progress = ((this.props.creatorPosition) / this.props.questions.length) * 100
@@ -120,7 +126,11 @@ export default class extends React.Component {
               { this.props.creatorPosition}/{this.props.questions.length}
             </p>
           </div>
-          <div className="question__progress-inner" id="current-progress" style={progressStyle} />
+          <div
+            className="question__progress-inner"
+            id="current-progress"
+            style={progressStyle}
+          />
         </div>
         <textarea
           name="question"

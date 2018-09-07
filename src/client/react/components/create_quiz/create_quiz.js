@@ -10,7 +10,11 @@ export default class extends React.Component {
   }
 
   handleInputChange = ({ target }) => {
-    this.props.updateQuizField(target.name, target.value)
+    const value = target.name === 'title'
+      ? target.value.replace(/_/g, '')
+      : target.value
+
+    this.props.updateQuizField(target.name, value)
   }
 
   handleTimerChange = ({ target }) => {

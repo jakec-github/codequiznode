@@ -16,7 +16,6 @@ export default class extends React.Component {
   }
 
   handleTabClick = ({ target: { dataset } }) => {
-    console.log(dataset.value)
     const newCode = parseInt(dataset.value, 10)
     if (newCode !== this.state.code) {
       this.setState({
@@ -27,33 +26,26 @@ export default class extends React.Component {
 
   render() {
     const thisQuestion = this.props.questionSet[this.props.questionNumber]
-    const codes = []
     const tabs = []
-    console.log(thisQuestion)
     for (let i = 0; i < thisQuestion.codes.length; i += 1) {
-      console.log(thisQuestion.codes[i].language)
-      console.log(`i now = ${i}`)
-      console.log(`this.state.code = ${this.state.code}`)
       tabs.push((
         <article
           onClick={this.handleTabClick}
-          className={i === this.state.code ? 'question__code-tab question__code-tab--selected' : 'question__code-tab question__code-tab--unselected'}
+          className={i === this.state.code
+            ? 'question__code-tab question__code-tab--selected'
+            : 'question__code-tab question__code-tab--unselected'}
           data-value={i.toString()}
           key={i.toString()}
         >
           {thisQuestion.codes[i].language}
         </article>
       ))
-      codes.push((
-        <article
-          id={`code-${i.toString()}`}
-          className="question__code-block"
-          key={i.toString()}
-        >
-          {thisQuestion.codes[i].contents}
-        </article>
-      ))
     }
+    const code = (
+      <article className="question__code-block">
+        {thisQuestion.codes[this.state.code].contents}
+      </article>
+    )
     const tabsStyle = {
       gridTemplateColumns: `repeat(${tabs.length}, 1fr)`,
     }
@@ -64,7 +56,7 @@ export default class extends React.Component {
         </div>
         <pre className="question__monospace" id="monospace">
           <code>
-            {codes[this.state.code]}
+            {code}
           </code>
         </pre>
       </article>

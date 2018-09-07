@@ -1,4 +1,3 @@
-
 export const LOGOUT = 'LOGOUT'
 const UPDATE_INPUT = 'UPDATE_INPUT'
 export const INITIATE_LOGIN = 'INITIATE_LOGIN'
@@ -21,7 +20,7 @@ export const userActionCreators = {
 
 const initialState = {
   username: '',
-  loggedIn: false,
+  authenticated: false,
   loginError: false,
   usernameInput: '',
   passwordInput: '',
@@ -39,7 +38,7 @@ export const user = (state = initialState, action) => {
     case COMPLETE_LOGIN:
       return {
         ...state,
-        loggedIn: true,
+        authenticated: true,
         username: action.username,
         usernameInput: '',
         passwordInput: '',
@@ -49,7 +48,7 @@ export const user = (state = initialState, action) => {
     case COMPLETE_SIGN_UP:
       return {
         ...state,
-        loggedIn: true,
+        authenticated: true,
         username: action.username,
         usernameInput: '',
         passwordInput: '',
@@ -58,7 +57,7 @@ export const user = (state = initialState, action) => {
     case LOGOUT:
       return {
         ...state,
-        loggedIn: false,
+        authenticated: false,
         username: '',
         scores: [],
       }
@@ -70,7 +69,6 @@ export const user = (state = initialState, action) => {
         confirmPasswordInput: '',
       }
     case ADD_SCORE:
-      // This won't work. Prior scores need to be removed. Better to get response from server
       return {
         ...state,
         scores: action.scores,

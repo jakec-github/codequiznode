@@ -29,15 +29,11 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
+    const { username, quiz } = this.props.match.params
     // console.log(this.props)
     // console.log(this.props.match.params.id)
-    this.props.loadQuiz(this.props.match.params.id)
-    // fetch(`/choosequiz/${this.props.quizId}`)
-    //   .then(data => data.json())
-    //   .then((data) => {
-    //     this.props.setQuestions(data.questionSet)
-    //     this.setState({ quizData: data.quiz })
-    //   })
+    console.log(username, quiz)
+    this.props.loadQuiz(username, quiz)
   }
 
   handleStartClick = (event) => {
