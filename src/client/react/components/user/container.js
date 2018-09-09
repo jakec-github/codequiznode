@@ -7,6 +7,7 @@ import User from './user'
 const mapStateToProps = state => ({
   authenticated: state.user.authenticated,
   username: state.user.username,
+  loadingAuth: state.user.loadingAuth,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators(userActionCreators, dispatch)

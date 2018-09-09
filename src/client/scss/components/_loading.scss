@@ -1,0 +1,9 @@
+.loading {
+  width: 100%;
+  position: relative;
+
+  &__item {
+    @include absCentre;
+    font-size: 2rem;
+  }
+}

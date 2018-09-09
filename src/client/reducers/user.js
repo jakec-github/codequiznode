@@ -26,6 +26,7 @@ const initialState = {
   passwordInput: '',
   confirmPasswordInput: '',
   scores: [],
+  loadingAuth: false,
 }
 
 export const user = (state = initialState, action) => {
@@ -34,6 +35,11 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         [action.field]: action.text,
+      }
+    case INITIATE_LOGIN:
+      return {
+        ...state,
+        loadingAuth: true,
       }
     case COMPLETE_LOGIN:
       return {
@@ -44,6 +50,12 @@ export const user = (state = initialState, action) => {
         passwordInput: '',
         confirmPasswordInput: '',
         scores: action.scores,
+        loadingAuth: false,
+      }
+    case INITIATE_SIGN_UP:
+      return {
+        ...state,
+        loadingAuth: true,
       }
     case COMPLETE_SIGN_UP:
       return {
@@ -53,6 +65,7 @@ export const user = (state = initialState, action) => {
         usernameInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
+        loadingAuth: false,
       }
     case LOGOUT:
       return {

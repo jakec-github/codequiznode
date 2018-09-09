@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Loading from '../loading/loading'
+
 export default class extends React.Component {
   static propTypes = {
     loadQuizzes: PropTypes.func.isRequired,
@@ -73,7 +75,12 @@ export default class extends React.Component {
 
     return (
       <div className="home">
-        {quizzes}
+        { this.props.loadingAllQuizzes &&
+          <Loading />
+        }
+        { !this.props.loadingAllQuizzes &&
+          quizzes
+        }
         { this.props.authenticated &&
           <article className="button button--nav" onClick={this.handleCreateClick}>Make a quiz</article>
         }

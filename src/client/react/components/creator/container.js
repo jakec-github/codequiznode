@@ -12,6 +12,7 @@ const mapStateToProps = state => ({
   quiz: state.creator.quiz,
   submitted: state.creator.submitted,
   newQuiz: state.creator.newQuiz,
+  sendingQuiz: state.creator.sendingQuiz,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators(

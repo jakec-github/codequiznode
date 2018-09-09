@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Loading from '../loading/loading'
+
 
 export default class extends React.Component {
   static propTypes = {
@@ -9,7 +11,7 @@ export default class extends React.Component {
     resetQuiz: PropTypes.func.isRequired,
     loadQuiz: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
-    // quizId: PropTypes.number.isRequired,
+    loadingQuiz: PropTypes.bool.isRequired,
     quizData: PropTypes.shape({
       name: PropTypes.string,
       description: PropTypes.string,
@@ -32,6 +34,7 @@ export default class extends React.Component {
     const { username, quiz } = this.props.match.params
     // console.log(this.props)
     // console.log(this.props.match.params.id)
+    console.log('Loading quiz info')
     console.log(username, quiz)
     this.props.loadQuiz(username, quiz)
   }
@@ -43,14 +46,29 @@ export default class extends React.Component {
 
   render() {
     console.log('rendering start')
+    console.log('Loading', this.props.loadingQuiz)
+    // return (
+    //   <div>
+    //     { this.props.loadingQuiz &&
+    //       <Loading />
+    //       }
+    //   </div>
+    // )
     return (
       <div className="start">
-        <h1 className="start__title">{this.props.quizData.name}</h1>
-        <p className="start__description">{this.props.quizData.description}</p>
-        { this.props.quizData.timeLimit > 0 &&
-          <p className="start__timer">You have {this.props.quizData.timeLimit / 60} minutes</p>
+        { this.props.loadingQuiz &&
+          <Loading />
         }
-        <div id="start-button" className="button button--nav" onClick={this.handleStartClick}>Start</div>
+        { !this.props.loadingQuiz &&
+          <React.Fragment>
+            <h1 className="start__title">{this.props.quizData.name}</h1>
+            <p className="start__description">{this.props.quizData.description}</p>
+            { this.props.quizData.timeLimit > 0 &&
+              <p className="start__timer">You have {this.props.quizData.timeLimit / 60} minutes</p>
+            }
+            <div id="start-button" className="button button--nav" onClick={this.handleStartClick}>Start</div>
+          </React.Fragment>
+        }
       </div>
     )
   }

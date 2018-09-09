@@ -8,6 +8,7 @@ import Start from './start'
 const mapStateToProps = state => ({
   quizId: state.question.quizId,
   quizData: state.main.quizData,
+  loadingQuiz: state.main.loadingQuiz,
 })
 
 // Should swap out Object.assign

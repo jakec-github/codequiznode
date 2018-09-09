@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import CreateQuiz from '../create_quiz/container'
 import CreateQuestion from '../create_question/container'
+import Loading from '../loading/loading'
 
 export default class extends React.Component {
   static propTypes = {
@@ -26,6 +27,7 @@ export default class extends React.Component {
       push: PropTypes.func,
     }).isRequired,
     newQuiz: PropTypes.string.isRequired,
+    sendingQuiz: PropTypes.bool.isRequired,
   }
   constructor(props) {
     super(props)
@@ -134,6 +136,15 @@ export default class extends React.Component {
     const isValid = this.checkQuiz()
     if (this.props.creatorPosition < 1) {
       console.log('Should work')
+    }
+    if (this.props.sendingQuiz) {
+      return (
+        <div className="creator">
+          <Loading
+            text="Uploading..."
+          />
+        </div>
+      )
     }
     return (
       <div className="creator">

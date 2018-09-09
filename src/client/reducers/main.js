@@ -61,14 +61,14 @@ export const main = (state = initialState, action) => {
     case LOAD_QUIZ:
       return {
         ...state,
-        loadQuiz: true,
+        loadingQuiz: true,
       }
     // I don't think this action is well named
     case ADD_QUIZ:
       return {
         ...state,
         quizData: action.quizData,
-        loadQuiz: false,
+        loadingQuiz: false,
       }
     case UPDATE_QUIZ_PROGRESS:
       return {

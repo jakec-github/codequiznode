@@ -44,6 +44,7 @@ const initialState = {
     description: '',
     timer: 0,
   },
+  sendingQuiz: false,
   submitted: false,
   newQuiz: '',
 }
@@ -194,6 +195,11 @@ export const creator = (state = initialState, action) => {
           timer: 0,
         },
       }
+    case INITIATE_SUBMIT:
+      return {
+        ...state,
+        sendingQuiz: true,
+      }
     case COMPLETE_SUBMIT:
       return {
         ...state,
@@ -204,6 +210,7 @@ export const creator = (state = initialState, action) => {
           description: '',
           timer: 0,
         },
+        sendingQuiz: false,
         submitted: true,
         newQuiz: action.newQuiz,
       }

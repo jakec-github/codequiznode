@@ -37,6 +37,9 @@ if (!isProduction) {
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+// Adds latency for testing purposes
+// app.use((req, res, next) => { setTimeout(next, 1500) })
+
 app.use('/auth', authRoutes)
 app.use('/public', publicRoutes)
 app.use('/private', privateRoutes)
