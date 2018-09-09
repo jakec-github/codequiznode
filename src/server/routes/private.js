@@ -29,7 +29,6 @@ router.post('/score', auth.required, (req, res) => {
 })
 
 // Further validation required
-// Also need to make sure script injection isn't possible by exploiting this route
 router.post('/quiz/new', auth.required, (req, res) => {
   const { title, description, timer, questions } = req.body
   const { username } = req.payload
@@ -49,24 +48,36 @@ router.post('/quiz/new', auth.required, (req, res) => {
   ) {
     return res.sendStatus(400) // Must return here to prevent db save
   }
-  console.log('Passed validation')
-  const newQuestions = []
-
-  questions.forEach(({ question, codes, answer, duds, explanation }) => {
-    // Need to add validation for each question in this loop
-    const newQuestion = {
-      question,
-      answer,
-      codes,
-      duds: duds.map(dud => ({ text: dud })),
-      explanation,
-      correctReplies: 0,
-      incorrectReplies: 0,
-    }
-    return newQuestions.push(newQuestion)
+  Quiz.findOne({
+    name: title,
+    creator: username,
   })
+    .then((record) => {
+      console.log('record', record)
+      if (record !== null) {
+        // return Promise.reject('Quiz titles must be unique')
+        throw new Error('Quiz titles must be unique')
+      }
+      console.log('Passed validation')
+    })
+    .then(() => {
+      const newQuestions = []
+      questions.forEach(({ question, codes, answer, duds, explanation }) => {
+        // Need to add validation for each question in this loop
+        const newQuestion = {
+          question,
+          answer,
+          codes,
+          duds: duds.map(dud => ({ text: dud })),
+          explanation,
+          correctReplies: 0,
+          incorrectReplies: 0,
+        }
+        return newQuestions.push(newQuestion)
+      })
 
-  Question.insertMany(newQuestions)
+      return Question.insertMany(newQuestions)
+    })
     .then((savedQuestions) => {
       const newQuiz = new Quiz({
         name: title,
@@ -89,6 +100,15 @@ router.post('/quiz/new', auth.required, (req, res) => {
         })
     })
     .catch((error) => {
+      console.log(error.toString())
+      if (error.toString() === 'Error: Quiz titles must be unique') {
+        console.log('returning')
+        res.status(400)
+        return res.json({
+          error: 'Quiz must have new name',
+        })
+        // return res.sendStatus(400)
+      }
       console.log(error)
     })
 })
