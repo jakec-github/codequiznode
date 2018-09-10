@@ -20,7 +20,7 @@ export default class extends React.Component {
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
       timer: PropTypes.number.isRequired,
-      questions: PropTypes.array.isRequired,
+      // questions: PropTypes.array.isRequired,
     }).isRequired,
     submitted: PropTypes.bool.isRequired,
     history: PropTypes.shape({

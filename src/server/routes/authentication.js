@@ -86,7 +86,6 @@ router.post('/login', auth.optional, (req, res, next) => {
     if (error) {
       return next(error)
     }
-
     if (passportUser) {
       const newUser = passportUser
       newUser.token = passportUser.generateJWT()
@@ -97,7 +96,10 @@ router.post('/login', auth.optional, (req, res, next) => {
       })
     }
     // May need to remove res
-    return res.status(400).info
+    res.status(401)
+    return res.json({
+      error: 'Incorrect username or password',
+    })
   })(req, res, next)
 })
 

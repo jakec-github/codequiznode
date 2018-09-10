@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   allQuizzes: state.main.allQuizzes,
   loadingAllQuizzes: state.main.loadingAllQuizzes,
   scores: state.user.scores,
+  errors: state.main.errors,
 })
 
 // SHould swap out use of object.assign

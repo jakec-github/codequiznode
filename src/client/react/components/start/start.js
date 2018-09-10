@@ -2,16 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Loading from '../loading/loading'
+import FetchError from '../fetch_error/fetch_error'
 
 
 export default class extends React.Component {
   static propTypes = {
-    // changeLocation: PropTypes.func.isRequired,
-    // setQuestions: PropTypes.func.isRequired,
     resetQuiz: PropTypes.func.isRequired,
     loadQuiz: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
     loadingQuiz: PropTypes.bool.isRequired,
+    errors: PropTypes.arrayOf(PropTypes.object).isRequired,
     quizData: PropTypes.shape({
       name: PropTypes.string,
       description: PropTypes.string,
@@ -31,42 +31,64 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
-    const { username, quiz } = this.props.match.params
-    // console.log(this.props)
-    // console.log(this.props.match.params.id)
-    console.log('Loading quiz info')
-    console.log(username, quiz)
-    this.props.loadQuiz(username, quiz)
+    this.getQuiz()
+  }
+
+  getQuiz = () => {
+    const { loadQuiz, match: { params: { username, quiz } } } = this.props
+    loadQuiz(username, quiz)
   }
 
   handleStartClick = (event) => {
-    this.props.resetQuiz()
-    this.props.updateQuizProgress('question')
+    const { resetQuiz, updateQuizProgress } = this.props
+    resetQuiz()
+    updateQuizProgress('question')
   }
 
   render() {
+    const {
+      loadQuiz,
+      loadingQuiz,
+      quizData,
+      errors, match: { params: { username, quiz } },
+    } = this.props
     console.log('rendering start')
-    console.log('Loading', this.props.loadingQuiz)
-    // return (
-    //   <div>
-    //     { this.props.loadingQuiz &&
-    //       <Loading />
-    //       }
-    //   </div>
-    // )
+    console.log('Loading', loadingQuiz)
+
+    let errorMessage
+    const isError = errors.some((error) => {
+      if (error.connection === 'quiz') {
+        errorMessage = error.message
+        return true
+      }
+      return false
+    })
+
     return (
       <div className="start">
-        { this.props.loadingQuiz &&
+        { loadingQuiz &&
           <Loading />
         }
-        { !this.props.loadingQuiz &&
+        { (isError && !loadingQuiz) &&
+          <FetchError
+            text={errorMessage}
+            clickable={{ clickable: true, func: this.getQuiz }}
+          />
+        }
+        { (!loadingQuiz && !isError) &&
           <React.Fragment>
-            <h1 className="start__title">{this.props.quizData.name}</h1>
-            <p className="start__description">{this.props.quizData.description}</p>
-            { this.props.quizData.timeLimit > 0 &&
-              <p className="start__timer">You have {this.props.quizData.timeLimit / 60} minutes</p>
+            <h1 className="start__title">{quizData.name}</h1>
+            <p className="start__description">{quizData.description}</p>
+            { quizData.timeLimit > 0 &&
+              <p className="start__timer">You have {quizData.timeLimit / 60} minutes</p>
             }
-            <div id="start-button" className="button button--nav" onClick={this.handleStartClick}>Start</div>
+            <div
+              id="start-button"
+              className="button button--nav"
+              onClick={this.handleStartClick}
+            >
+              Start
+            </div>
           </React.Fragment>
         }
       </div>

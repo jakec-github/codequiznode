@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
   quizId: state.question.quizId,
   quizData: state.main.quizData,
   loadingQuiz: state.main.loadingQuiz,
+  errors: state.main.errors,
 })
 
 // Should swap out Object.assign

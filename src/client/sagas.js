@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import { put, takeEvery, all, select, call } from 'redux-saga/effects'
 
-import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ } from './reducers/main'
+import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ, ERROR } from './reducers/main'
 import {
   INITIATE_LOGIN,
   COMPLETE_LOGIN,
@@ -11,6 +11,7 @@ import {
   COMPLETE_SIGN_UP,
   INITIATE_VALIDATION,
   ADD_SCORE,
+  USER_ERROR,
 } from './reducers/user'
 import { INITIATE_SUBMIT, COMPLETE_SUBMIT } from './reducers/creator'
 import { SET_QUESTIONS } from './reducers/question'
@@ -25,7 +26,12 @@ export function* getAllQuizzes() {
     yield put({ type: ADD_QUIZZES, allQuizzes })
     return result.status
   } catch (error) {
-    console.log('error', error)
+    yield put({
+      type: ERROR,
+      connection: 'allQuizzes',
+      message: 'Failed to load quizzes!',
+      cancelLoad: 'loadingAllQuizzes',
+    })
     return -1
   }
 }
@@ -56,6 +62,12 @@ function* getQuiz(action) {
     yield put({ type: SET_QUESTIONS, questionSet: responseBody.questionSet })
   } catch (error) {
     console.log(error)
+    yield put({
+      type: ERROR,
+      connection: 'quiz',
+      message: 'Failed to load quiz!',
+      cancelLoad: 'loadingQuiz',
+    })
   }
 }
 
@@ -79,9 +91,16 @@ function* login() {
       },
       body: JSON.stringify(data),
     })
+      .then((response) => {
+        console.log('-----')
+        if (response.status === 401) {
+          console.log('throwing')
+          throw new Error('Invalid auth')
+        }
+        console.log('No error')
+        return response
+      })
       .then(response => response.json())
-
-    console.log(user)
     const { token } = user.user
     const { scores } = user
     console.log('-----------')
@@ -89,6 +108,20 @@ function* login() {
     localStorage.setItem('jwt', token)
     yield put({ type: COMPLETE_LOGIN, username, scores })
   } catch (error) {
+    if (error.toString() === 'Error: Invalid auth') {
+      console.log('Invalid detected')
+      yield put({
+        type: USER_ERROR,
+        errorType: 'invalidLogin',
+        message: 'Invalid username or password',
+      })
+    } else {
+      yield put({
+        type: USER_ERROR,
+        errorType: 'loginError',
+        message: 'Login failed!',
+      })
+    }
     console.log(error)
     // yield put({ type: COMPLETE_LOGIN })
   }
@@ -141,8 +174,12 @@ function* signUp() {
     localStorage.setItem('jwt', token)
     yield put({ type: COMPLETE_SIGN_UP, username })
   } catch (error) {
+    yield put({
+      type: USER_ERROR,
+      errorType: 'signupError',
+      message: 'Signup failed!',
+    })
     console.log(error)
-    // yield put({ type: COMPLETE_LOGIN })
   }
 }
 

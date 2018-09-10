@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Loading from '../loading/loading'
+import FetchError from '../fetch_error/fetch_error'
 
 export default class extends React.Component {
   static propTypes = {
@@ -10,6 +11,7 @@ export default class extends React.Component {
     authenticated: PropTypes.bool.isRequired,
     allQuizzes: PropTypes.arrayOf(PropTypes.object).isRequired,
     loadingAllQuizzes: PropTypes.bool.isRequired,
+    errors: PropTypes.arrayOf(PropTypes.object).isRequired,
     scores: PropTypes.arrayOf(PropTypes.object).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
@@ -36,8 +38,8 @@ export default class extends React.Component {
 
   render() {
     const quizzes = []
-    const { scores } = this.props
-    this.props.allQuizzes.forEach((quiz, i) => {
+    const { scores, errors, loadingAllQuizzes, authenticated, allQuizzes, loadQuizzes } = this.props
+    allQuizzes.forEach((quiz, i) => {
       let score = false
       for (let j = 0; j < scores.length; j += 1) {
         if (scores[j].quiz === quiz.id) {
@@ -72,16 +74,30 @@ export default class extends React.Component {
         ))
       }
     })
+    let errorMessage
+    const isError = errors.some((error) => {
+      if (error.connection === 'allQuizzes') {
+        errorMessage = error.message
+        return true
+      }
+      return false
+    })
 
     return (
       <div className="home">
-        { this.props.loadingAllQuizzes &&
+        { loadingAllQuizzes &&
           <Loading />
         }
-        { !this.props.loadingAllQuizzes &&
+        { (isError && !loadingAllQuizzes) &&
+          <FetchError
+            text={errorMessage}
+            clickable={{ clickable: true, func: loadQuizzes }}
+          />
+        }
+        { (!loadingAllQuizzes && !isError) &&
           quizzes
         }
-        { this.props.authenticated &&
+        { authenticated &&
           <article className="button button--nav" onClick={this.handleCreateClick}>Make a quiz</article>
         }
       </div>

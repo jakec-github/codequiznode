@@ -90,14 +90,14 @@ export default class extends React.Component {
         </div>
         { valid &&
           <input
-            className="user__submit button button--nav  u-margin-bottom-medium"
+            className="user__submit button button--nav"
             name="register"
             onClick={this.handleSubmitClick}
             type="submit"
           />
         }
         { !valid &&
-          <div className="error u-margin-bottom-medium" id="auth-error">
+          <div className="error u-margin-top-small" id="auth-error">
             { !usernameLength &&
               <p>Username must be between 6 and 32 lowercase alphanumeric characters</p>
             }

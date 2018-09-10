@@ -8,6 +8,10 @@ const mapStateToProps = state => ({
   authenticated: state.user.authenticated,
   username: state.user.username,
   loadingAuth: state.user.loadingAuth,
+  loginError: state.user.loginError,
+  invalidLogin: state.user.invalidLogin,
+  signupError: state.user.signupError,
+  errorMessage: state.user.errorMessage,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators(userActionCreators, dispatch)

@@ -28,6 +28,7 @@
     top: 7rem;
     right: 3rem;
     box-shadow: $card-shadow;
+    padding-bottom: 4rem;
 
     @include respond(tab-port) {
       width: 50vw;

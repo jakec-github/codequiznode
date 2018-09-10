@@ -1,0 +1,21 @@
+.fetch-error {
+  width: 100%;
+  position: relative;
+
+  &__item {
+    @include absCentre;
+    font-size: 2rem;
+    background-color: $colour-incorrect;
+    padding: .5rem 1rem;
+    border-radius: $card-radius;
+    
+    &--clickable {
+      cursor: pointer;
+    }
+  }
+
+  &__click {
+    font-size: 1.2rem;
+    margin: .4rem;
+  }
+}

@@ -7,6 +7,7 @@ export const COMPLETE_SIGN_UP = 'COMPLETE_SIGN_UP'
 export const INITIATE_VALIDATION = 'INITIATE_VALIDATION'
 const RESET_INPUTS = 'RESET_INPUTS'
 export const ADD_SCORE = 'ADD_SCORE'
+export const USER_ERROR = 'USER_ERROR'
 
 export const userActionCreators = {
   updateInput: (field, text) => ({ type: UPDATE_INPUT, field, text }),
@@ -21,12 +22,15 @@ export const userActionCreators = {
 const initialState = {
   username: '',
   authenticated: false,
-  loginError: false,
   usernameInput: '',
   passwordInput: '',
   confirmPasswordInput: '',
   scores: [],
   loadingAuth: false,
+  loginError: false,
+  signupError: false,
+  invalidLogin: false,
+  errorMessage: '',
 }
 
 export const user = (state = initialState, action) => {
@@ -51,6 +55,9 @@ export const user = (state = initialState, action) => {
         confirmPasswordInput: '',
         scores: action.scores,
         loadingAuth: false,
+        loginError: false,
+        invalidLogin: false,
+        errorMessage: '',
       }
     case INITIATE_SIGN_UP:
       return {
@@ -65,7 +72,8 @@ export const user = (state = initialState, action) => {
         usernameInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
-        loadingAuth: false,
+        signupError: false,
+        errorMessage: '',
       }
     case LOGOUT:
       return {
@@ -80,11 +88,22 @@ export const user = (state = initialState, action) => {
         usernameInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
+        loginError: false,
+        signupError: false,
+        invalidLogin: false,
+        errorMessage: '',
       }
     case ADD_SCORE:
       return {
         ...state,
         scores: action.scores,
+      }
+    case USER_ERROR:
+      return {
+        ...state,
+        loadingAuth: false,
+        [action.errorType]: true,
+        errorMessage: action.message,
       }
     default:
       return state

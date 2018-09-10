@@ -5,6 +5,7 @@ export const ADD_QUIZZES = 'ADD_QUIZZES'
 export const LOAD_QUIZ = 'LOAD_QUIZ'
 export const ADD_QUIZ = 'ADD_QUIZ'
 export const UPDATE_QUIZ_PROGRESS = 'UPDATE_QUIZ_PROGRESS'
+export const ERROR = 'ERROR'
 
 export const mainActionCreators = {
   changeLocation: location => ({ type: CHANGE_LOCATION, location }),
@@ -33,6 +34,7 @@ const initialState = {
     __v: 0,
   },
   loadingQuiz: false,
+  errors: [],
 }
 
 export const main = (state = initialState, action) => {
@@ -57,6 +59,7 @@ export const main = (state = initialState, action) => {
         ...state,
         allQuizzes: action.allQuizzes,
         loadingAllQuizzes: false,
+        errors: state.errors.filter(error => error.connection !== 'allQuizzes'),
       }
     case LOAD_QUIZ:
       return {
@@ -69,11 +72,24 @@ export const main = (state = initialState, action) => {
         ...state,
         quizData: action.quizData,
         loadingQuiz: false,
+        errors: state.errors.filter(error => error.connection !== 'quiz'),
       }
     case UPDATE_QUIZ_PROGRESS:
       return {
         ...state,
         quizProgress: action.quizProgress,
+      }
+    case ERROR:
+      return {
+        ...state,
+        [action.cancelLoad]: false,
+        errors: [
+          ...state.errors,
+          {
+            connection: action.connection,
+            message: action.message,
+          },
+        ],
       }
     default:
       return state

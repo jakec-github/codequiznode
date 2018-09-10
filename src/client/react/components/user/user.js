@@ -4,15 +4,22 @@ import PropTypes from 'prop-types'
 import SignUp from '../signup/container'
 import Login from '../login/container'
 import Loading from '../loading/loading'
+import FetchError from '../fetch_error/fetch_error'
 
 export default class extends React.Component {
   static propTypes = {
+    initiateSignUp: PropTypes.func.isRequired,
+    initiateLogin: PropTypes.func.isRequired,
     initiateValidation: PropTypes.func.isRequired,
     handleLogOut: PropTypes.func.isRequired,
     resetInputs: PropTypes.func.isRequired,
     authenticated: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
     loadingAuth: PropTypes.bool.isRequired,
+    loginError: PropTypes.bool.isRequired,
+    invalidLogin: PropTypes.bool.isRequired,
+    signupError: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -33,19 +40,20 @@ export default class extends React.Component {
     this.setState({ authOpen: !this.state.authOpen })
   }
 
-  handleEscapeClick = () => {
+  handleEscapeClick = (event) => {
+    event.stopPropagation()
     this.setState({
       authOpen: false,
     })
     this.props.resetInputs()
   }
 
-  handleTypeClick = (event) => {
-    this.setState({ authType: event.target.dataset.type })
+  handleTypeClick = ({ target }) => {
+    this.setState({ authType: target.dataset.type })
   }
 
-  handleInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value.replace(' ', '') })
+  handleInputChange = ({ target }) => {
+    this.setState({ [target.name]: target.value.replace(' ', '') })
   }
 
   handleLogOut = () => {
@@ -53,51 +61,126 @@ export default class extends React.Component {
   }
 
   render() {
+    const { authOpen, authType } = this.state
+    const {
+      initiateSignUp,
+      initiateLogin,
+      authenticated,
+      loadingAuth,
+      username,
+      loginError,
+      invalidLogin,
+      signupError,
+      errorMessage,
+    } = this.props
+
     return (
       <React.Fragment>
-        { this.state.authOpen &&
-          <div className="u-full-screen u-cover" onClick={this.handleEscapeClick} />
+        { authOpen &&
+          <div
+            className="u-full-screen u-cover"
+            onClick={this.handleEscapeClick}
+          />
         }
         <div className="user" id="react-wrapper">
           <svg className="user" onClick={this.handleUserIconClick}>
             <use xlinkHref="/sprite.svg#icon-person" />
           </svg>
-          { this.props.authenticated &&
-            <svg className="user user--check" onClick={this.handleUserIconClick}>
+          { authenticated &&
+            <svg
+              className="user user--check"
+              onClick={this.handleUserIconClick}
+            >
               <use xlinkHref="/sprite.svg#icon-check" />
             </svg>
           }
-          {this.state.authOpen &&
+          {authOpen &&
             <article className="user__auth" id="user-auth">
-              <p className="user__escape" id="auth-escape" onClick={this.handleEscapeClick}>X</p>
-              { this.props.loadingAuth &&
+              <p
+                className="user__escape"
+                id="auth-escape"
+                onClick={this.handleEscapeClick}
+              >
+                X
+              </p>
+              { loadingAuth &&
                 <Loading
                   height={23}
                 />
               }
-              { !this.props.loadingAuth &&
+              { ((loginError || signupError) && !loadingAuth) &&
+                <FetchError
+                  height={23}
+                  text={errorMessage}
+                  clickable={{
+                    clickable: true,
+                    func: loginError
+                      ? () => initiateLogin()
+                      : () => initiateSignUp(),
+                  }}
+                />
+              }
+              { (!loadingAuth && !loginError && !signupError) &&
                 <React.Fragment>
-                  {!this.props.authenticated &&
+                  {!authenticated &&
                     <div className="user__auth-box" id="auth-wrapper">
-                      <article className="user__auth-type u-margin-top-small" id="type-selector">
-                        <div id="sign-up" className={this.state.authType === 'sign up' ? 'user__type-button user__type-button--active' : 'user__type-button'} data-type="sign up" onClick={this.handleTypeClick}>Sign Up</div>
-                        <div id="login" className={this.state.authType === 'login' ? 'user__type-button user__type-button--active' : 'user__type-button'} data-type="login" onClick={this.handleTypeClick}>Login</div>
+                      <article
+                        className="user__auth-type u-margin-top-small"
+                        id="type-selector"
+                      >
+                        <div
+                          id="sign-up"
+                          className={
+                            authType === 'sign up'
+                              ? 'user__type-button user__type-button--active'
+                              : 'user__type-button'
+                            }
+                          data-type="sign up"
+                          onClick={this.handleTypeClick}
+                        >
+                          Sign Up
+                        </div>
+                        <div
+                          id="login"
+                          className={
+                            authType === 'login'
+                              ? 'user__type-button user__type-button--active'
+                              : 'user__type-button'
+                            }
+                          data-type="login"
+                          onClick={this.handleTypeClick}
+                        >
+                          Login
+                        </div>
                       </article>
-                      {this.state.authType === 'sign up' &&
+                      {authType === 'sign up' &&
                         <SignUp />
                       }
-                      {this.state.authType === 'login' &&
+                      {authType === 'login' &&
                         <Login />
                       }
                     </div>
                   }
-                  {this.props.authenticated &&
+                  {authenticated &&
                     <div id="username-wrapper">
-                      <p className="user__text u-margin-top-medium" >You are logged in as {this.props.username}</p>
-                      <button className="button button--nav u-margin-bottom-medium" onClick={this.handleLogOut}>Log Out</button>
+                      <p className="user__text u-margin-top-medium" >
+                        You are logged in as {username}
+                      </p>
+                      <button
+                        className="button button--nav u-margin-bottom-medium"
+                        onClick={this.handleLogOut}
+                      >
+                        Log Out
+                      </button>
                     </div>
                   }
                 </React.Fragment>
+              }
+              { (invalidLogin && !loadingAuth && !loginError && !signupError) &&
+                <FetchError
+                  height={13}
+                  text={errorMessage}
+                />
               }
             </article>
           }

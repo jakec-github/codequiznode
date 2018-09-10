@@ -103,11 +103,11 @@
     }
 
     &--incorrect {
-      background-color: #FF6666;
+      background-color: $colour-incorrect;
     }
 
     &--correct {
-      background-color: #77DD77;
+      background-color: $colour-correct;
     }
 
     &--explanation {
