@@ -6,15 +6,11 @@ Quiz.propTypes = {
   creator: PropTypes.string.isRequired,
   owner: PropTypes.bool.isRequired,
   favourite: PropTypes.bool.isRequired,
-  score: PropTypes.number,
+  score: PropTypes.number.isRequired,
 }
 
-Quiz.defaultProps = {
-  score: -1,
-}
 
 export default function Quiz({ name, creator, owner, score, favourite }) {
-
   return (
     <div className="quiz">
       <p className="quiz__name">

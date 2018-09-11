@@ -14,7 +14,8 @@ router.post('/score', auth.required, (req, res) => {
 
   User.findOne({ username })
     .then((record) => {
-      const index = record.scores.findIndex(oldScore => oldScore.quiz.toString() === score.quiz)
+      const index = record.scores
+        .findIndex(oldScore => oldScore.quiz.toString() === score.quiz)
       if (index > -1) {
         record.scores[index].remove()
       }
@@ -25,6 +26,49 @@ router.post('/score', auth.required, (req, res) => {
         })
         .catch((error) => {
         })
+    })
+})
+
+router.post('/favourite', auth.required, (req, res) => {
+  const { quiz, add } = req.body
+  const { username } = req.payload
+  User.findOne({ username })
+    .then((record) => {
+      if (add) {
+        const alreadyFavourite = record.favourites
+          .some(favourite => favourite.toString() === quiz)
+        if (alreadyFavourite) {
+          console.log('ALready favourited')
+          // handle response
+        } else {
+          record.favourites.push(quiz)
+          record.save()
+            .then(() => {
+              res.sendStatus(200)
+            })
+            .catch((error) => {
+              console.log(error)
+              // handle response
+            })
+        }
+      } else {
+        const index = record.favourites
+          .findIndex(favourite => favourite.toString() === quiz)
+        if (index > -1) {
+          record.favourites.remove(quiz)
+          record.save()
+            .then(() => {
+              res.sendStatus(200)
+            })
+            .catch((error) => {
+              console.log(error)
+              // handle response
+            })
+        } else {
+          console.log('Not favourite')
+          // handle response
+        }
+      }
     })
 })
 

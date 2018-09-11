@@ -52,11 +52,11 @@ export default class extends React.Component {
       username } = this.props
     allQuizzes.forEach((quiz, i) => {
       const totalScore = scores.filter(score => score.quiz === quiz.id)
-      console.log(favourites)
       // const favourite = favourites.some(favourite => )
       const percentScore = totalScore.length
         ? Math.floor((totalScore[0].score / quiz.length) * 100)
         : -1
+      const favourite = favourites.includes(quiz.id)
       const owner = quiz.creator === username
       quizzes.push((
         <Quiz
@@ -64,6 +64,7 @@ export default class extends React.Component {
           creator={quiz.creator}
           owner={owner}
           score={percentScore}
+          favourite={favourite}
           key={i.toString()}
         />
       ))
