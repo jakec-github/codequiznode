@@ -33,6 +33,7 @@ const UserSchema = new Schema({
   hash: String,
   salt: String,
   quizzes: [{ type: Schema.Types.ObjectId, ref: 'Quiz' }],
+  favourites: [{ type: Schema.Types.ObjectId, ref: 'Quiz' }],
   scores: [ScoreSchema],
 })
 

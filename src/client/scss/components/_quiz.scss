@@ -1,0 +1,48 @@
+.quiz {
+  background-color: $colour-highlight;
+  border-radius: .3rem;
+  cursor: pointer;
+  text-align: left;
+  padding: .5rem 2rem;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  &__name {
+    font-size: 2rem;
+    margin-top: .5rem;
+  }
+
+  &__creator {
+    font-size: 1.2rem;
+  }
+
+  &__score {
+    position: absolute;
+    top: 60%;
+    right: 5%;
+    transform: translateY(-50%);
+    background-color: $colour-neutral;
+    border-radius: 50%;
+    height: 4.5rem;
+    width: 4.5rem;
+    text-align: center;
+    line-height: 275%;
+    font-size: 1.6rem;
+  }
+
+  &__options {
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+    display: flex;
+  }
+
+  &__icon {
+    fill: white;
+    height: 2rem;
+    width: 2rem;
+  }
+}

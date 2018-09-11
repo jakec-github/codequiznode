@@ -87,12 +87,13 @@ router.post('/login', auth.optional, (req, res, next) => {
       return next(error)
     }
     if (passportUser) {
-      const newUser = passportUser
-      newUser.token = passportUser.generateJWT()
+      const validUser = passportUser
+      validUser.token = passportUser.generateJWT()
 
       return res.json({
-        user: newUser.toAuthJSON(),
-        scores: newUser.scores,
+        user: validUser.toAuthJSON(),
+        scores: validUser.scores,
+        favourites: validUser.favourites,
       })
     }
     // May need to remove res
@@ -116,6 +117,7 @@ router.get('/validate', auth.required, (req, res, next) => {
       return res.json({
         user: user.toAuthJSON(),
         scores: user.scores,
+        favourites: user.favourites,
       })
     })
 })

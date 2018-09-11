@@ -102,11 +102,11 @@ function* login() {
       })
       .then(response => response.json())
     const { token } = user.user
-    const { scores } = user
+    const { scores, favourites } = user
     console.log('-----------')
     console.log(scores)
     localStorage.setItem('jwt', token)
-    yield put({ type: COMPLETE_LOGIN, username, scores })
+    yield put({ type: COMPLETE_LOGIN, username, scores, favourites })
   } catch (error) {
     if (error.toString() === 'Error: Invalid auth') {
       console.log('Invalid detected')
@@ -141,9 +141,8 @@ function* validate() {
         .then(response => response.json())
 
       console.log(result)
-      const { username } = result.user
-      const { scores } = result
-      yield put({ type: COMPLETE_LOGIN, username, scores })
+      const { scores, favourites, user: { username } } = result
+      yield put({ type: COMPLETE_LOGIN, username, scores, favourites })
     } catch (error) {
       console.log(error)
     }

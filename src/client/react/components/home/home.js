@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Loading from '../loading/loading'
 import FetchError from '../fetch_error/fetch_error'
+import Quiz from '../quiz/quiz'
 
 export default class extends React.Component {
   static propTypes = {
@@ -13,6 +14,8 @@ export default class extends React.Component {
     loadingAllQuizzes: PropTypes.bool.isRequired,
     errors: PropTypes.arrayOf(PropTypes.object).isRequired,
     scores: PropTypes.arrayOf(PropTypes.object).isRequired,
+    favourites: PropTypes.arrayOf(PropTypes.object).isRequired,
+    username: PropTypes.string.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
@@ -38,41 +41,32 @@ export default class extends React.Component {
 
   render() {
     const quizzes = []
-    const { scores, errors, loadingAllQuizzes, authenticated, allQuizzes, loadQuizzes } = this.props
+    const {
+      scores,
+      favourites,
+      errors,
+      loadingAllQuizzes,
+      authenticated,
+      allQuizzes,
+      loadQuizzes,
+      username } = this.props
     allQuizzes.forEach((quiz, i) => {
-      let score = false
-      for (let j = 0; j < scores.length; j += 1) {
-        if (scores[j].quiz === quiz.id) {
-          const percent = Math.floor((scores[j].score / quiz.length) * 100)
-          quizzes.push((
-            <article
-              className="button button--quiz"
-              data-name={quiz.name}
-              data-creator={quiz.creator}
-              onClick={this.handleQuizClick}
-              key={i.toString()}
-            >
-              {quiz.name}
-              <div className="button__insert">{percent}%</div>
-            </article>
-          ))
-          score = true
-          break
-        }
-      }
-      if (!score) {
-        quizzes.push((
-          <article
-            className="button button--quiz"
-            data-name={quiz.name}
-            data-creator={quiz.creator}
-            onClick={this.handleQuizClick}
-            key={i.toString()}
-          >
-            {quiz.name}
-          </article>
-        ))
-      }
+      const totalScore = scores.filter(score => score.quiz === quiz.id)
+      console.log(favourites)
+      // const favourite = favourites.some(favourite => )
+      const percentScore = totalScore.length
+        ? Math.floor((totalScore[0].score / quiz.length) * 100)
+        : -1
+      const owner = quiz.creator === username
+      quizzes.push((
+        <Quiz
+          name={quiz.name}
+          creator={quiz.creator}
+          owner={owner}
+          score={percentScore}
+          key={i.toString()}
+        />
+      ))
     })
     let errorMessage
     const isError = errors.some((error) => {
