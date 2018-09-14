@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 
 import Loading from '../loading/loading'
 import FetchError from '../fetch_error/fetch_error'
-import Quiz from '../quiz/quiz'
+import Quiz from '../quiz/container'
 
 export default class extends React.Component {
   static propTypes = {
     loadQuizzes: PropTypes.func.isRequired,
-    updateQuizProgress: PropTypes.func.isRequired,
     authenticated: PropTypes.bool.isRequired,
     allQuizzes: PropTypes.arrayOf(PropTypes.object).isRequired,
     loadingAllQuizzes: PropTypes.bool.isRequired,
@@ -23,14 +22,6 @@ export default class extends React.Component {
 
   componentDidMount = () => {
     this.props.loadQuizzes()
-  }
-
-  handleQuizClick = ({ target: { dataset: { name, creator } } }) => {
-    this.props.updateQuizProgress('start')
-    const encodedQuiz = encodeURIComponent(name.replace(/ /g, '_'))
-    this.props.history.push({
-      pathname: `/${creator}/${encodedQuiz}`,
-    })
   }
 
   handleCreateClick = () => {
@@ -65,7 +56,9 @@ export default class extends React.Component {
           owner={owner}
           score={percentScore}
           favourite={favourite}
+          id={quiz.id}
           key={i.toString()}
+          onClick={this.handleQuizClick}
         />
       ))
     })

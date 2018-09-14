@@ -12,6 +12,10 @@ import {
   INITIATE_VALIDATION,
   ADD_SCORE,
   USER_ERROR,
+  INITIATE_ADD_FAVOURITE,
+  COMPLETE_ADD_FAVOURITE,
+  INITIATE_REMOVE_FAVOURITE,
+  COMPLETE_REMOVE_FAVOURITE,
 } from './reducers/user'
 import { INITIATE_SUBMIT, COMPLETE_SUBMIT } from './reducers/creator'
 import { SET_QUESTIONS } from './reducers/question'
@@ -212,6 +216,38 @@ function* addScore({ score }) {
   }
 }
 
+function* favourite({ type, quizId }) {
+  const jwt = yield localStorage.getItem('jwt')
+
+  const body = {
+    quiz: quizId,
+    add: type === INITIATE_ADD_FAVOURITE,
+  }
+
+  try {
+    const request = yield fetch('/private/favourite', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Token ${jwt}`,
+      },
+      body: JSON.stringify(body),
+    })
+
+    console.log(request)
+    if (request.status === 200) {
+      yield put({
+        type: type === INITIATE_ADD_FAVOURITE
+          ? COMPLETE_ADD_FAVOURITE
+          : COMPLETE_REMOVE_FAVOURITE,
+        quizId,
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 function* submit() {
   const jwt = yield localStorage.getItem('jwt')
   const quiz = yield select(state => state.creator.quiz)
@@ -243,6 +279,9 @@ function* watch() {
   yield takeEvery(INITIATE_SIGN_UP, signUp)
   yield takeEvery(ADD_SCORE, addScore)
   yield takeEvery(INITIATE_SUBMIT, submit)
+  yield takeEvery(INITIATE_SUBMIT, submit)
+  yield takeEvery(INITIATE_ADD_FAVOURITE, favourite)
+  yield takeEvery(INITIATE_REMOVE_FAVOURITE, favourite)
 }
 
 function* checkSaga() {
