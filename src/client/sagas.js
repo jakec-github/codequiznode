@@ -21,36 +21,39 @@ import { INITIATE_SUBMIT, COMPLETE_SUBMIT } from './reducers/creator'
 import { SET_QUESTIONS } from './reducers/question'
 
 // Requires proper error handling
-export function* getAllQuizzes() {
-  try {
-    const result = yield call(fetch, '/public/quiz/all')
-    const allQuizzes = yield call([result, 'json'])
-    console.log('------')
-    console.log(allQuizzes)
-    yield put({ type: ADD_QUIZZES, allQuizzes })
-    return result.status
-  } catch (error) {
-    yield put({
-      type: ERROR,
-      connection: 'allQuizzes',
-      message: 'Failed to load quizzes!',
-      cancelLoad: 'loadingAllQuizzes',
-    })
-    return -1
-  }
-}
-
-// Old version of AllQuizzes
-// function* getAllQuizzes() {
+// export function* getAllQuizzes() {
 //   try {
-//     const allQuizzes = yield fetch('/public/quiz/all')
-//       .then(response => response.json())
-//
+//     const result = yield call(fetch, '/public/quiz/all')
+//     console.log(result)
+//     const allQuizzes = yield call([result, 'json'])
+//     console.log('------')
+//     console.log(allQuizzes)
 //     yield put({ type: ADD_QUIZZES, allQuizzes })
+//     return result.status
 //   } catch (error) {
 //     console.log(error)
+//     yield put({
+//       type: ERROR,
+//       connection: 'allQuizzes',
+//       message: 'Failed to load quizzes!',
+//       cancelLoad: 'loadingAllQuizzes',
+//     })
+//     return -1
 //   }
 // }
+
+// Old version of AllQuizzes
+export function* getAllQuizzes() {
+  try {
+    const allQuizzes = yield fetch('/public/quiz/all')
+      .then(response => response.json())
+    console.log(allQuizzes)
+    yield put({ type: ADD_QUIZZES, allQuizzes })
+    console.log('=========')
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 function* getQuiz(action) {
   console.log('getting')
@@ -249,11 +252,13 @@ function* favourite({ type, quizId }) {
 }
 
 function* submit() {
+  console.log('Detected initate')
   const jwt = yield localStorage.getItem('jwt')
   const quiz = yield select(state => state.creator.quiz)
   const questions = yield select(state => state.creator.questions)
   quiz.questions = questions
   try {
+    console.log('Sending fetch request')
     const response = yield fetch('/private/quiz/new', {
       method: 'POST',
       headers: {
@@ -263,7 +268,7 @@ function* submit() {
       body: JSON.stringify(quiz),
     })
       .then(data => data.json())
-
+    console.log('About to complete')
     yield put({ type: COMPLETE_SUBMIT, newQuiz: response.quiz })
   } catch (error) {
     console.log(error)
@@ -278,7 +283,6 @@ function* watch() {
   yield takeEvery(INITIATE_VALIDATION, validate)
   yield takeEvery(INITIATE_SIGN_UP, signUp)
   yield takeEvery(ADD_SCORE, addScore)
-  yield takeEvery(INITIATE_SUBMIT, submit)
   yield takeEvery(INITIATE_SUBMIT, submit)
   yield takeEvery(INITIATE_ADD_FAVOURITE, favourite)
   yield takeEvery(INITIATE_REMOVE_FAVOURITE, favourite)

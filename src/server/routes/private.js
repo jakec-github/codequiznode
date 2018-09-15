@@ -38,7 +38,7 @@ router.post('/favourite', auth.required, (req, res) => {
         const alreadyFavourite = record.favourites
           .some(favourite => favourite.toString() === quiz)
         if (alreadyFavourite) {
-          console.log('ALready favourited')
+          console.log('Already favourited')
           // handle response
         } else {
           record.favourites.push(quiz)

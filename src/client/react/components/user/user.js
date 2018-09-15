@@ -19,7 +19,7 @@ export default class extends React.Component {
     loginError: PropTypes.bool.isRequired,
     invalidLogin: PropTypes.bool.isRequired,
     signupError: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string.isRequired,
   }
 
   constructor(props) {

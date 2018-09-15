@@ -13,7 +13,7 @@ export default class extends React.Component {
     loadingAllQuizzes: PropTypes.bool.isRequired,
     errors: PropTypes.arrayOf(PropTypes.object).isRequired,
     scores: PropTypes.arrayOf(PropTypes.object).isRequired,
-    favourites: PropTypes.arrayOf(PropTypes.object).isRequired,
+    favourites: PropTypes.arrayOf(PropTypes.string).isRequired,
     username: PropTypes.string.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,

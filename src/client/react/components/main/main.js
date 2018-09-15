@@ -7,6 +7,7 @@ import Start from '../start/container'
 import Question from '../question/container'
 import Result from '../result/container'
 import Creator from '../creator/container'
+import NotFound from '../not_found/not_found'
 // import Created from '../containers/main/created'
 
 Main.propTypes = {
@@ -47,29 +48,9 @@ export default function Main(props) {
         exact
         component={Creator}
       />
+      <Route
+        component={NotFound}
+      />
     </Switch>
   )
-
-  // return (
-  //   <div className="App">
-  //     { props.location === 'home' &&
-  //       <Home />
-  //     }
-  //     { props.location === 'start' &&
-  //       <Start />
-  //     }
-  //     {/* { props.location === 'quiz' &&
-  //       <Question />
-  //     }
-  //     { props.location === 'result' &&
-  //       <Result />
-  //     }
-  //     { props.location === 'creator' &&
-  //       <Creator />
-  //     }
-  //     { props.location === 'created' &&
-  //       <Created />
-  //     } */}
-  //   </div>
-  // )
 }
