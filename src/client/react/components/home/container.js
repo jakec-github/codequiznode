@@ -6,13 +6,11 @@ import { mainActionCreators } from '../../../reducers/main'
 import Home from './home'
 
 const mapStateToProps = state => ({
-  userId: state.user.userId,
   authenticated: state.user.authenticated,
   allQuizzes: state.main.allQuizzes,
   loadingAllQuizzes: state.main.loadingAllQuizzes,
-  scores: state.user.scores,
-  favourites: state.user.favourites,
   errors: state.main.errors,
+  favourites: state.user.favourites,
   username: state.user.username,
 })
 

@@ -147,7 +147,7 @@ export default class extends React.Component {
       )
     }
     return (
-      <div className="creator">
+      <div className="creator u-container">
         { this.props.creatorPosition < 1 &&
           <CreateQuiz />
         }

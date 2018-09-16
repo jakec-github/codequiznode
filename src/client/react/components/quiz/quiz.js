@@ -7,19 +7,19 @@ export default class extends React.Component {
     initiateRemoveFavourite: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
     authenticated: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    creator: PropTypes.string.isRequired,
-    owner: PropTypes.bool.isRequired,
-    favourite: PropTypes.bool.isRequired,
-    score: PropTypes.number.isRequired,
+    allQuizzes: PropTypes.arrayOf(PropTypes.object).isRequired,
     id: PropTypes.string.isRequired,
+    scores: PropTypes.arrayOf(PropTypes.object).isRequired,
+    favourites: PropTypes.arrayOf(PropTypes.string).isRequired,
+    username: PropTypes.string.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func,
     }).isRequired,
   }
 
-  handleQuizClick = () => {
-    const { name, creator, history, updateQuizProgress } = this.props
+  handleQuizClick = ({ currentTarget }) => {
+    const { history, updateQuizProgress } = this.props
+    const { name, creator } = currentTarget.dataset
     updateQuizProgress('start')
     const encodedQuiz = encodeURIComponent(name.replace(/ /g, '_'))
     history.push({
@@ -40,16 +40,28 @@ export default class extends React.Component {
 
   render() {
     const {
-      name,
-      creator,
-      owner,
-      favourite,
-      score,
+      allQuizzes,
+      id,
       authenticated,
+      favourites,
+      username,
+      scores,
     } = this.props
+
+    const { name, creator, length } = allQuizzes.filter(quiz => quiz.id === id)[0]
+
+    const totalScore = scores.filter(score => score.quiz === id)
+    // const favourite = favourites.some(favourite => )
+    const percentScore = totalScore.length
+      ? Math.floor((totalScore[0].score / length) * 100)
+      : -1
+    const favourite = favourites.includes(id)
+    const owner = creator === username
     return (
       <div
         className="quiz"
+        data-name={name}
+        data-creator={creator}
         onClick={this.handleQuizClick}
       >
         <p className="quiz__name">
@@ -94,9 +106,9 @@ export default class extends React.Component {
             }
           </div>
         }
-        { score !== -1 &&
+        { percentScore !== -1 &&
           <div className="quiz__score">
-            {score}%
+            {percentScore}%
           </div>
         }
       </div>

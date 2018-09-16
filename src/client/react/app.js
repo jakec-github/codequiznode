@@ -14,9 +14,7 @@ export default function App() {
         <Logo />
       </header>
       <main>
-        <div className="app" id="quiz">
-          <Main />
-        </div>
+        <Main />
       </main>
     </div>
   )

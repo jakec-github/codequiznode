@@ -65,7 +65,7 @@ export default class extends React.Component {
     })
 
     return (
-      <div className="start">
+      <div className="start u-container">
         { loadingQuiz &&
           <Loading />
         }

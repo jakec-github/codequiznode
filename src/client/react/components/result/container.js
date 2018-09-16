@@ -7,7 +7,7 @@ import Result from './result'
 
 const mapStateToProps = state => ({
   userId: state.user.userId,
-  loggedIn: state.user.loggedIn,
+  authenticated: state.user.authenticated,
   score: state.question.score,
   scores: state.user.scores,
   quizData: state.main.quizData,

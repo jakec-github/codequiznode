@@ -8,6 +8,10 @@ import Quiz from './quiz'
 
 const mapStateToProps = state => ({
   authenticated: state.user.authenticated,
+  allQuizzes: state.main.allQuizzes,
+  favourites: state.user.favourites,
+  scores: state.user.scores,
+  username: state.user.username,
 })
 
 const mapDispatchtoProps = dispatch =>

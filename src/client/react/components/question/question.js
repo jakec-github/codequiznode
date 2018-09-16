@@ -15,7 +15,7 @@ export default function Question(props) {
   // Currently this is defined in three separate places
   const thisQuestion = props.questionSet[props.questionNumber]
   return (
-    <div className="question">
+    <div className="question  u-container">
       <Progress />
       <p className="question__text" id="question-text">
         {props.questionSet[props.questionNumber].question}

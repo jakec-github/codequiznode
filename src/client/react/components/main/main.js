@@ -8,7 +8,6 @@ import Question from '../question/container'
 import Result from '../result/container'
 import Creator from '../creator/container'
 import NotFound from '../not_found/not_found'
-// import Created from '../containers/main/created'
 
 Main.propTypes = {
   quizProgress: PropTypes.string.isRequired,

@@ -48,7 +48,7 @@ export default class extends React.Component {
     const score = Math.floor((this.props.score / this.props.questionSet.length) * 100)
 
     return (
-      <div className="result">
+      <div className="result u-container">
         <p className="result__text">Your score is...</p>
         <div className="result__percentage">{score}%</div>
         <p className="result__score">{this.props.score} out of {this.props.questionSet.length}</p>
