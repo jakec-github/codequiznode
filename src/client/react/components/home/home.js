@@ -62,38 +62,64 @@ export default class extends React.Component {
         { (!loadingAllQuizzes && !isError) &&
           <React.Fragment>
             <article className="u-container">
-              <h3>All Quizzes</h3>
+              <h3>Featured</h3>
               <QuizList
-                quizzes={allQuizzes.map(quiz => quiz.id)}
+                quizzes={
+                  allQuizzes
+                  .filter(quiz => quiz.featured)
+                  .map(quiz => quiz.id)
+                }
               />
             </article>
             <article className="u-container">
               <h3>Favourites</h3>
-              <QuizList
-                quizzes={
-                  allQuizzes
-                    .filter(quiz => favourites.includes(quiz.id))
-                    .map(quiz => quiz.id)
-                  }
-              />
+              { authenticated &&
+                <QuizList
+                  quizzes={
+                    allQuizzes
+                      .filter(quiz => favourites.includes(quiz.id))
+                      .map(quiz => quiz.id)
+                    }
+                />
+              }
+              { !authenticated &&
+                <div className="home__login-container">
+                  <div className="home__login-message">
+                    <h3>Nothing here yet</h3>
+                    <p>Login to save favourites and track scores</p>
+                  </div>
+                </div>
+              }
             </article>
-            <article className="u-container">
+            <article className="u-container home__container">
+              { authenticated &&
+                <svg
+                  className="home__create-icon"
+                  onClick={this.handleCreateClick}
+                >
+                  <use xlinkHref="/sprite.svg#icon-add" />
+                </svg>
+              }
               <h3>Your Quizzes</h3>
-              <QuizList
-                quizzes={
-                  allQuizzes
-                    .filter(quiz => quiz.creator === username)
-                    .map(quiz => quiz.id)
-                  }
-              />
+              { authenticated &&
+                <QuizList
+                  quizzes={
+                    allQuizzes
+                      .filter(quiz => quiz.creator === username)
+                      .map(quiz => quiz.id)
+                    }
+                />
+              }
+              { !authenticated &&
+                <div className="home__login-container">
+                  <div className="home__login-message">
+                    <h3>Nothing here yet</h3>
+                    <p>Login to make your own quizzes</p>
+                  </div>
+                </div>
+              }
             </article>
-
           </React.Fragment>
-
-        }
-
-        { authenticated &&
-          <article className="button button--nav" onClick={this.handleCreateClick}>Make a quiz</article>
         }
       </div>
     )

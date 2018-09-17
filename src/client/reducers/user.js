@@ -89,6 +89,7 @@ export const user = (state = initialState, action) => {
         authenticated: false,
         username: '',
         scores: [],
+        favourites: [],
       }
     case RESET_INPUTS:
       return {

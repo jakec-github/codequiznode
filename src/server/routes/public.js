@@ -37,13 +37,14 @@ router.get('/quiz/all', (req, res) => {
   Quiz.find()
     .then((records) => {
       records.forEach((record) => {
-        const { name, description, questions, creator } = record
+        const { name, description, questions, creator, featured } = record
         allQuizzes.push({
           id: record._id,
           name,
           description,
           length: questions.length,
           creator,
+          featured,
         })
       })
       res.json(allQuizzes)
