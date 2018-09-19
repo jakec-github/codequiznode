@@ -7,6 +7,7 @@ import FetchError from '../fetch_error/fetch_error'
 
 export default class extends React.Component {
   static propTypes = {
+    setTimer: PropTypes.func.isRequired,
     resetQuiz: PropTypes.func.isRequired,
     loadQuiz: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
@@ -32,6 +33,10 @@ export default class extends React.Component {
 
   componentDidMount = () => {
     this.getQuiz()
+  }
+
+  componentWillUnmount = () => {
+    this.props.setTimer(this.props.quizData.timeLimit)
   }
 
   getQuiz = () => {

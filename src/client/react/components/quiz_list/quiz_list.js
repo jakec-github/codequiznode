@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Quiz from '../quiz/container'
+import QuizLink from '../quiz_link/container'
 
 QuizList.propTypes = {
   quizzes: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -13,7 +13,7 @@ export default function QuizList({ quizzes }) {
     <div className="quiz-list">
       {
         quizzes.map((id, i) => (
-          <Quiz
+          <QuizLink
             id={id}
             key={i.toString()}
           />

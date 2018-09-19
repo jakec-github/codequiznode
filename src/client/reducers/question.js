@@ -2,18 +2,23 @@ export const ITERATE_QUESTION = 'ITERATE_QUESTION'
 export const RESET_QUIZ = 'RESET_QUESTION'
 export const ITERATE_SCORE = 'ITERATE_SCORE'
 export const SET_QUESTIONS = 'SET_QUESTIONS'
+const SET_TIMER = 'SET_TIMER'
+const COUNT_TIMER = 'COUNT_TIMER'
 
 export const questionActionCreators = {
   iterateQuestion: () => ({ type: ITERATE_QUESTION }),
   resetQuiz: () => ({ type: RESET_QUIZ }),
   iterateScore: () => ({ type: ITERATE_SCORE }),
   setQuestions: questionSet => ({ type: SET_QUESTIONS, questionSet }),
+  setTimer: timeLimit => ({ type: SET_TIMER, timeLimit }),
+  countTimer: () => ({ type: COUNT_TIMER }),
 }
 
 const initialState = {
   questionNumber: 0,
   questionSet: [],
   score: 0,
+  timer: 0,
 }
 
 export const question = (state = initialState, action) => {
@@ -39,6 +44,16 @@ export const question = (state = initialState, action) => {
         ...state,
         questionSet: action.questionSet,
         quizId: action.quizId,
+      }
+    case SET_TIMER:
+      return {
+        ...state,
+        timer: action.timeLimit,
+      }
+    case COUNT_TIMER:
+      return {
+        ...state,
+        timer: state.timer - 1,
       }
     default:
       return state

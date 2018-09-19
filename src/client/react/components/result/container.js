@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-// import { store, CHANGE_LOCATION } from '../../store'
+import { withRouter } from 'react-router-dom'
+
 import { mainActionCreators } from '../../../reducers/main'
 import { userActionCreators } from '../../../reducers/user'
 import Result from './result'
@@ -17,4 +18,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ ...mainActionCreators, ...userActionCreators }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Result)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Result))

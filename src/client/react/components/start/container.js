@@ -1,5 +1,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
 import { questionActionCreators } from '../../../reducers/question'
 import { mainActionCreators } from '../../../reducers/main'
 
@@ -16,4 +18,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ ...questionActionCreators, ...mainActionCreators }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Start)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Start))

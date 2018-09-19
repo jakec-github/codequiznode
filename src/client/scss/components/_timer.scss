@@ -1,0 +1,12 @@
+.timer {
+  background-color: black;
+  font-family: 'Digital', sans-serif;
+  font-size: 2rem;
+  margin: 0 auto;
+  padding: .8rem 1.2rem;
+  display: inline-block;
+
+  &--red {
+    background-color: $colour-incorrect;
+  }
+}
