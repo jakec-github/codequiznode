@@ -60,6 +60,9 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "@material/button": "^0.39.3",
+    "@material/card": "^0.40.0",
+    "@material/theme": "^0.39.1",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",

@@ -24,6 +24,26 @@ body {
   color: $colour-primary-lightest;
 }
 
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+html,
+body,
+.root {
+  min-height: 100vh;
+  margin: 0;
+}
+
+a,
+a:active,
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 input[type=text],
 input[type=email],
 input[type=tel],

@@ -89,7 +89,7 @@ export default class extends React.Component {
             }
             <div
               id="start-button"
-              className="button button--nav"
+              className="mdc-button mdc-button--raised"
               onClick={this.handleStartClick}
             >
               Start
@@ -100,3 +100,5 @@ export default class extends React.Component {
     )
   }
 }
+
+// className="button button--nav"

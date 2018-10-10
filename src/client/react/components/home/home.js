@@ -60,8 +60,8 @@ export default class extends React.Component {
           />
         }
         { (!loadingAllQuizzes && !isError) &&
-          <React.Fragment>
-            <article className="u-container">
+          <div className="home__flex">
+            <article className="mdc-card home__container">
               <h3>Featured</h3>
               <QuizList
                 quizzes={
@@ -71,7 +71,7 @@ export default class extends React.Component {
                 }
               />
             </article>
-            <article className="u-container">
+            <article className="mdc-card home__container">
               <h3>Favourites</h3>
               { authenticated &&
                 <QuizList
@@ -85,13 +85,12 @@ export default class extends React.Component {
               { !authenticated &&
                 <div className="home__login-container">
                   <div className="home__login-message">
-                    <h3>Nothing here yet</h3>
                     <p>Login to save favourites and track scores</p>
                   </div>
                 </div>
               }
             </article>
-            <article className="u-container home__container">
+            <article className="mdc-card home__container">
               { authenticated &&
                 <svg
                   className="home__create-icon"
@@ -113,13 +112,12 @@ export default class extends React.Component {
               { !authenticated &&
                 <div className="home__login-container">
                   <div className="home__login-message">
-                    <h3>Nothing here yet</h3>
                     <p>Login to make your own quizzes</p>
                   </div>
                 </div>
               }
             </article>
-          </React.Fragment>
+          </div>
         }
       </div>
     )

@@ -1,29 +1,88 @@
 .home {
 
+  &__flex {
+    margin-top: 2rem;
+    text-align: center;
+
+    @include respond(tab-port) {
+      margin-top: 3rem;
+    }
+
+    @include respond(tab-land) {
+      font-size: 68.75%; // 1rem = 11px
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      margin-top: 5rem;
+    }
+
+    & > * {
+      // width: 90%;
+      width: 95%;
+      max-width: 45rem;
+      margin: 0 auto;
+      text-align: left;
+
+      &:not(:last-child) {
+        margin-bottom: 2rem;
+      }
+
+      @include respond(tab-port) {
+        width: 70%;
+        max-width: 50rem;
+      }
+
+      @include respond(tab-land) {
+        margin: 0 1rem;
+        width: 28%;
+      }
+    }
+  }
+
   &__container {
     position: relative;
+    overflow: hidden;
+
+    @include respond(tab-port) {
+      overflow-y: scroll;
+      max-height: 50rem;
+    }
+  }
+
+  h3 {
+    color: $colour-primary;
+    margin-left: 1rem;
+    font-size: 1.1rem;
   }
 
   &__create-icon {
     position: absolute;
-    top: .8rem;
-    right: .8rem;
-    height: 3.5rem;
-    width: 3.5rem;
-    fill: white;
+    top: .6rem;
+    right: .6rem;
+    height: 3rem;
+    width: 3rem;
+    fill: $colour-primary;
     cursor: pointer;
+
+    &:hover {
+      fill: $colour-highlight;
+    }
   }
 
   &__login-container {
     width: 100%;
     position: relative;
     height: 17rem;
+    text-align: center;
   }
 
   &__login-message {
     @include absCentre;
+    top: 30%;
     font-size: 2rem;
-    padding: .5rem 1rem;
+    // padding: .5rem 1rem;
     border-radius: $card-radius;
+    color: $colour-primary;
+    width: 85%;
   }
 }

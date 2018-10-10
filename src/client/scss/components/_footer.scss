@@ -1,0 +1,26 @@
+.footer {
+  background-color: $colour-neutral;
+  height: 15rem;
+  margin-top: 3rem;
+  position: relative;
+
+  @include respond(tab-port) {
+    margin-top: 5rem;
+  }
+
+  p {
+    @include absCentre;
+    top: 25%;
+    font-size: 16px;
+  }
+
+  a {
+    transition: all .2s ease;
+
+    &:hover {
+      display: inline-block;
+      transform: rotate(8deg) scale(1.1);
+      color: $colour-highlight;
+    }
+  }
+}

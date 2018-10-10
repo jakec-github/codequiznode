@@ -1,22 +1,24 @@
 .header {
   height: 7rem;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  // -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  // clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
   background-color: $colour-neutral;
   color: white;
   position: relative;
+  box-shadow: 0px 1px 12px 0px rgba(0,0,0,0.75);
 
   &__logo {
     font-family: $monospace;
     position: absolute;
     top: 20%;
     left: 10rem;
-    transform: translate(-50%, -50%) rotate(-3deg);
+    transform: translate(-50%, -50%) rotate(-6deg);
     font-size: 2.8rem;
     cursor: pointer;
+    transition: transform 0.15s ease;
 
-    @include respond(tab-land) {
-      transform: translate(-50%, -50%) rotate(-1.5deg);
+    &:hover {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
     }
   }
 }

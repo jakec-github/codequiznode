@@ -13,7 +13,7 @@ $colour-primary-light: #255677;
 $colour-primary-dark: #002344;
 
 $colour-neutral: #2F3C46;
-$colour-background: #dde7da;
+$colour-background: #F2F2F2;
 $colour-highlight: #e14658;
 
 $colour-incorrect: #FF6666;
@@ -31,3 +31,13 @@ $gutter-horizontal: 6rem;
 
 $card-radius: .8rem;
 $card-shadow: 0px 6px 28px 1px rgba(0,0,0,0.5);
+
+
+// Material Theme
+
+$mdc-theme-primary: #e14658;
+$mdc-theme-secondary: #e14658;
+// $mdc-theme-on-primary: #442b2d;
+// $mdc-theme-on-secondary: #442b2d;
+
+$mdc-typography-font-family: 'Noto Sans', sans-serif;
