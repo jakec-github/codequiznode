@@ -51,8 +51,16 @@ export default class extends React.Component {
       <div className="result u-container">
         <p className="result__text">Your score is...</p>
         <div className="result__percentage">{score}%</div>
-        <p className="result__score">{this.props.score} out of {this.props.questionSet.length}</p>
-        <div id="menu" className="button button--nav" onClick={this.handleMenuClick}>Menu</div>
+        <p className="result__score">
+          {this.props.score} out of {this.props.questionSet.length}
+        </p>
+        <div
+          id="menu"
+          className="mdc-button mdc-button--raised result__button"
+          onClick={this.handleMenuClick}
+        >
+          Menu
+        </div>
       </div>
     )
   }

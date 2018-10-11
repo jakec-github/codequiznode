@@ -59,22 +59,22 @@ export default class extends React.Component {
     const owner = creator === username
     return (
       <div
-        className="quiz"
+        className="quiz-link"
         data-name={name}
         data-creator={creator}
         onClick={this.handleQuizClick}
       >
-        <p className="quiz__name">
+        <p className="quiz-link__name">
           {name}
         </p>
-        <p className="quiz__creator">
+        <p className="quiz-link__creator">
           {creator}
         </p>
         { authenticated &&
-          <div className="quiz__options">
+          <div className="quiz-link__options">
             { favourite &&
               <svg
-                className="quiz__icon"
+                className="quiz-link__icon"
                 id="on"
                 onClick={this.handleFavouriteClick}
               >
@@ -83,7 +83,7 @@ export default class extends React.Component {
             }
             { !favourite &&
               <svg
-                className="quiz__icon"
+                className="quiz-link__icon"
                 id="off"
                 onClick={this.handleFavouriteClick}
               >
@@ -93,12 +93,12 @@ export default class extends React.Component {
             { owner &&
               <React.Fragment>
                 <svg
-                  className="quiz__icon"
+                  className="quiz-link__icon"
                 >
                   <use xlinkHref="/sprite.svg#icon-mode_edit" />
                 </svg>
                 <svg
-                  className="quiz__icon"
+                  className="quiz-link__icon"
                 >
                   <use xlinkHref="/sprite.svg#icon-delete" />
                 </svg>
@@ -107,7 +107,7 @@ export default class extends React.Component {
           </div>
         }
         { percentScore !== -1 &&
-          <div className="quiz__score">
+          <div className="quiz-link__score">
             {percentScore}%
           </div>
         }

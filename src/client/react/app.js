@@ -19,7 +19,7 @@ export default function App() {
         </main>
       </div>
       <footer className="footer">
-        <p>Web App by <a href="https://jakec.co.uk">Jake Chorley</a></p>
+        <p>Web App by<br /><a href="https://jakec.co.uk">Jake Chorley</a></p>
       </footer>
     </React.Fragment>
   )

@@ -58,14 +58,34 @@ export default class extends React.Component {
     const { questionProgress } = this.props
     // Consider nesting if statement in return statement
     const thisQuestion = this.props.questionSet[this.props.questionNumber]
-    const next = this.props.questionNumber + 1 === this.props.questionSet.length ? 'See result' : 'Next question'
+    const next = this.props.questionNumber + 1 === this.props.questionSet.length
+      ? 'Result'
+      : 'Next'
     const answers = []
     if (questionProgress === 'question') {
       // Change to forEach
       for (let i = 0; i < thisQuestion.duds.length; i += 1) {
-        answers.push(<article className="button button--choice" data-correct="incorrect" onClick={this.handleAnswerClick} key={i.toString()}>{thisQuestion.duds[i].text}</article>)
+        answers.push((
+          <article
+            className="mdc-button mdc-button--raised question__choice question__choice--lower"
+            data-correct="incorrect"
+            onClick={this.handleAnswerClick}
+            key={i.toString()}
+          >
+            {thisQuestion.duds[i].text}
+          </article>
+        ))
       }
-      answers.push(<article className="button button--choice" data-correct="correct" onClick={this.handleAnswerClick} key={thisQuestion.duds.length.toString()}>{thisQuestion.answer}</article>)
+      answers.push((
+        <article
+          className="mdc-button mdc-button--raised question__choice question__choice--lower"
+          data-correct="correct"
+          onClick={this.handleAnswerClick}
+          key={thisQuestion.duds.length.toString()}
+        >
+          {thisQuestion.answer}
+        </article>
+      ))
       for (let i = answers.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (answers.length))
         const temp = answers[i]
@@ -84,15 +104,15 @@ export default class extends React.Component {
         { questionProgress === 'correct' &&
           <div className="question__panel question__panel--correct" id="correct-panel">
             <p className="question__panel-result">Correct</p>
-            <article className="button button--choice" id="learn" onClick={this.handleLearnClick}>Learn more</article>
-            <article className="button button--choice" id="next" onClick={this.handleNextClick}>{next}</article>
+            <article className="mdc-button mdc-button--raised question__choice" id="learn" onClick={this.handleLearnClick}>Learn more</article>
+            <article className="mdc-button mdc-button--raised question__choice" id="next" onClick={this.handleNextClick}>{next}</article>
           </div>
         }
         { questionProgress === 'incorrect' &&
           <div className="question__panel question__panel--incorrect" id="incorrect-panel">
             <p className="question__panel-result">Wrong Answer!</p>
-            <article className="button button--choice" id="learn" onClick={this.handleLearnClick}>See answer</article>
-            <article className="button button--choice" id="next" onClick={this.handleNextClick}>{next}</article>
+            <article className="mdc-button mdc-button--raised question__choice" id="learn" onClick={this.handleLearnClick}>See answer</article>
+            <article className="mdc-button mdc-button--raised question__choice" id="next" onClick={this.handleNextClick}>{next}</article>
           </div>
         }
         { questionProgress === 'explanation' &&
@@ -100,56 +120,11 @@ export default class extends React.Component {
             <p className="question__panel-answer">{thisQuestion.answer}</p>
             <p className="question__panel-text">{thisQuestion.explanation}</p>
             <div className="u-centre-width-25rem">
-              <article className="button button--choice" id="next" onClick={this.handleNextClick}>{next}</article>
+              <article className="mdc-button mdc-button--raised question__choice" id="next" onClick={this.handleNextClick}>{next}</article>
             </div>
           </div>
         }
       </React.Fragment>
     )
-  //   if (this.props.questionStatus === 'answers') {
-  //     const answers = []
-  //
-  //     for (let i = 0; i < thisQuestion.duds.length; i += 1) {
-  //       answers.push(<article className="button button--choice" data-correct="incorrect" onClick={this.handleAnswerClick} key={i.toString()}>{thisQuestion.duds[i]}</article>)
-  //     }
-  //     answers.push(<article className="button button--choice" data-correct="correct" onClick={this.handleAnswerClick}>{thisQuestion.answer}</article>)
-  //     for (let i = answers.length - 1; i > 0; i -= 1) {
-  //       const j = Math.floor(Math.random() * (answers.length))
-  //       const temp = answers[i]
-  //       answers[i] = answers[j]
-  //       answers[j] = temp
-  //     }
-  //
-  //     return (
-  //       <div className="question__panel question__panel--choice" id="answer-panel">
-  //         {answers}
-  //       </div>
-  //     )
-  //   } else if (this.props.questionStatus === 'correct') {
-  //     return (
-  //       <div className="question__panel question__panel--correct" id="correct-panel">
-  //         <p className="question__panel-result">Correct</p>
-  //         <article className="button button--choice" id="learn" onClick={this.handleLearnClick}>Learn more</article>
-  //         <article className="button button--choice" id="next" onClick={this.handleNextClick}>{this.props.next}</article>
-  //       </div>
-  //     )
-  //   } else if (this.props.questionStatus === 'incorrect') {
-  //     return (
-  //       <div className="question__panel question__panel--incorrect" id="incorrect-panel">
-  //         <p className="question__panel-result">Wrong Answer!</p>
-  //         <article className="button button--choice" id="learn" onClick={this.handleLearnClick}>See answer</article>
-  //         <article className="button button--choice" id="next" onClick={this.handleNextClick}>{this.props.next}</article>
-  //       </div>
-  //     )
-  //   }
-  //   return (
-  //     <div className="question__panel question__panel--explanation" id="explanation-panel">
-  //       <p className="question__panel-answer">{thisQuestion.answer}</p>
-  //       <p className="question__panel-text">{thisQuestion.explanation}</p>
-  //       <div className="u-centre-width-25rem">
-  //         <article className="button button--choice" id="next" onClick={this.handleNextClick}>{this.props.next}</article>
-  //       </div>
-  //     </div>
-  //   )
   }
 }

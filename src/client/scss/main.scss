@@ -6,6 +6,9 @@
 @import "base/typography";
 @import "base/utilities";
 
+@import "@material/button/mdc-button";
+@import "@material/card/mdc-card";
+
 @import "components/button";
 @import "components/creator";
 @import "components/create-quiz";
@@ -18,11 +21,10 @@
 @import "components/loading";
 @import "components/question";
 @import "components/quiz";
+@import "components/quiz-link";
 @import "components/result";
 @import "components/start";
 @import "components/timer";
 @import "components/user";
 
-@import "@material/button/mdc-button";
-@import "@material/card/mdc-card";
 // @import "@material/theme";

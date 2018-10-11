@@ -1,10 +1,21 @@
 .start {
+
   &__title {
-    color: $colour-primary-lightest;
+    color: $colour-primary;
     font-size: 2.2em;
   }
 
   &__description {
     font-size: $default-font-size;
+    color: $colour-primary;
+  }
+
+  &__timer {
+    color: $colour-primary;
+  }
+
+  &__button {
+    width: 25rem;
+    margin: 0 auto;
   }
 }

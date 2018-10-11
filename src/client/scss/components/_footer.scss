@@ -11,16 +11,22 @@
   p {
     @include absCentre;
     top: 25%;
-    font-size: 16px;
+    font-size: 1.4rem;
+    text-align: center;
+    letter-spacing: .2rem;
+    font-weight: 100;
+    font-family: $sans-serif-thin;
   }
 
   a {
     transition: all .2s ease;
+    font-family: $sans-serif-thin;
 
     &:hover {
       display: inline-block;
       transform: rotate(8deg) scale(1.1);
       color: $colour-highlight;
+      font-family: $sans-serif;
     }
   }
 }

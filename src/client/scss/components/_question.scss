@@ -141,4 +141,31 @@
     margin-bottom: 5px;
     margin-top: 0px;
   }
+
+  &__choice {
+    background-color: $colour-neutral !important;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 20px 0;
+    min-width: 100%;
+    grid-column: 1/3;
+
+    @include respond(tab-land) {
+      grid-column: span 1;
+      // width: 25rem;
+      margin: 0 auto;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: .1rem;
+    }
+
+    &:active {
+      background-color: $colour-highlight;
+    }
+
+    &--lower {
+      text-transform: none;
+    }
+  }
 }

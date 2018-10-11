@@ -70,7 +70,7 @@ export default class extends React.Component {
     })
 
     return (
-      <div className="start u-container">
+      <div className="start mdc-card u-container">
         { loadingQuiz &&
           <Loading />
         }
@@ -89,7 +89,7 @@ export default class extends React.Component {
             }
             <div
               id="start-button"
-              className="mdc-button mdc-button--raised"
+              className="mdc-button mdc-button--raised start__button"
               onClick={this.handleStartClick}
             >
               Start
