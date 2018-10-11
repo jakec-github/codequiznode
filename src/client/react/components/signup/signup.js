@@ -90,27 +90,47 @@ export default class extends React.Component {
         </div>
         { valid &&
           <input
-            className="user__submit button button--nav"
+            className="user__submit mdc-button mdc-button--raised"
             name="register"
             onClick={this.handleSubmitClick}
             type="submit"
           />
         }
         { !valid &&
-          <div className="error u-margin-top-small" id="auth-error">
-            { !usernameLength &&
-              <p>Username must be between 6 and 32 lowercase alphanumeric characters</p>
-            }
-            { !usernameLetters &&
-              <p>Username must contain at least 2 letters</p>
-            }
-            { !passwordLength &&
-              <p>Password must be between 6 and 32 characters</p>
-            }
-            { !passwordMatch &&
-              <p>Passwords must match</p>
-            }
-          </div>
+          <ul className="user__validation" id="auth-error">
+            <li
+              className={usernameLength
+                ? 'user__passed'
+                : 'user__failed'
+              }
+            >
+              Username must be between 6 and 32 lowercase alphanumeric characters
+            </li>
+            <li
+              className={usernameLetters
+                ? 'user__passed'
+                : 'user__failed'
+              }
+            >
+              Username must contain at least 2 letters
+            </li>
+            <li
+              className={passwordLength
+                ? 'user__passed'
+                : 'user__failed'
+              }
+            >
+              Password must be between 6 and 32 characters
+            </li>
+            <li
+              className={passwordMatch
+                ? 'user__passed'
+                : 'user__failed'
+              }
+            >
+              Passwords must match
+            </li>
+          </ul>
         }
       </form>
     )

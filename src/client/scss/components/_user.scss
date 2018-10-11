@@ -2,13 +2,17 @@
   position: absolute;
   z-index: 10;
   top: 3rem;
-  right: 5rem;
+  right: 3.5rem;
   transform: translate(50%, -50%);
   text-align: center;
   fill: white;
   height: 5.5rem;
   cursor: pointer;
   width: 5.5rem;
+
+  @include respond(tab-port) {
+    right: 4rem;
+  }
 
   &--check {
     fill: $colour-neutral;
@@ -21,17 +25,15 @@
     position: absolute;
     color: $colour-primary-lightest;
     width: 90vw;
-    background-image: -webkit-linear-gradient(top left, $colour-primary-light, $colour-primary-dark);
-    background-image: -o-linear-gradient(top left, $colour-primary-light, $colour-primary-dark);
-    background-image: linear-gradient(to bottom right, $colour-primary-light, $colour-primary-dark);
-    border-radius: $card-radius;
     top: 7rem;
-    right: 3rem;
+    right: 1.5rem;
     box-shadow: $card-shadow;
     padding-bottom: 4rem;
+    cursor: default;
 
     @include respond(tab-port) {
       width: 50vw;
+      right: 2rem;
     }
 
     @include respond(tab-land) {
@@ -42,7 +44,8 @@
       content: "";
       height: 1rem;
       width: 1rem;
-      background-color: $colour-primary-light;
+      background-color: white;
+      box-shadow: $card-shadow;
       position: absolute;
       top: -1rem;
       right: 1.5rem;
@@ -54,45 +57,27 @@
   &__escape {
     display: block;
     position: absolute;
-    top: 0rem;
-    right: 2rem;
+    top: 1rem;
+    right: 1rem;
     font-size: 1.5rem;
     height: 3rem;
     width: 3rem;
     text-align: center;
     line-height: 200%;
     cursor: pointer;
-    background-color: $colour-highlight;
+    fill: $colour-primary;
     border-radius: 50%;
+
+    &:hover {
+      fill: $colour-highlight;
+    }
   }
 
-  &__auth-type {
-    width: 50%;
-    margin: auto;
-    padding: 0;
-    overflow: hidden;
-    margin-bottom: 25px;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-
-  &__type-button {
-    display: inline-block;
-    padding: 5px 0;
-    width: 46%;
-    background-color: #222222;
-    text-align: center;
-    &:first-child {
-      padding-right: 5px;
-      border-radius: 15px 0 0 15px;
-    }
-    &:last-child {
-      padding-left: 5px;
-      border-radius: 0 15px 15px 0;
-    }
-    &--active {
-      background-color: $colour-highlight;
-    }
+  &__type {
+    width: 70%;
+    margin: 1.5rem auto 1rem;
+    max-width: 24rem;
+    font-size: 1.2rem;
   }
 
   &__form-group {
@@ -105,14 +90,17 @@
     padding: 1rem .2rem .2rem .2rem;
     margin-bottom: 1rem;
     min-width: 18rem;
-    border-radius: .5rem;
+    // border-radius: .5rem;
     font-size: 1.5rem;
+    border-style: none;
+    border-bottom: 1px solid $colour-primary;
+
     &::-webkit-input-placeholder {
       color: transparent;
     }
     &:focus {
       outline: none;
-      border-bottom: 2px solid $colour-highlight;
+      border-bottom: 1px solid $colour-highlight;
     }
   }
 
@@ -129,23 +117,49 @@
   &__label {
     color: #777777;
     position: absolute;
-    top: .25rem;
-    left: .55rem;
+    top: -.4rem;
+    left: .2rem;
     margin-top: 0;
     font-size: 1.1rem;
     transition: all .2s;
   }
 
   &__submit {
-    background-color: $colour-highlight;
-    padding: .6rem;
-    border: none;
-    color: white;
-    -webkit-appearance: none;
+    // background-color: $colour-highlight;
+    // padding: .6rem;
+    // border: none;
+    // color: white;
+    // -webkit-appearance: none;
+    width: 40%;
+    min-width: 16rem;
+    font-size: 1.4rem;
   }
 
   &__text {
     text-align: center;
     font-size: 2.2rem;
+    color: $colour-primary;
+    font-family: $sans-serif-thin;
+  }
+
+  // Would like to add ticks to passed validation
+  &__validation {
+    color: $colour-incorrect;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: left;
+    width: 95%;
+    max-width: 24rem;
+    list-style: none;
+    margin: 0 auto;
+    padding-left: 0;
+
+    li {
+      text-align: left;
+    }
+  }
+
+  &__passed {
+    color: $colour-correct;
   }
 }

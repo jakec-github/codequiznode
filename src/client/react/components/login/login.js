@@ -57,7 +57,7 @@ export default class extends React.Component {
           </label>
         </div>
         <input
-          className="user__submit button button--nav"
+          className="user__submit mdc-button mdc-button--raised"
           name="login"
           onClick={this.handleSubmitClick}
           type="submit"

@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { MDCTabBar } from '@material/tab-bar'
+
 import SignUp from '../signup/container'
 import Login from '../login/container'
 import Loading from '../loading/loading'
@@ -33,7 +35,31 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
+    const { loadingAuth, signupError, authenticated } = this.props
+
     this.props.initiateValidation()
+
+    if (
+      this.state.authOpen
+      && !loadingAuth
+      && !signupError
+      && !authenticated
+    ) {
+      const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
+    }
+  }
+
+  componentDidUpdate = () => {
+    const { loadingAuth, signupError, authenticated } = this.props
+
+    if (
+      this.state.authOpen
+      && !loadingAuth
+      && !signupError
+      && !authenticated
+    ) {
+      const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
+    }
   }
 
   handleUserIconClick = () => {
@@ -48,8 +74,8 @@ export default class extends React.Component {
     this.props.resetInputs()
   }
 
-  handleTypeClick = ({ target }) => {
-    this.setState({ authType: target.dataset.type })
+  handleTypeClick = ({ currentTarget }) => {
+    this.setState({ authType: currentTarget.dataset.type })
   }
 
   handleInputChange = ({ target }) => {
@@ -95,14 +121,13 @@ export default class extends React.Component {
             </svg>
           }
           {authOpen &&
-            <article className="user__auth" id="user-auth">
-              <p
+            <article className="mdc-card user__auth" id="user-auth">
+              <svg
                 className="user__escape"
-                id="auth-escape"
                 onClick={this.handleEscapeClick}
               >
-                X
-              </p>
+                <use xlinkHref="/sprite.svg#icon-close" />
+              </svg>
               { loadingAuth &&
                 <Loading
                   height={23}
@@ -124,35 +149,70 @@ export default class extends React.Component {
                 <React.Fragment>
                   {!authenticated &&
                     <div className="user__auth-box" id="auth-wrapper">
-                      <article
-                        className="user__auth-type u-margin-top-small"
-                        id="type-selector"
-                      >
-                        <div
-                          id="sign-up"
-                          className={
-                            authType === 'sign up'
-                              ? 'user__type-button user__type-button--active'
-                              : 'user__type-button'
-                            }
-                          data-type="sign up"
-                          onClick={this.handleTypeClick}
-                        >
-                          Sign Up
+                      <div className="mdc-tab-bar user__type" role="tablist">
+                        <div className="mdc-tab-scroller">
+                          <div className="mdc-tab-scroller__scroll-area">
+                            <div className="mdc-tab-scroller__scroll-content">
+                              <button
+                                className={
+                                  authType === 'sign up'
+                                    ? 'mdc-tab u-medium-font mdc-tab--active'
+                                    : 'mdc-tab u-medium-font mdc-tab'
+                                }
+                                role="tab"
+                                aria-selected="true"
+                                tabIndex="0"
+                                data-type="sign up"
+                                onClick={this.handleTypeClick}
+                              >
+                                <span className="mdc-tab__content">
+                                  <span className="mdc-tab__text-label">Sign Up</span>
+                                </span>
+                                <span
+                                  className={
+                                    authType === 'sign up'
+                                      ? 'mdc-tab-indicator mdc-tab-indicator--active'
+                                      : 'mdc-tab-indicator mdc-tab-indicator'
+                                  }
+                                >
+                                  <span
+                                    className="mdc-tab-indicator__content mdc-tab-indicator__content--underline"
+                                  />
+                                </span>
+                                <span className="mdc-tab__ripple" />
+                              </button>
+                              <button
+                                className={
+                                  authType === 'login'
+                                    ? 'mdc-tab u-medium-font mdc-tab--active'
+                                    : 'mdc-tab u-medium-font mdc-tab'
+                                }
+                                role="tab"
+                                aria-selected="false"
+                                tabIndex="0"
+                                data-type="login"
+                                onClick={this.handleTypeClick}
+                              >
+                                <span className="mdc-tab__content">
+                                  <span className="mdc-tab__text-label">Login</span>
+                                </span>
+                                <span
+                                  className={
+                                    authType === 'login'
+                                      ? 'mdc-tab-indicator mdc-tab-indicator--active'
+                                      : 'mdc-tab-indicator mdc-tab-indicator'
+                                  }
+                                >
+                                  <span
+                                    className="mdc-tab-indicator__content mdc-tab-indicator__content--underline"
+                                  />
+                                </span>
+                                <span className="mdc-tab__ripple" />
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                        <div
-                          id="login"
-                          className={
-                            authType === 'login'
-                              ? 'user__type-button user__type-button--active'
-                              : 'user__type-button'
-                            }
-                          data-type="login"
-                          onClick={this.handleTypeClick}
-                        >
-                          Login
-                        </div>
-                      </article>
+                      </div>
                       {authType === 'sign up' &&
                         <SignUp />
                       }
@@ -164,10 +224,10 @@ export default class extends React.Component {
                   {authenticated &&
                     <div id="username-wrapper">
                       <p className="user__text u-margin-top-medium" >
-                        You are logged in as {username}
+                        You are logged in as<br/>{username}
                       </p>
                       <button
-                        className="button button--nav u-margin-bottom-medium"
+                        className="mdc-button mdc-button--raised user__submit u-margin-bottom-small"
                         onClick={this.handleLogOut}
                       >
                         Log Out
@@ -189,3 +249,33 @@ export default class extends React.Component {
     )
   }
 }
+
+// <article
+//   className="user__auth-type u-margin-top-small"
+//   id="type-selector"
+// >
+//   <div
+//     id="sign-up"
+//     className={
+//       authType === 'sign up'
+//         ? 'user__type-button user__type-button--active'
+//         : 'user__type-button'
+//       }
+//     data-type="sign up"
+//     onClick={this.handleTypeClick}
+//   >
+//     Sign Up
+//   </div>
+//   <div
+//     id="login"
+//     className={
+//       authType === 'login'
+//         ? 'user__type-button user__type-button--active'
+//         : 'user__type-button'
+//       }
+//     data-type="login"
+//     onClick={this.handleTypeClick}
+//   >
+//     Login
+//   </div>
+// </article>
