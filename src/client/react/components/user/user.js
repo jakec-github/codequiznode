@@ -224,7 +224,7 @@ export default class extends React.Component {
                   {authenticated &&
                     <div id="username-wrapper">
                       <p className="user__text u-margin-top-medium" >
-                        You are logged in as<br/>{username}
+                        You are logged in as<br />{username}
                       </p>
                       <button
                         className="mdc-button mdc-button--raised user__submit u-margin-bottom-small"

@@ -12,6 +12,8 @@
     width: 100%;
     color: $colour-primary-lightest;
     padding: .5rem;
+    border: 2px solid transparent;
+    margin-top: 1rem;
 
     &::-webkit-input-placeholder {
       color: $colour-primary-lightest;

@@ -158,14 +158,14 @@ export default class extends React.Component {
           { (this.state.submitConfirm || this.state.deleteConfirm) &&
             <div className="creator__nav-box u-margin-top-tiny u-margin-bottom-tiny">
               <div
-                className="creator__nav creator__nav--no button button--nav u-no-margin"
+                className="creator__nav creator__nav--no mdc-button mdc-button--raised creator__button u-no-margin"
                 id="no"
                 onClick={this.handleConfirmClick}
               >
                 No
               </div>
               <div
-                className="creator__nav creator__nav--yes button button--nav"
+                className="creator__nav creator__nav--yes mdc-button mdc-button--raised creator__button"
                 id="yes"
                 onClick={this.handleConfirmClick}
               >
@@ -176,14 +176,14 @@ export default class extends React.Component {
           { !(this.state.submitConfirm || this.state.deleteConfirm) &&
             <div className="creator__nav-box u-margin-top-tiny">
               <div
-                className="creator__nav creator__nav--back button button--nav-blue u-no-margin"
+                className="creator__nav creator__nav--back mdc-button mdc-button--raised creator__button u-no-margin"
                 id="back"
                 onClick={this.handleNavClick}
               >
                 Back
               </div>
               <div
-                className="creator__nav creator__nav--forward button button--nav-blue"
+                className="creator__nav creator__nav--forward mdc-button mdc-button--raised creator__button"
                 id="forward"
                 onClick={this.handleNavClick}
               >
@@ -192,43 +192,44 @@ export default class extends React.Component {
             </div>
           }
           <div
-            className="creator__delete button button--nav-blue"
+            className="creator__delete mdc-button mdc-button--raised creator__button u-margin-top-tiny"
             onClick={this.handleDeleteClick}
           >
             { this.state.deleteConfirm &&
-              <p>Are you sure?</p>
+              <span>Are you sure?</span>
             }
             { (!this.state.deleteConfirm && this.props.creatorPosition === 0) &&
-              <p>Delete Quiz</p>
+              <span>Delete Quiz</span>
             }
             { (!this.state.deleteConfirm && this.props.creatorPosition > 0) &&
-              <p>Delete Question</p>
+              <span>Delete Question</span>
             }
           </div>
           { isValid &&
             <div
-              className="creator__submit-quiz button button--nav-blue"
+              className="creator__submit-quiz mdc-button mdc-button--raised creator__button"
               onClick={this.handleSubmitClick}
             >
               { this.state.submitConfirm &&
-                <p>Are you sure?</p>
+                <span>Are you sure?</span>
               }
               { !this.state.submitConfirm &&
-                <p>Submit</p>
+                <span>Submit</span>
               }
             </div>
           }
           { !isValid &&
-            <div
-              className="creator__submit-quiz button button--nav-grey"
+            <button
+              className="creator__submit-quiz mdc-button mdc-button--raised creator__button"
+              disabled
             >
               { this.state.submitConfirm &&
-                <p>Are you sure?</p>
+                <span>Are you sure?</span>
               }
               { !this.state.submitConfirm &&
-                <p>Submit</p>
+                <span>Submit</span>
               }
-            </div>
+            </button>
           }
         </div>
       </div>
