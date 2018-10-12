@@ -1,4 +1,19 @@
 .start {
+  max-width: 90%;
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 2rem;
+  text-align: center;
+  padding: 1rem;
+
+  @include respond(tab-port) {
+    max-width: 66.6666%;
+    margin-top: 5rem;
+  }
+
+  @include respond(tab-land) {
+    max-width: 50rem;
+  }
 
   &__title {
     color: $colour-primary;

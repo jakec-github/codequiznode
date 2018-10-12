@@ -77,8 +77,10 @@
   }
 
   &__login-message {
-    @include absCentre;
-    top: 30%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
     font-size: 2rem;
     // padding: .5rem 1rem;
     border-radius: $card-radius;

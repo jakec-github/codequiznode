@@ -70,7 +70,7 @@ export default class extends React.Component {
     })
 
     return (
-      <div className="start mdc-card u-container">
+      <div className="start mdc-card">
         { loadingQuiz &&
           <Loading />
         }
