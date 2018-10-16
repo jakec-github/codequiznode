@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import { put, takeEvery, all, select, call } from 'redux-saga/effects'
 
-import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, ADD_QUIZ, ERROR } from './reducers/main'
+import { LOAD_QUIZZES, ADD_QUIZZES, LOAD_QUIZ, COMPLETE_LOAD_QUIZ, ERROR } from './reducers/main'
 import {
   INITIATE_LOGIN,
   COMPLETE_LOGIN,
@@ -65,7 +65,7 @@ function* getQuiz(action) {
 
     console.log(responseBody)
     // Try extracting these before sending actions
-    yield put({ type: ADD_QUIZ, quizData: responseBody.quizData })
+    yield put({ type: COMPLETE_LOAD_QUIZ, quizData: responseBody.quizData })
     yield put({ type: SET_QUESTIONS, questionSet: responseBody.questionSet })
   } catch (error) {
     console.log(error)

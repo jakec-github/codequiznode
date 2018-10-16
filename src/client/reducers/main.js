@@ -1,8 +1,7 @@
-const CHANGE_LOCATION = 'CHANGE_LOCATION'
 export const LOAD_QUIZZES = 'LOAD_QUIZZES'
 export const ADD_QUIZZES = 'ADD_QUIZZES'
 export const LOAD_QUIZ = 'LOAD_QUIZ'
-export const ADD_QUIZ = 'ADD_QUIZ'
+export const COMPLETE_LOAD_QUIZ = 'COMPLETE_LOAD_QUIZ'
 export const UPDATE_QUIZ_PROGRESS = 'UPDATE_QUIZ_PROGRESS'
 export const ERROR = 'ERROR'
 
@@ -10,12 +9,11 @@ export const mainActionCreators = {
   loadQuizzes: () => ({ type: LOAD_QUIZZES }),
   addQuizzes: allQuizzes => ({ type: ADD_QUIZZES, allQuizzes }),
   loadQuiz: (username, quizName) => ({ type: LOAD_QUIZ, username, quizName }),
-  addQuiz: quizData => ({ type: ADD_QUIZ, quizData }),
+  // completeLoadQuiz: quizData => ({ type: COMPLETE_LOAD_QUIZ, quizData }),
   updateQuizProgress: quizProgress => ({ type: UPDATE_QUIZ_PROGRESS, quizProgress }),
 }
 
 const initialState = {
-  // Should move to question reducer
   quizProgress: 'start',
   allQuizzes: [],
   loadingAllQuizzes: false,
@@ -50,8 +48,7 @@ export const main = (state = initialState, action) => {
         ...state,
         loadingQuiz: true,
       }
-    // I don't think this action is well named
-    case ADD_QUIZ:
+    case COMPLETE_LOAD_QUIZ:
       return {
         ...state,
         quizData: action.quizData,
