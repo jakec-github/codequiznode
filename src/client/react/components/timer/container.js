@@ -7,7 +7,7 @@ import { questionActionCreators } from '../../../reducers/question'
 import Timer from './timer'
 
 const mapStateToProps = state => ({
-  questionProgress: state.main.questionProgress,
+  progress: state.question.progress,
   timer: state.question.timer,
 })
 

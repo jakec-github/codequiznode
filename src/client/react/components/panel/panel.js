@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 
 export default class extends React.Component {
   static propTypes = {
-    questionNumber: PropTypes.number.isRequired,
-    questionSet: PropTypes.arrayOf(PropTypes.object).isRequired,
     iterateQuestion: PropTypes.func.isRequired,
     iterateScore: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
     updateProgress: PropTypes.func.isRequired,
+    sendDifficulty: PropTypes.func.isRequired,
+    questionNumber: PropTypes.number.isRequired,
+    questionSet: PropTypes.arrayOf(PropTypes.object).isRequired,
     progress: PropTypes.string.isRequired,
     // quizSize: PropTypes.number.isRequired,
     // changeLocation: PropTypes.func.isRequired,
@@ -25,29 +26,40 @@ export default class extends React.Component {
     this.props.updateProgress('question')
   }
 
-  handleAnswerClick = (event) => {
-    const { correct } = event.target.dataset
-    const data = {
-      _id: this.props.questionSet[this.props.questionNumber]._id,
-      correct,
-    }
+  handleAnswerClick = ({ target }) => {
+    const {
+      questionSet,
+      questionNumber,
+      updateProgress,
+      iterateScore,
+      sendDifficulty,
+    } = this.props
+
+
+    const { correct } = target.dataset
+    // const data = {
+    //   _id: this.props.questionSet[this.props.questionNumber]._id,
+    //   correct,
+    // }
+    const { _id } = questionSet[questionNumber]
     if (correct === 'correct') {
-      this.props.updateProgress('correct')
-      this.props.iterateScore()
+      updateProgress('correct')
+      iterateScore()
     } else {
-      this.props.updateProgress('incorrect')
+      updateProgress('incorrect')
     }
 
     // Need to sort out this fetch request
-    fetch('/public/difficulty', {
-      method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(data),
-    })
-      .then(() => console.log('Difficulty updated'))
-      .catch(err => console.log(err))
+    sendDifficulty(_id, correct)
+  //   fetch('/public/difficulty', {
+  //     method: 'POST',
+  //     headers: new Headers({
+  //       'Content-Type': 'application/json',
+  //     }),
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then(() => console.log('Difficulty updated'))
+  //     .catch(err => console.log(err))
   }
 
   handleLearnClick = () => {

@@ -4,6 +4,7 @@ export const LOAD_QUIZ = 'LOAD_QUIZ'
 export const COMPLETE_LOAD_QUIZ = 'COMPLETE_LOAD_QUIZ'
 export const UPDATE_QUIZ_PROGRESS = 'UPDATE_QUIZ_PROGRESS'
 export const ERROR = 'ERROR'
+export const SEND_DIFFICULTY = 'SEND_DIFFICULTY'
 
 export const mainActionCreators = {
   loadQuizzes: () => ({ type: LOAD_QUIZZES }),
@@ -11,6 +12,7 @@ export const mainActionCreators = {
   loadQuiz: (username, quizName) => ({ type: LOAD_QUIZ, username, quizName }),
   // completeLoadQuiz: quizData => ({ type: COMPLETE_LOAD_QUIZ, quizData }),
   updateQuizProgress: quizProgress => ({ type: UPDATE_QUIZ_PROGRESS, quizProgress }),
+  sendDifficulty: (_id, correct) => ({ type: SEND_DIFFICULTY, _id, correct }),
 }
 
 const initialState = {

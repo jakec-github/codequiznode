@@ -5,7 +5,7 @@ export default class extends React.Component {
   static propTypes = {
     countTimer: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
-    questionProgress: PropTypes.string.isRequired,
+    progress: PropTypes.string.isRequired,
     timer: PropTypes.number.isRequired,
   }
 
@@ -21,7 +21,7 @@ export default class extends React.Component {
   }
 
   static getDerivedStateFromProps(
-    { timer, questionProgress, updateQuizProgress, countTimer },
+    { timer, progress, updateQuizProgress, countTimer },
     { timerInterval: oldTimer, red, started, paused },
   ) {
     console.log('--------------------')
@@ -43,7 +43,7 @@ export default class extends React.Component {
       clearInterval(oldTimer)
       updateQuizProgress('result')
     }
-    if (questionProgress === 'question' && paused) {
+    if (progress === 'question' && paused) {
       console.log('Restarting')
       const timerInterval = setInterval(() => {
         countTimer()
@@ -52,7 +52,7 @@ export default class extends React.Component {
         timerInterval,
         paused: false,
       }
-    } else if (questionProgress !== 'question' && !paused) {
+    } else if (progress !== 'question' && !paused) {
       console.log('pausing')
       clearInterval(oldTimer)
       return { paused: true }
