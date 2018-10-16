@@ -68,6 +68,7 @@ export default class extends React.Component {
 
   handleEscapeClick = (event) => {
     event.stopPropagation()
+    console.log('clickety click')
     this.setState({
       authOpen: false,
     })
@@ -133,7 +134,11 @@ export default class extends React.Component {
                   height={23}
                 />
               }
-              { ((loginError || signupError) && !loadingAuth) &&
+              { (
+                  (loginError || signupError)
+                  && errorMessage !== 'Username already taken'
+                  && !loadingAuth
+                ) &&
                 <FetchError
                   height={23}
                   text={errorMessage}
@@ -145,7 +150,11 @@ export default class extends React.Component {
                   }}
                 />
               }
-              { (!loadingAuth && !loginError && !signupError) &&
+              { (
+                  !loadingAuth
+                  && !loginError
+                  && (!signupError || errorMessage === 'Username already taken')
+                ) &&
                 <React.Fragment>
                   {!authenticated &&
                     <div className="user__auth-box" id="auth-wrapper">
@@ -236,7 +245,12 @@ export default class extends React.Component {
                   }
                 </React.Fragment>
               }
-              { (invalidLogin && !loadingAuth && !loginError && !signupError) &&
+              { (
+                  (invalidLogin || errorMessage === 'Username already taken')
+                  && !loadingAuth
+                  && !loginError
+                  && (!signupError || errorMessage === 'Username already taken')
+                ) &&
                 <FetchError
                   height={13}
                   text={errorMessage}

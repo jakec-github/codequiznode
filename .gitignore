@@ -14,8 +14,10 @@
 # Logs and databases #
 ######################
 *.log
+coverage/
 *.sql
 *.sqlite
+
 
 # OS generated files #
 ######################

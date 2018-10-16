@@ -9,7 +9,7 @@ import App from './react/app'
 import './scss/main.scss'
 
 import { store, sagaMiddleware } from './store'
-import rootSaga from './sagas'
+import rootSaga from './sagas/index'
 
 sagaMiddleware.run(rootSaga)
 

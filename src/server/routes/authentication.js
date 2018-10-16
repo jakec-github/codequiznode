@@ -43,7 +43,9 @@ router.post('/register', auth.optional, (req, res) => {
       console.log(count)
       if (count > 0) {
         console.log('User already exists')
-        return res.sendStatus(400)
+        return res.status(400).json({
+          error: 'Username already taken',
+        })
       }
 
       console.log('Passed validation')
