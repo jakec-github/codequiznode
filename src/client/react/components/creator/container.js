@@ -8,7 +8,7 @@ import Creator from './creator'
 
 const mapStateToProps = state => ({
   creatorPosition: state.creator.creatorPosition,
-  questions: state.creator.questions,
+  // questions: state.creator.questions,
   quiz: state.creator.quiz,
   submitted: state.creator.submitted,
   newQuiz: state.creator.newQuiz,

@@ -5,7 +5,7 @@ import { questionActionCreators } from '../../../reducers/question'
 import { mainActionCreators } from '../../../reducers/main'
 
 const mapStateToProps = state => ({
-  questionProgress: state.main.questionProgress,
+  progress: state.question.progress,
   questionNumber: state.question.questionNumber,
   questionSet: state.question.questionSet,
 })

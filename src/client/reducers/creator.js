@@ -38,11 +38,11 @@ export const creatorActionCreators = {
 
 const initialState = {
   creatorPosition: 0,
-  questions: [],
   quiz: {
     title: '',
     description: '',
     timer: 0,
+    questions: [],
   },
   sendingQuiz: false,
   submitted: false,
@@ -67,117 +67,145 @@ export const creator = (state = initialState, action) => {
     case ADD_QUESTION:
       return {
         ...state,
-        questions: [...state.questions, {
-          question: '',
-          codes: [],
-          code: 0,
-          answer: '',
-          duds: [],
-          explanation: '',
-        }],
+        quiz: {
+          ...state.quiz,
+          questions: [...state.quiz.questions, {
+            question: '',
+            codes: [],
+            code: 0,
+            answer: '',
+            duds: [],
+            explanation: '',
+          }],
+        },
       }
     case UPDATE_QUESTION_FIELD:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.index),
-          {
-            ...state.questions[action.index],
-            [action.field]: action.update,
-          },
-          ...state.questions.slice(action.index + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.index),
+            {
+              ...state.quiz.questions[action.index],
+              [action.field]: action.update,
+            },
+            ...state.quiz.questions.slice(action.index + 1),
+          ],
+        },
       }
     case UPDATE_DUD:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.questionIndex),
-          {
-            ...state.questions[action.questionIndex],
-            duds: [
-              ...state.questions[action.questionIndex].duds.slice(0, action.dudIndex),
-              action.value,
-              ...state.questions[action.questionIndex].duds.slice(action.dudIndex + 1),
-            ],
-          },
-          ...state.questions.slice(action.questionIndex + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.questionIndex),
+            {
+              ...state.quiz.questions[action.questionIndex],
+              duds: [
+                ...state.quiz.questions[action.questionIndex].duds.slice(0, action.dudIndex),
+                action.value,
+                ...state.quiz.questions[action.questionIndex].duds.slice(action.dudIndex + 1),
+              ],
+            },
+            ...state.quiz.questions.slice(action.questionIndex + 1),
+          ],
+        },
       }
     case ADD_DUD:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.index),
-          {
-            ...state.questions[action.index],
-            duds: [...state.questions[action.index].duds, ''],
-          },
-          ...state.questions.slice(action.index + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.index),
+            {
+              ...state.quiz.questions[action.index],
+              duds: [...state.quiz.questions[action.index].duds, ''],
+            },
+            ...state.quiz.questions.slice(action.index + 1),
+          ],
+        },
       }
     case UPDATE_CODE:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.questionIndex),
-          {
-            ...state.questions[action.questionIndex],
-            codes: [
-              ...state.questions[action.questionIndex].codes.slice(0, action.codeIndex),
-              {
-                ...state.questions[action.questionIndex].codes[action.codeIndex],
-                contents: action.contents,
-              },
-              ...state.questions[action.questionIndex].codes.slice(action.codeIndex + 1),
-            ],
-          },
-          ...state.questions.slice(action.questionIndex + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.questionIndex),
+            {
+              ...state.quiz.questions[action.questionIndex],
+              codes: [
+                ...state.quiz.questions[action.questionIndex].codes.slice(0, action.codeIndex),
+                {
+                  ...state.quiz.questions[action.questionIndex].codes[action.codeIndex],
+                  contents: action.contents,
+                },
+                ...state.quiz.questions[action.questionIndex].codes.slice(action.codeIndex + 1),
+              ],
+            },
+            ...state.quiz.questions.slice(action.questionIndex + 1),
+          ],
+        },
       }
     case ADD_CODE:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.index),
-          {
-            ...state.questions[action.index],
-            codes: [...state.questions[action.index].codes, {
-              language: action.language,
-              contents: '',
-            }],
-          },
-          ...state.questions.slice(action.index + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.index),
+            {
+              ...state.quiz.questions[action.index],
+              codes: [...state.quiz.questions[action.index].codes, {
+                language: action.language,
+                contents: '',
+              }],
+            },
+            ...state.quiz.questions.slice(action.index + 1),
+          ],
+        },
       }
     case UPDATE_CODE_TAB:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.questionIndex),
-          {
-            ...state.questions[action.questionIndex],
-            code: action.tabIndex,
-          },
-          ...state.questions.slice(action.questionIndex + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.questionIndex),
+            {
+              ...state.quiz.questions[action.questionIndex],
+              code: action.tabIndex,
+            },
+            ...state.quiz.questions.slice(action.questionIndex + 1),
+          ],
+        },
       }
     case DELETE_QUESTION:
       return {
         ...state,
-        questions: [
-          ...state.questions.slice(0, action.index),
-          ...state.questions.slice(action.index + 1),
-        ],
+        quiz: {
+          ...state.quiz,
+          questions: [
+            ...state.quiz.questions.slice(0, action.index),
+            ...state.quiz.questions.slice(action.index + 1),
+          ],
+        },
       }
     case CLEAN_QUESTIONS:
       return {
         ...state,
-        questions: state.questions.map(question => ({
-          ...question,
-          duds: question.duds.filter(dud => dud.length),
-          codes: question.codes.filter(code => code.contents.length),
-        })),
+        quiz: {
+          ...state.quiz,
+          questions: state.quiz.questions.map(question => ({
+            ...question,
+            duds: question.duds.filter(dud => dud.length),
+            codes: question.codes.filter(code => code.contents.length),
+          })),
+        },
+
       }
     case UPDATE_QUIZ:
       return {
@@ -188,11 +216,11 @@ export const creator = (state = initialState, action) => {
       return {
         ...state,
         creatorPosition: 0,
-        questions: [],
         quiz: {
           title: '',
           description: '',
           timer: 0,
+          questions: [],
         },
       }
     case INITIATE_SUBMIT:
@@ -204,11 +232,11 @@ export const creator = (state = initialState, action) => {
       return {
         ...state,
         creatorPosition: 0,
-        questions: [],
         quiz: {
           title: '',
           description: '',
           timer: 0,
+          questions: [],
         },
         sendingQuiz: false,
         submitted: true,

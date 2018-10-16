@@ -15,7 +15,7 @@ export default class extends React.Component {
     refreshSubmitted: PropTypes.func.isRequired,
     cleanQuestions: PropTypes.func.isRequired,
     creatorPosition: PropTypes.number.isRequired,
-    questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    // questions: PropTypes.arrayOf(PropTypes.object).isRequired,
     quiz: PropTypes.shape({
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
@@ -48,14 +48,22 @@ export default class extends React.Component {
   }
 
   handleNavClick = ({ target }) => {
-    this.props.cleanQuestions()
-    if (target.id === 'back' && this.props.creatorPosition > 0) {
-      this.props.changeCreatorPosition(this.props.creatorPosition - 1)
-    } else if (target.id === 'forward' && this.props.creatorPosition < 30) {
-      if (this.props.creatorPosition === this.props.questions.length) {
-        this.props.addQuestion()
+    const {
+      creatorPosition,
+      quiz: { questions },
+      changeCreatorPosition,
+      cleanQuestions,
+      addQuestion,
+    } = this.props
+
+    cleanQuestions()
+    if (target.id === 'back' && creatorPosition > 0) {
+      changeCreatorPosition(creatorPosition - 1)
+    } else if (target.id === 'forward' && creatorPosition < 30) {
+      if (creatorPosition === questions.length) {
+        addQuestion()
       }
-      this.props.changeCreatorPosition(this.props.creatorPosition + 1)
+      changeCreatorPosition(creatorPosition + 1)
     }
   }
 
@@ -92,15 +100,22 @@ export default class extends React.Component {
   }
 
   deleteQuestion = () => {
-    this.props.deleteQuestion(this.props.creatorPosition - 1)
-    if (this.props.creatorPosition === this.props.questions.length) {
-      this.props.changeCreatorPosition(this.props.creatorPosition - 1)
+    const {
+      creatorPosition,
+      quiz: { questions },
+      changeCreatorPosition,
+      deleteQuestion,
+    } = this.props
+
+    deleteQuestion(creatorPosition - 1)
+    if (creatorPosition === questions.length) {
+      changeCreatorPosition(creatorPosition - 1)
     }
   }
 
   checkQuiz = () => {
     const { title, description } = this.props.quiz
-    const { questions } = this.props
+    const { quiz: { questions } } = this.props
     if (
       !title.length
       || !description.length

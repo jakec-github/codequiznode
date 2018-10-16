@@ -4,6 +4,7 @@ export const ITERATE_SCORE = 'ITERATE_SCORE'
 export const SET_QUESTIONS = 'SET_QUESTIONS'
 const SET_TIMER = 'SET_TIMER'
 const COUNT_TIMER = 'COUNT_TIMER'
+const UPDATE_PROGRESS = 'UPDATE_PROGRESS'
 
 export const questionActionCreators = {
   iterateQuestion: () => ({ type: ITERATE_QUESTION }),
@@ -12,9 +13,11 @@ export const questionActionCreators = {
   setQuestions: questionSet => ({ type: SET_QUESTIONS, questionSet }),
   setTimer: timeLimit => ({ type: SET_TIMER, timeLimit }),
   countTimer: () => ({ type: COUNT_TIMER }),
+  updateProgress: progress => ({ type: UPDATE_PROGRESS, progress }),
 }
 
 const initialState = {
+  progress: 'question',
   questionNumber: 0,
   questionSet: [],
   score: 0,
@@ -23,6 +26,11 @@ const initialState = {
 
 export const question = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_PROGRESS:
+      return {
+        ...state,
+        progress: action.progress,
+      }
     case ITERATE_QUESTION:
       return {
         ...state,

@@ -255,8 +255,8 @@ function* submit() {
   console.log('Detected initate')
   const jwt = yield localStorage.getItem('jwt')
   const quiz = yield select(state => state.creator.quiz)
-  const questions = yield select(state => state.creator.questions)
-  quiz.questions = questions
+  // const questions = yield select(state => state.creator.questions)
+  // quiz.questions = questions
   try {
     console.log('Sending fetch request')
     const response = yield fetch('/private/quiz/new', {

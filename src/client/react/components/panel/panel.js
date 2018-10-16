@@ -8,8 +8,8 @@ export default class extends React.Component {
     iterateQuestion: PropTypes.func.isRequired,
     iterateScore: PropTypes.func.isRequired,
     updateQuizProgress: PropTypes.func.isRequired,
-    updateQuestionProgress: PropTypes.func.isRequired,
-    questionProgress: PropTypes.string.isRequired,
+    updateProgress: PropTypes.func.isRequired,
+    progress: PropTypes.string.isRequired,
     // quizSize: PropTypes.number.isRequired,
     // changeLocation: PropTypes.func.isRequired,
   }
@@ -22,7 +22,7 @@ export default class extends React.Component {
     }
 
     // this.props.oldIterateQuestion()
-    this.props.updateQuestionProgress('question')
+    this.props.updateProgress('question')
   }
 
   handleAnswerClick = (event) => {
@@ -32,10 +32,10 @@ export default class extends React.Component {
       correct,
     }
     if (correct === 'correct') {
-      this.props.updateQuestionProgress('correct')
+      this.props.updateProgress('correct')
       this.props.iterateScore()
     } else {
-      this.props.updateQuestionProgress('incorrect')
+      this.props.updateProgress('incorrect')
     }
 
     // Need to sort out this fetch request
@@ -51,18 +51,18 @@ export default class extends React.Component {
   }
 
   handleLearnClick = () => {
-    this.props.updateQuestionProgress('explanation')
+    this.props.updateProgress('explanation')
   }
 
   render() {
-    const { questionProgress } = this.props
+    const { progress } = this.props
     // Consider nesting if statement in return statement
     const thisQuestion = this.props.questionSet[this.props.questionNumber]
     const next = this.props.questionNumber + 1 === this.props.questionSet.length
       ? 'Result'
       : 'Next'
     const answers = []
-    if (questionProgress === 'question') {
+    if (progress === 'question') {
       // Change to forEach
       for (let i = 0; i < thisQuestion.duds.length; i += 1) {
         answers.push((
@@ -96,26 +96,26 @@ export default class extends React.Component {
 
     return (
       <React.Fragment>
-        { questionProgress === 'question' &&
+        { progress === 'question' &&
           <div className="question__panel question__panel--choice" id="answer-panel">
             {answers}
           </div>
         }
-        { questionProgress === 'correct' &&
+        { progress === 'correct' &&
           <div className="question__panel question__panel--correct" id="correct-panel">
             <p className="question__panel-result">Correct</p>
             <article className="mdc-button mdc-button--raised question__choice" id="learn" onClick={this.handleLearnClick}>Learn more</article>
             <article className="mdc-button mdc-button--raised question__choice" id="next" onClick={this.handleNextClick}>{next}</article>
           </div>
         }
-        { questionProgress === 'incorrect' &&
+        { progress === 'incorrect' &&
           <div className="question__panel question__panel--incorrect" id="incorrect-panel">
             <p className="question__panel-result">Wrong Answer!</p>
             <article className="mdc-button mdc-button--raised question__choice" id="learn" onClick={this.handleLearnClick}>See answer</article>
             <article className="mdc-button mdc-button--raised question__choice" id="next" onClick={this.handleNextClick}>{next}</article>
           </div>
         }
-        { questionProgress === 'explanation' &&
+        { progress === 'explanation' &&
           <div className="question__panel question__panel--explanation" id="explanation-panel">
             <p className="question__panel-answer">{thisQuestion.answer}</p>
             <p className="question__panel-text">{thisQuestion.explanation}</p>
