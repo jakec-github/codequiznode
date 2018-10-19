@@ -5,7 +5,6 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const errorHandler = require('errorhandler')
 
-// Currently this is false only because NODE_ENV is undefined
 const isProduction = process.env.NODE_ENV === 'production'
 
 const Model = require('./models/model')

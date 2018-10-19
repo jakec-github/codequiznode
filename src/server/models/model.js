@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
+const JWTsecret = process.env.NODE_ENV === 'production'
+  ? process.env.JWT_SECRET
+  : 'password123'
+
 const { Schema } = mongoose
 
 const QuizSchema = new Schema({
@@ -89,7 +93,7 @@ function generateJWT() {
     username: this.username,
     id: this._id,
     exp: parseInt(expirationDate.getTime() / 1000, 10),
-  }, 'secret')
+  }, JWTsecret)
 }
 
 function toAuthJSON() {
