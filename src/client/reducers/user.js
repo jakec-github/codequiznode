@@ -80,6 +80,7 @@ export const user = (state = initialState, action) => {
         usernameInput: '',
         passwordInput: '',
         confirmPasswordInput: '',
+        loadingAuth: false,
         signupError: false,
         errorMessage: '',
       }

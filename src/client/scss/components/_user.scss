@@ -67,6 +67,7 @@
     cursor: pointer;
     fill: $colour-primary;
     border-radius: 50%;
+    z-index: 10;
 
     &:hover {
       fill: $colour-highlight;

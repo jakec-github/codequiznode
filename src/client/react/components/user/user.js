@@ -35,7 +35,7 @@ export default class extends React.Component {
   }
 
   componentDidMount = () => {
-    const { loadingAuth, signupError, authenticated } = this.props
+    const { loadingAuth, signupError, authenticated, loginError, errorMessage } = this.props
 
     this.props.initiateValidation()
 
@@ -44,19 +44,21 @@ export default class extends React.Component {
       && !loadingAuth
       && !signupError
       && !authenticated
+      && (!loginError || errorMessage === 'Username already taken')
     ) {
       const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
     }
   }
 
   componentDidUpdate = () => {
-    const { loadingAuth, signupError, authenticated } = this.props
+    const { loadingAuth, signupError, authenticated, loginError, errorMessage } = this.props
 
     if (
       this.state.authOpen
       && !loadingAuth
       && !signupError
       && !authenticated
+      && (!loginError || errorMessage === 'Username already taken')
     ) {
       const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
     }

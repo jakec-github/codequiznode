@@ -61,7 +61,7 @@ export default class extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.timer)
+    clearInterval(this.state.timerInterval)
   }
 
   render() {
