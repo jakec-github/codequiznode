@@ -19,8 +19,6 @@ export default function* favourite({ type, quizId }) {
       },
       body: JSON.stringify(body),
     })
-
-    console.log(request)
     if (request.status === 200) {
       yield put({
         type: type === INITIATE_ADD_FAVOURITE

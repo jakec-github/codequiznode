@@ -5,8 +5,6 @@ import { COMPLETE_LOGIN, USER_ERROR } from '../../reducers/user'
 export default function* login() {
   const username = yield select(state => state.user.usernameInput)
   const password = yield select(state => state.user.passwordInput)
-  console.log('++++++++')
-  console.log(username, password)
   const data = {
     user: {
       username,
@@ -22,27 +20,18 @@ export default function* login() {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log('-----')
         if (response.status === 401) {
-          console.log('throwing')
           throw new Error('Invalid auth')
         }
-        console.log('No error')
         return response
       })
       .then(response => response.json())
     const { token } = user.user
     const { scores, favourites } = user
-    console.log('-----------')
-    console.log(scores)
-    console.log(localStorage.getItem('jwt'))
     localStorage.setItem('jwt', token)
-    console.log(localStorage.getItem('jwt'))
-    console.log('----------')
     yield put({ type: COMPLETE_LOGIN, username, scores, favourites })
   } catch (error) {
     if (error.toString() === 'Error: Invalid auth') {
-      console.log('Invalid detected')
       yield put({
         type: USER_ERROR,
         errorType: 'invalidLogin',
@@ -55,7 +44,6 @@ export default function* login() {
         message: 'Login failed!',
       })
     }
-    console.log(error)
     // yield put({ type: COMPLETE_LOGIN })
   }
 }

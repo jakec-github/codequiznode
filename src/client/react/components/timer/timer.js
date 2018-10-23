@@ -28,9 +28,7 @@ export default class extends React.Component {
     { timer, progress, updateQuizProgress, countTimer },
     { timerInterval: oldTimer, red, started, paused },
   ) {
-    console.log('--------------------')
     if (!started) {
-      console.log('Starting timer')
       const timerInterval = setInterval(() => {
         countTimer()
       }, 1000)
@@ -40,7 +38,6 @@ export default class extends React.Component {
       }
     }
     if (timer < 11 && !red) {
-      console.log('Change class here')
       return { red: true }
     }
     if (timer <= 0) {
@@ -48,7 +45,6 @@ export default class extends React.Component {
       updateQuizProgress('result')
     }
     if (progress === 'question' && paused) {
-      console.log('Restarting')
       const timerInterval = setInterval(() => {
         countTimer()
       }, 1000)
@@ -57,7 +53,6 @@ export default class extends React.Component {
         paused: false,
       }
     } else if (progress !== 'question' && !paused) {
-      console.log('pausing')
       clearInterval(oldTimer)
       return { paused: true }
     }

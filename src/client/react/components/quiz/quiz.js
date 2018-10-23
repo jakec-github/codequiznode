@@ -29,8 +29,6 @@ export default function Quiz({ quizProgress, quizData: { timeLimit } }) {
       quizSection = <Start />
       break
   }
-  console.log(quizProgress)
-  console.log(timeLimit)
   const showTimer = quizProgress === 'question' && timeLimit > 0
 
   return (

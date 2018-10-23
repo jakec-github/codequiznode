@@ -36,7 +36,6 @@ export default function* signUp() {
     localStorage.setItem('jwt', token)
     yield put({ type: COMPLETE_SIGN_UP, username })
   } catch (error) {
-    console.log(error.toString())
     yield put({
       type: USER_ERROR,
       errorType: 'signupError',

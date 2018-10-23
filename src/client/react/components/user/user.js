@@ -71,7 +71,6 @@ export default class extends React.Component {
 
   handleEscapeClick = (event) => {
     event.stopPropagation()
-    console.log('clickety click')
     this.setState({
       authOpen: false,
     })

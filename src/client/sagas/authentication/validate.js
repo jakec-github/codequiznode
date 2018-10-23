@@ -14,8 +14,6 @@ export default function* validate() {
         headers,
       })
         .then(response => response.json())
-
-      console.log(result)
       const { scores, favourites, user: { username } } = result
       yield put({ type: COMPLETE_LOGIN, username, scores, favourites })
     } catch (error) {

@@ -57,8 +57,6 @@ export default class extends React.Component {
       quizData,
       errors, match: { params: { username, quiz } },
     } = this.props
-    console.log('rendering start')
-    console.log('Loading', loadingQuiz)
 
     let errorMessage
     const isError = errors.some((error) => {
