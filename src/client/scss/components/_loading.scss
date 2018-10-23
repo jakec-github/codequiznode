@@ -1,6 +1,7 @@
 .loading {
   width: 100%;
   position: relative;
+  color: $colour-primary;
 
   &__item {
     @include absCentre;

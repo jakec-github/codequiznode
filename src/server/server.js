@@ -7,7 +7,7 @@ const errorHandler = require('errorhandler')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-const Model = require('./models/model')
+require('./models/model')
 require('./config/passport')
 
 const authRoutes = require('./routes/authentication')
