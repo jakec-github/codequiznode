@@ -28,9 +28,7 @@ export default function* getAllQuizzes() {
   try {
     const allQuizzes = yield fetch('/public/quiz/all')
       .then(response => response.json())
-    console.log(allQuizzes)
     yield put({ type: ADD_QUIZZES, allQuizzes })
-    console.log('=========')
   } catch (error) {
     console.log(error)
   }
