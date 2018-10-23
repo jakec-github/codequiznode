@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 
-const auth = require('../auth')
+const { auth } = require('../auth')
 const Model = require('../models/model')
 
 const { User } = Model
@@ -15,7 +15,7 @@ router.post('/register', auth.optional, (req, res) => {
   console.log('Register reached')
   const { body: { user } } = req
   if (!user.username) {
-    return res.status(422).json({
+    res.status(422).json({
       errors: {
         username: 'is required',
       },
@@ -23,7 +23,7 @@ router.post('/register', auth.optional, (req, res) => {
   }
 
   if (!user.password) {
-    return res.status(422).json({
+    res.status(422).json({
       errors: {
         password: 'is required',
       },
@@ -35,7 +35,8 @@ router.post('/register', auth.optional, (req, res) => {
     || !/.*[a-z].*[a-z].*/.test(user.username)
     || !/[A-Za-z\d@$!%*#?&-]{6,32}/.test(user.password)
   ) {
-    return res.sendStatus(400)
+    res.sendStatus(400)
+    return
   }
 
   User.count({ username: user.username })

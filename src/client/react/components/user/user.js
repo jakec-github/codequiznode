@@ -46,7 +46,7 @@ export default class extends React.Component {
       && !authenticated
       && (!loginError || errorMessage === 'Username already taken')
     ) {
-      const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
+      (() => new MDCTabBar(document.querySelector('.mdc-tab-bar')))()
     }
   }
 
@@ -60,7 +60,8 @@ export default class extends React.Component {
       && !authenticated
       && (!loginError || errorMessage === 'Username already taken')
     ) {
-      const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
+      (() => new MDCTabBar(document.querySelector('.mdc-tab-bar')))()
+      // const tabBar = new MDCTabBar(document.querySelector('.mdc-tab-bar'))
     }
   }
 
@@ -265,33 +266,3 @@ export default class extends React.Component {
     )
   }
 }
-
-// <article
-//   className="user__auth-type u-margin-top-small"
-//   id="type-selector"
-// >
-//   <div
-//     id="sign-up"
-//     className={
-//       authType === 'sign up'
-//         ? 'user__type-button user__type-button--active'
-//         : 'user__type-button'
-//       }
-//     data-type="sign up"
-//     onClick={this.handleTypeClick}
-//   >
-//     Sign Up
-//   </div>
-//   <div
-//     id="login"
-//     className={
-//       authType === 'login'
-//         ? 'user__type-button user__type-button--active'
-//         : 'user__type-button'
-//       }
-//     data-type="login"
-//     onClick={this.handleTypeClick}
-//   >
-//     Login
-//   </div>
-// </article>

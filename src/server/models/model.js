@@ -1,10 +1,8 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const { JWTsecret } = require('../auth')
 
-const JWTsecret = process.env.NODE_ENV === 'production'
-  ? process.env.JWT_SECRET
-  : 'password123'
 
 const { Schema } = mongoose
 

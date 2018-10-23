@@ -3,7 +3,6 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import Creator from './creator'
-import CreateQuiz from '../create_quiz/create_quiz'
 
 configure({ adapter: new Adapter() })
 

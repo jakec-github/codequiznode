@@ -1,7 +1,7 @@
 const express = require('express')
 
 const Model = require('../models/model')
-const auth = require('../auth')
+const { auth } = require('../auth')
 
 const { User, Quiz, Question } = Model
 
@@ -90,7 +90,8 @@ router.post('/quiz/new', auth.required, (req, res) => {
     || questions.length > 30
     || questions.length < 3
   ) {
-    return res.sendStatus(400) // Must return here to prevent db save
+    res.sendStatus(400) // Must return here to prevent db save
+    return
   }
   Quiz.findOne({
     name: title,
@@ -148,7 +149,7 @@ router.post('/quiz/new', auth.required, (req, res) => {
       if (error.toString() === 'Error: Quiz titles must be unique') {
         console.log('returning')
         res.status(400)
-        return res.json({
+        res.json({
           error: 'Quiz must have new name',
         })
         // return res.sendStatus(400)

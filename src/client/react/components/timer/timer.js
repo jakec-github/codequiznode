@@ -1,3 +1,7 @@
+/* eslint-disable react/no-unused-state */
+// This rule does not currently work well with getDerivedStateFromProps
+// However a fix is in progress
+
 import React from 'react'
 import PropTypes from 'prop-types'
 

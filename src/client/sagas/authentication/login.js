@@ -35,7 +35,10 @@ export default function* login() {
     const { scores, favourites } = user
     console.log('-----------')
     console.log(scores)
+    console.log(localStorage.getItem('jwt'))
     localStorage.setItem('jwt', token)
+    console.log(localStorage.getItem('jwt'))
+    console.log('----------')
     yield put({ type: COMPLETE_LOGIN, username, scores, favourites })
   } catch (error) {
     if (error.toString() === 'Error: Invalid auth') {
