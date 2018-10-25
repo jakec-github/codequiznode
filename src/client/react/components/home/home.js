@@ -85,7 +85,7 @@ export default class extends React.Component {
               { !authenticated &&
                 <div className="home__login-container">
                   <div className="home__login-message">
-                    <p>Login to save favourites and track scores</p>
+                    <p>Log in to save favourites and track scores</p>
                   </div>
                 </div>
               }
@@ -112,7 +112,7 @@ export default class extends React.Component {
               { !authenticated &&
                 <div className="home__login-container">
                   <div className="home__login-message">
-                    <p>Login to make your own quizzes</p>
+                    <p>Log in to make your own quizzes</p>
                   </div>
                 </div>
               }
